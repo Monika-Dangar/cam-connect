@@ -1,0 +1,27 @@
+# Node modules (for both backend and frontend)
+node_modules/
+
+# Environment variable files (if you don't want to track sensitive data)
+*.env
+
+# Logs
+*.log
+*.log.*
+
+# Backend specific directories and files
+backend/.env
+backend/node_modules/
+
+# Frontend specific directories and files
+frontend/.env
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# Other files that may be created by build processes or IDEs
+*.idea/
+*.vscode/
+*.npm/
+
+# Ignore .gitkeep files themselves (if you don't want to track empty folders)
+**/.gitkeep

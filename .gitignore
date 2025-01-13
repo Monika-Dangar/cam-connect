@@ -22,6 +22,3 @@ frontend/build/
 *.idea/
 *.vscode/
 *.npm/
-
-# Ignore .gitkeep files themselves (if you don't want to track empty folders)
-**/.gitkeep

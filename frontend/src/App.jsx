@@ -1,10 +1,12 @@
-
+import Loginsignup from "./pages/Loginsignup"
+import AppRoutes from "./routes"
 function App() {
 
 
   return (
     <>
-      <h1 className="font-bold text-center text-xl">CamConnect</h1>
+ 
+     <AppRoutes/>
     </>
   )
 }

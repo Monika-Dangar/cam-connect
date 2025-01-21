@@ -15,7 +15,7 @@ async function handleCreateUser(req, res) {
     const user = await User.findOne({ username: req.body.username });
 
     if (user) {
-      return res.status(401).sebd({ message: "Username alredy exisits!" });
+      return res.status(401).send({ message: "Username alredy exisits!" });
     }
 
     const response = User.create(postData);

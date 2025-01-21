@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-
 // connect mongodb
 connectMongoDB(`${process.env.MONGODB_URI}`)
   .then(() => {

@@ -12,6 +12,12 @@ async function handleCreateUser(req, res) {
       password: req.body.password,
     };
 
+    const user = await User.findOne({ username: req.body.username });
+
+    if (user) {
+      return res.status(401).sebd({ message: "Username alredy exisits!" });
+    }
+
     const response = User.create(postData);
 
     if (response) {

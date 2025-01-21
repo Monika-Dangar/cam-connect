@@ -11,7 +11,7 @@ async function passwordVerification(req, res, next) {
   try {
     const user = await User.findOne({ username: username });
 
-    if (!username) {
+    if (!user) {
       return res.status(400).send({ message: `User doesn't exisits!` });
     }
 
@@ -21,13 +21,11 @@ async function passwordVerification(req, res, next) {
       return res.status(401).send({ message: `password invalid!` });
     }
 
-    
     req.user = {
       _id: user._id,
       userame: user.username,
-      
     };
-    
+
     next();
   } catch (error) {
     console.error(error);

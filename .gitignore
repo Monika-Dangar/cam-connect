@@ -2,18 +2,15 @@
 node_modules/
 
 # Environment variable files (if you don't want to track sensitive data)
-*.env
 
 # Logs
 *.log
 *.log.*
 
 # Backend specific directories and files
-backend/.env
 backend/node_modules/
 
 # Frontend specific directories and files
-frontend/.env
 frontend/node_modules/
 frontend/dist/
 frontend/build/

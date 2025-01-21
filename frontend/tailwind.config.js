@@ -15,6 +15,10 @@ export default {
         twitter: '#1DA1F2',
         insta: '#E1306C',
         pink:'#F52870'
+      },
+      fontFamily:{
+        quattrocento: ['Quattrocento', 'serif'],
+        inter: ['Inter', 'serif'],
       }
     },
   },

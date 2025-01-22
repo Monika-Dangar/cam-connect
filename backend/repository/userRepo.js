@@ -1,7 +1,7 @@
 const User = require('../models/userSchema');
 
-async function findByUsername(username) {
-  return await User.findOne({ username });
+function findByUsername(username) {
+  return User.findOne({ username });
 }
 
 async function create(data) {

@@ -47,7 +47,7 @@ const Form = () => {
           body: JSON.stringify(formData),
         }
       );
-      console.log("response", response);
+
       const data = await response.json();
       if (response.status == 200 && isSignInPage) {
         const { token } = data;

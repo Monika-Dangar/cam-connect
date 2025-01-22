@@ -4,10 +4,10 @@ function findByUsername(username) {
   return User.findOne({ username });
 }
 
-async function create(data) {
+function create(data) {
   try {
     const newUser = new User(data);
-    return await newUser.save();
+    return newUser.save();
   } catch (error) {
     console.log('Error in userRepo:', error);
     return null;

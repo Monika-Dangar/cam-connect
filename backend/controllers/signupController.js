@@ -1,9 +1,8 @@
-const User = require("../models/userSchema");
-const { setUser } = require("../service/tokenGeneration");
+const userService = require('../services/userService');
 
 async function handleCreateUser(req, res) {
   try {
-    const postData = {
+    const data = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       username: req.body.username,
@@ -12,18 +11,12 @@ async function handleCreateUser(req, res) {
       password: req.body.password,
     };
 
-    const user = await User.findOne({ username: req.body.username });
+    const response = await userService.createUser(data);
 
-    if (user) {
-      return res.status(401).send({ message: "Username alredy exisits!" });
-    }
-
-    const response = User.create(postData);
-
-    if (response) {
-      return res
-        .status(201)
-        .send({ message: "User signed up successfully", postData });
+    if (response.success) {
+      return res.status(201).send({ message: 'User signed up successfully', data });
+    } else {
+      return res.status(401).send({ message: response.message });
     }
   } catch (error) {
     console.log(`Error in User: ${error}`);

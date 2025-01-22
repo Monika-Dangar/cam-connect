@@ -1,6 +1,6 @@
 const { setUser } = require("../service/tokenGeneration");
 
-async function handleLoginUser(req, res) {
+function handleLoginUser(req, res) {
   const token = setUser(req.user);
 
   if (token) {

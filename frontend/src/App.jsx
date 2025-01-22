@@ -1,14 +1,10 @@
-import Loginsignup from "./pages/Loginsignup"
-import AppRoutes from "./routes"
+import AppRoutes from "./routes";
 function App() {
-
-
   return (
     <>
- 
-     <AppRoutes/>
+      <AppRoutes />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

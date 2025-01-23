@@ -122,7 +122,7 @@ const Form = () => {
                 className="font-bold text-center mt-5 text-sm text-white cursor-pointer"
                 onClick={handleTogglePage}
               >
-                Don&apost have an account? Sign up here
+                Don&apos;t have an account? Sign up here
               </p>
             </form>
           </div>

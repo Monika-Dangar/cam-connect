@@ -8,7 +8,7 @@ async function createUser(data) {
   );
 
   if (existingUser) {
-    if (existingUser.username === data.emailId) {
+    if (existingUser.username === data.username) {
       return { success: false, message: "Username already exists!" };
     }
     if (existingUser.emailId === data.emailId) {

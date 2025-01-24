@@ -1,6 +1,6 @@
 const User = require("../models/userSchema");
 
-function findByUsername(username) {
+function findByUsername(username, emailId) {
   return User.findOne({ $or: [{ username }, { emailId }] });
 }
 

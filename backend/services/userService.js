@@ -16,6 +16,7 @@ async function createUser(data) {
     }
   }
   const userCreated = await userRepo.create(data);
+
   if (userCreated) {
     return { success: true };
   } else {

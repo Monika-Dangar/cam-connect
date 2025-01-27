@@ -8,17 +8,10 @@ function setUser(user) {
 function getUser(token) {
   return jwt.verify(token, secret, (err, decoded) => {
     if (err) {
-      return res.status(403).send("Invalid token");
+      return `Token not verified ${err}`;
+    } else {
+      return decoded;
     }
-
-    // Access user info from the decoded token payload
-    const userId = decoded.id; // User ID from the token payload
-    const username = decoded.username; // Username from the token payload
-
-    // Now, you can use the user info (e.g., for logging, response, etc.)
-    res
-      .status(200)
-      .send({ message: "Access granted", user: { userId, username } });
   });
 }
 

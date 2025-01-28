@@ -1,10 +1,12 @@
 const User = require("../models/userSchema");
+const { getUser } = require("./tokenGenerationService");
 
-const authenticate = async (req, res, next) => {
+const authenticate = (req, res, next) => {
   try {
     const { authorization } = req.headers;
 
-    if (!authorization && !authorization.startsWith("Bearer")) {
+    // Check if authorization header is present and starts with "Bearer"
+    if (!authorization || !authorization.startsWith("Bearer")) {
       return res
         .status(401)
         .json({ error: "Authorization token missing or invalid" });
@@ -13,15 +15,12 @@ const authenticate = async (req, res, next) => {
     const receivedToken = authorization.split(" ")[1];
 
     const isTokenVerified = getUser(receivedToken);
-
-    if (isPasswordValid.status == 200) {
-      const { userId } = isTokenVerified;
-
-      const user = await User.findById(userId);
-      req.user = user;
+    console.log("Token verified data", isTokenVerified);
+    if (isTokenVerified) {
+      req.user = isTokenVerified;
       next();
     } else {
-      return res.send(isTokenVerified);
+      return res.status(401).json(isTokenVerified);
     }
   } catch (error) {
     if (error.name === "JsonWebTokenError") {

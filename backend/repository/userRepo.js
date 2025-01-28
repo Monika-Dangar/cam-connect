@@ -1,7 +1,7 @@
-const User = require('../models/userSchema');
+const User = require("../models/userSchema");
 
-function findByUsername(username) {
-  return User.findOne({ username });
+function findByUsername(username, emailId) {
+  return User.findOne({ $or: [{ username }, { emailId }] });
 }
 
 function create(data) {
@@ -9,7 +9,7 @@ function create(data) {
     const newUser = new User(data);
     return newUser.save();
   } catch (error) {
-    console.log('Error in userRepo:', error);
+    console.log("Error in userRepo:", error);
     return null;
   }
 }

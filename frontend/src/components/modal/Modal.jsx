@@ -46,7 +46,7 @@ const BasicModalDialog = ({ device, open, onClose }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target.value;
+    const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,

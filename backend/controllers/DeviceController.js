@@ -66,9 +66,9 @@ const editDevice = async (req, res) => {
     };
     const response = await deviceService.updateDevice(deviceData);
     if (response.success) {
-      res.status(200).send(response.message);
+      res.status(200).json(response.message);
     } else {
-      res.status(404).send(response.message);
+      res.status(404).json(response.message);
     }
   } catch (error) {
     console.log("Error in updating device", error);

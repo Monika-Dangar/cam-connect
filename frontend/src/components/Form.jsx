@@ -96,6 +96,7 @@ const Form = () => {
             <TextField
               type="password"
               name="password"
+]
               label="Password"
               variant="filled"
               className="textField"
@@ -121,6 +122,7 @@ const Form = () => {
             <TextField
               type="text"
               name="firstName"
+
               label="Firstname"
               variant="filled"
               className="textField"
@@ -144,6 +146,8 @@ const Form = () => {
             <TextField
               type="text"
               name="username"
+
+
               label="Username"
               variant="filled"
               className="textField"
@@ -154,6 +158,7 @@ const Form = () => {
             <TextField
               type="date"
               name="dateOfBirth"
+
               variant="filled"
               className="textField"
               value={formData.dateOfBirth}
@@ -163,6 +168,7 @@ const Form = () => {
             <TextField
               type="email"
               name="emailId"
+
               variant="filled"
               className="textField"
               label="Email"

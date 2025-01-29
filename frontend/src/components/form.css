@@ -17,6 +17,7 @@ h1 {
   align-items: center;
   background-color: rgb(114, 108, 108);
 }
+
 input:-webkit-autofill {
   background-color: transparent !important;
   color: inherit !important;
@@ -38,6 +39,7 @@ input:-webkit-autofill {
   max-width: 500px;
   height: 20%;
 }
+
 /* Bottom border when typing */
 .textField .MuiFilledInput-underline:before {
   border-bottom: 2px solid rgb(236, 228, 228);
@@ -52,6 +54,12 @@ input:-webkit-autofill {
   background-color: rgb(144, 146, 148) !important;
   color: black;
 }
+
+
+.textField .MuiFilledInput-underline:before {
+  border-bottom: 2px solid rgb(236, 228, 228);
+}
+
 
 .navigate {
   cursor: pointer;

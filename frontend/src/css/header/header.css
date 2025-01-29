@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
+  height: 8vh;
+  background-color: rgb(29, 28, 28);
+  padding-top: 1.5%;
+  padding-bottom: 1.5%;
+  padding-left: 1%;
+}
+
+.iconText {
+  color: rgb(207, 63, 87);
+}
+
+.headerText {
+  color: white;
+}

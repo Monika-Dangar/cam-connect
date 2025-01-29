@@ -96,7 +96,7 @@ const Form = () => {
             <TextField
               type="password"
               name="password"
-]
+
               label="Password"
               variant="filled"
               className="textField"

@@ -1,0 +1,41 @@
+.createBtn {
+  border: 1px solid rgb(207, 63, 87);
+  color: hsl(0, 0%, 100%);
+  background-color: rgb(207, 63, 87);
+  border-radius: 10%;
+  width: 8%;
+  height: 1%;
+  padding: 0.7%;
+  margin-left: 1%;
+  font-weight: bold;
+}
+
+.tableContainer {
+  width: 70vw;
+  margin-left: 2%;
+}
+
+.tableRow {
+  /* border: 1px solid rgb(207, 63, 87); */
+  background-color: rgb(207, 63, 87);
+  border-radius: 10%;
+}
+
+.tableHeading {
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  text-align: center;
+  color: white;
+}
+
+
+.tableData {
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  text-align: center;
+  color: white;
+}

@@ -3,7 +3,7 @@ import '../../css/device/device.css';
 import { removeDevice,removeAccessToDevice } from '../../services/deviceServices';
 import BasicModalDialog from '../modal/Modal';
 
-const DisplayDeviceCard = ({ device, delete: DeleteIcon, edit: EditIcon, type }) => {
+const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: EditIcon, type }) => {
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -18,12 +18,14 @@ const DisplayDeviceCard = ({ device, delete: DeleteIcon, edit: EditIcon, type })
       const response = await removeAccessToDevice(deviceId);
       if (response) {
         console.log(response);
+        handleChanges()
       }
     }else{
 
       const response = await removeDevice(deviceId);
       if (response) {
         console.log(response);
+        handleChanges()
       }
     }
   };
@@ -76,7 +78,7 @@ const DisplayDeviceCard = ({ device, delete: DeleteIcon, edit: EditIcon, type })
       </td>
 
       {/* Modal Dialog */}
-      <BasicModalDialog device={device} open={modalOpen} onClose={handleModalToggle} />
+      <BasicModalDialog handleChanges={handleChanges} device={device} open={modalOpen} onClose={handleModalToggle} />
     </>
   );
 };

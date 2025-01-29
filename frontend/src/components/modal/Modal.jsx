@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Box, Button, TextField } from '@mui/material';
 import { createDevice, editDevice } from '../../services/deviceServices';
 
-const BasicModalDialog = ({ device, open, onClose }) => {
+const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
   const [formData, setFormData] = useState({
     deviceName: '',
     deviceLocation: '',
@@ -34,19 +34,22 @@ const BasicModalDialog = ({ device, open, onClose }) => {
       const response = await editDevice(device._id, formData);
       if (response) {
         // console.log(response);
+        handleChanges();
       }
     } else {
       // console.log('creating device');
       const response = await createDevice(formData);
       if (response) {
         // console.log(response);
+        handleChanges();
       }
     }
+
     onClose();
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target.value;
+    const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,

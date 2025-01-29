@@ -8,6 +8,11 @@ import BasicModalDialog from '../modal/Modal'; // Assuming this is the modal com
 const Devices = () => {
   const [devices, setDevices] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [changes, setChanges] = useState(false);
+
+  const handleChanges = ()=>{
+    setChanges((prev) => !prev)
+  }
 
   const handleModalToggle = () => {
     // setModalOpen((prev) => setModalOpen(!prev));
@@ -22,9 +27,9 @@ const Devices = () => {
       }
     };
     fetchDevices();
-  }, []);
+  }, [changes]);
 
-  
+
   return (
     <>
     <main className='flex'>
@@ -44,6 +49,7 @@ const Devices = () => {
           devices.map((device) => (
             <tr key={device._id}>
               <DisplayDeviceCard
+              handleChanges={handleChanges}
                 device={device}
                 delete={DeleteOutlineSharpIcon}
                 edit={ModeEditOutlineOutlinedIcon}
@@ -65,7 +71,7 @@ const Devices = () => {
 
           </main>
       {/* Modal */}
-      <BasicModalDialog device={''} open={modalOpen} onClose={handleModalToggle} />
+      <BasicModalDialog handleChanges={handleChanges} device={''} open={modalOpen} onClose={handleModalToggle} />
       </>
   );
 };

@@ -39,14 +39,10 @@ const getDevice = async (req, res) => {
           userDeviceData.device != ""
             ? userDeviceData.device
             : { message: "Create your device" },
-        sharedDeviceWithMe:
-          userDeviceData.sharedDeviceDataWithMe != ""
-            ? userDeviceData.sharedDeviceDataWithMe
+        sharedDevice:
+          userDeviceData.sharedDeviceData != ""
+            ? userDeviceData.sharedDeviceData
             : { message: "No shared device available" },
-        sharedDeviceWithOthers:
-          userDeviceData.sharedDeviceDataWithOthers != ""
-            ? userDeviceData.sharedDeviceDataWithOthers
-            : { message: "No device shared with others" },
       };
       res.status(200).send(response);
     } else {
@@ -95,25 +91,4 @@ const removeDevice = async (req, res) => {
     res.status(500).send({ message: ` Internal server error ${error}` });
   }
 };
-const removeSharedDevice = async (req, res) => {
-  try {
-    const accessId = req.params.accessId;
-    const response = await deviceService.deleteSharedDevice(accessId);
-    if (response.success) {
-      res.status(200).send(response.message);
-    } else {
-      res.status(500).send(response.message);
-    }
-  } catch (error) {
-    console.log("Error in deleting shared device", error);
-
-    res.status(500).send({ message: ` Internal server error ${error}` });
-  }
-};
-module.exports = {
-  createDevice,
-  getDevice,
-  editDevice,
-  removeDevice,
-  removeSharedDevice,
-};
+module.exports = { createDevice, getDevice, editDevice, removeDevice };

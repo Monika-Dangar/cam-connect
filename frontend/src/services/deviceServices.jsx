@@ -1,13 +1,13 @@
 const URI = import.meta.env.VITE_BACKEND_URI;
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 
 export async function createDevice(data) {
   try {
     const response = await fetch(`${URI}/device/create`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -17,14 +17,14 @@ export async function createDevice(data) {
       return response;
     }
   } catch (error) {
-    console.log('Error in creating device: ' + error);
+    console.log("Error in creating device: " + error);
   }
 }
 
 export async function displayDevice() {
   try {
     const response = await fetch(`${URI}/device/read`, {
-      method: 'GET',
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -36,63 +36,66 @@ export async function displayDevice() {
       return data;
     }
   } catch (error) {
-    console.log('Error in displaying devices: ' + error);
+    console.log("Error in displaying devices: " + error);
   }
 }
 
 export async function editDevice(deviceId, data) {
   try {
     const response = await fetch(`${URI}/device/edit/${deviceId}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json', // Ensure this header is set to 'application/json'
+        "Content-Type": "application/json", // Ensure this header is set to 'application/json'
       },
       body: JSON.stringify(data),
     });
 
     if (response) {
       // console.log(response);
-      return 'Device edited successfully';
+      return "Device edited successfully";
     }
   } catch (error) {
-    console.log('Error in editing device: ' + error);
+    console.log("Error in editing device: " + error);
   }
 }
 
 export async function removeDevice(deviceId) {
   try {
     const response = await fetch(`${URI}/device/delete/${deviceId}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
     if (response.status === 200) {
-      return 'Deleted successfully';
+      return "Deleted successfully";
     }
   } catch (error) {
-    console.log('Error in removing device: ' + error);
+    console.log("Error in removing device: " + error);
   }
 }
 
-export async function removeAccessToDevice(accessId){
+export async function removeAccessToDevice(accessId) {
   try {
-    const response = await fetch(`${URI}/device/deleteSharedDevice/${accessId}`,{
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`
+    const response = await fetch(
+      `${URI}/device/deleteSharedDevice/${accessId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    })
-    
-    if(response){
+    );
+    console.log("accessId", accessId);
+    console.log(response);
+    if (response) {
       console.log(response);
-      return response; 
+      return response;
     }
-    deleteSharedDevice
+    deleteSharedDevice;
   } catch (error) {
-    console.log('Error in removing device access to other: ' + error);
-    
+    console.log("Error in removing device access to other: " + error);
   }
 }

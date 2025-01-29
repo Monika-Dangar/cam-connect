@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import DisplayDeviceCard from './DisplayDeviceCard';
-import { displayDevice } from '../../services/deviceServices';
-import DeleteOutlineSharpIcon from '@mui/icons-material/DeleteOutlineSharp';
+import React, { useState, useEffect } from "react";
+import DisplayDeviceCard from "./DisplayDeviceCard";
+import { displayDevice } from "../../services/deviceServices";
+import DeleteOutlineSharpIcon from "@mui/icons-material/DeleteOutlineSharp";
 
 const SharedWithOthers = () => {
   const [sharedDevices, setSharedDevices] = useState([]);
+  const [changes, setChanges] = useState(false);
 
+  const handleChanges = () => {
+    setChanges((prev) => !prev);
+  };
   useEffect(() => {
     const fetchDevices = async () => {
       const response = await displayDevice();
@@ -14,7 +18,7 @@ const SharedWithOthers = () => {
       }
     };
     fetchDevices();
-  }, []);
+  }, [changes]);
 
   return (
     <table className="tableContainer">
@@ -32,6 +36,7 @@ const SharedWithOthers = () => {
           sharedDevices.map((device) => (
             <tr key={device.deviceId._id}>
               <DisplayDeviceCard
+                handleChanges={handleChanges}
                 device={device}
                 delete={DeleteOutlineSharpIcon}
                 type="sharedWithOthers" // Specifies shared devices with others

@@ -10,11 +10,13 @@ async function createDevice(deviceData) {
 }
 async function readDevice(userId) {
   const Device = await deviceRepo.findDeviceByUserId(userId);
-  const sharedDeviceData = await deviceRepo.findSharedDevice(userId);
-
+  const sharedDeviceDataWithMe = await deviceRepo.findSharedDevice(userId);
+  const sharedDeviceDataWithOthers =
+    await deviceRepo.findDeviceSharedWithOthers(userId);
   const combinedData = {
     device: Device,
-    sharedDeviceData: sharedDeviceData,
+    sharedDeviceDataWithMe: sharedDeviceDataWithMe,
+    sharedDeviceDataWithOthers: sharedDeviceDataWithOthers,
   };
 
   return combinedData;
@@ -51,4 +53,25 @@ async function deleteDevice(deviceId) {
     };
   }
 }
-module.exports = { createDevice, readDevice, updateDevice, deleteDevice };
+async function deleteSharedDevice(accessId) {
+  const deletedSharedDevice = await deviceRepo.deleteSharedDevice(accessId);
+
+  if (deletedSharedDevice) {
+    return {
+      success: true,
+      message: "Shared device deleted",
+    };
+  } else {
+    return {
+      success: false,
+      message: "Device not shared ",
+    };
+  }
+}
+module.exports = {
+  createDevice,
+  readDevice,
+  updateDevice,
+  deleteDevice,
+  deleteSharedDevice,
+};

@@ -6,5 +6,7 @@ router.route("/create").post(authenticate, device.createDevice);
 router.route("/read").get(authenticate, device.getDevice);
 router.route("/edit/:deviceId").patch(authenticate, device.editDevice);
 router.route("/delete/:deviceId").delete(authenticate, device.removeDevice);
-
+router
+  .route("/deleteSharedDevice/:accessId")
+  .delete(authenticate, device.removeSharedDevice);
 module.exports = router;

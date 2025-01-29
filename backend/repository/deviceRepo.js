@@ -23,7 +23,20 @@ function findSharedDevice(requesterId) {
       path: "ownerId",
       select: "username",
     })
-    .select({ _id: 0, deviceId: 1, ownerId: 1 });
+    .select({ deviceId: 1, ownerId: 1 });
+}
+function findDeviceSharedWithOthers(ownerId) {
+  return accessRequest
+    .find({ ownerId, status: "approved" })
+    .populate({
+      path: "deviceId",
+      select: "deviceName deviceLocation deviceType",
+    })
+    .populate({
+      path: "requesterId",
+      select: "username",
+    })
+    .select("deviceId requesterId ");
 }
 function findDeviceById(deviceId) {
   return Device.findById({ _id: deviceId }).select(
@@ -46,11 +59,16 @@ function updateDevice(deviceId, newDeviceData) {
 function deleteDeviceById(_id) {
   return Device.findByIdAndDelete(_id);
 }
+function deleteSharedDevice(_id) {
+  return accessRequest.findByIdAndDelete(_id);
+}
 module.exports = {
   createUserDevice,
   findDeviceByUserId,
   findSharedDevice,
+  findDeviceSharedWithOthers,
   findDeviceById,
   updateDevice,
   deleteDeviceById,
+  deleteSharedDevice,
 };

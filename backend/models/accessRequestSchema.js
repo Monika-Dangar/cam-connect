@@ -26,7 +26,7 @@ const accessRequestSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 const accessRequest = mongoose.model("accessRequest", accessRequestSchema);
 module.exports = accessRequest;

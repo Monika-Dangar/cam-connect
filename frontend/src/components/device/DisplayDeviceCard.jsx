@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
-import '../../css/device/device.css';
-import { removeDevice,removeAccessToDevice } from '../../services/deviceServices';
-import BasicModalDialog from '../modal/Modal';
+import React, { useState } from "react";
+import "../../css/device/device.css";
+import {
+  removeDevice,
+  removeAccessToDevice,
+} from "../../services/deviceServices";
+import BasicModalDialog from "../modal/Modal";
 
-const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: EditIcon, type }) => {
-
+const DisplayDeviceCard = ({
+  handleChanges,
+  device,
+  delete: DeleteIcon,
+  edit: EditIcon,
+  type,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleModalToggle = () => {
@@ -12,37 +20,39 @@ const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: Edi
   };
 
   const handleDelete = async (deviceId) => {
-    console.log('clicked delete');
-    
-    if(type === 'sharedWithOthers'){
+    console.log("clicked delete");
+
+    if (type === "sharedWithOthers" || type === "sharedWithMe") {
       const response = await removeAccessToDevice(deviceId);
       if (response) {
         console.log(response);
-        handleChanges()
+        handleChanges();
       }
-    }else{
-
+    } else {
       const response = await removeDevice(deviceId);
       if (response) {
         console.log(response);
-        handleChanges()
+        handleChanges();
       }
     }
   };
 
   const handleEdit = async () => {
-    console.log('Clicked edit');
+    console.log("Clicked edit");
     setModalOpen(true);
   };
 
   // Standardize access to the device properties
   const deviceName = device?.deviceId?.deviceName || device?.deviceName;
-  const deviceLocation = device?.deviceId?.deviceLocation || device?.deviceLocation;
+  const deviceLocation =
+    device?.deviceId?.deviceLocation || device?.deviceLocation;
   const deviceType = device?.deviceId?.deviceType || device?.deviceType;
 
   // Conditionally check for owner or requester depending on the type
-  const deviceOwner = type === 'sharedWithMe' ? device?.ownerId?.username : null;
-  const deviceRequester = type === 'sharedWithOthers' ? device?.requesterId?.username : null;
+  const deviceOwner =
+    type === "sharedWithMe" ? device?.ownerId?.username : null;
+  const deviceRequester =
+    type === "sharedWithOthers" ? device?.requesterId?.username : null;
 
   return (
     <>
@@ -62,7 +72,7 @@ const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: Edi
       <td className="tableData">{deviceType}</td>
 
       {/* Edit button (only for Devices) */}
-      {type === 'device' && (
+      {type === "device" && (
         <td className="tableData">
           <button type="button" onClick={() => handleEdit(device._id)}>
             <EditIcon />
@@ -78,7 +88,12 @@ const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: Edi
       </td>
 
       {/* Modal Dialog */}
-      <BasicModalDialog handleChanges={handleChanges} device={device} open={modalOpen} onClose={handleModalToggle} />
+      <BasicModalDialog
+        handleChanges={handleChanges}
+        device={device}
+        open={modalOpen}
+        onClose={handleModalToggle}
+      />
     </>
   );
 };

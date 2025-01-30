@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../css/device/device.css';
 import { removeDevice,removeAccessToDevice } from '../../services/deviceServices';
 import BasicModalDialog from '../modal/Modal';
+import TransitionsSnackbar from '../toaster/TransitionsSnackbar';
 
 const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: EditIcon, type }) => {
 
@@ -17,21 +18,20 @@ const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: Edi
     if(type === 'sharedWithOthers'){
       const response = await removeAccessToDevice(deviceId);
       if (response) {
-        console.log(response);
+        // console.log(response);
         handleChanges()
       }
     }else{
 
       const response = await removeDevice(deviceId);
       if (response) {
-        console.log(response);
+        // console.log(response);
         handleChanges()
       }
     }
   };
 
   const handleEdit = async () => {
-    console.log('Clicked edit');
     setModalOpen(true);
   };
 
@@ -52,32 +52,27 @@ const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: Edi
       {/* Device Requester (Shared with Others) */}
       {deviceRequester && <td className="tableData">{deviceRequester}</td>}
 
-      {/* Device Name */}
       <td className="tableData">{deviceName}</td>
 
-      {/* Device Location */}
       <td className="tableData">{deviceLocation}</td>
 
-      {/* Device Type */}
       <td className="tableData">{deviceType}</td>
 
-      {/* Edit button (only for Devices) */}
       {type === 'device' && (
         <td className="tableData">
           <button type="button" onClick={() => handleEdit(device._id)}>
             <EditIcon />
+            <TransitionsSnackbar/>
           </button>
         </td>
       )}
 
-      {/* Delete button */}
       <td className="tableData">
         <button type="button" onClick={() => handleDelete(device._id)}>
           <DeleteIcon />
         </button>
       </td>
 
-      {/* Modal Dialog */}
       <BasicModalDialog handleChanges={handleChanges} device={device} open={modalOpen} onClose={handleModalToggle} />
     </>
   );

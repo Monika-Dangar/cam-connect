@@ -13,7 +13,6 @@ export async function createDevice(data) {
     });
 
     if (response) {
-      // console.log(response);
       return response;
     }
   } catch (error) {
@@ -32,7 +31,6 @@ export async function displayDevice() {
     const data = await response.json();
 
     if (data) {
-      console.log(data);
       return data;
     }
   } catch (error) {
@@ -52,8 +50,7 @@ export async function editDevice(deviceId, data) {
     });
 
     if (response) {
-      // console.log(response);
-      return 'Device edited successfully';
+      return response;
     }
   } catch (error) {
     console.log('Error in editing device: ' + error);
@@ -70,7 +67,7 @@ export async function removeDevice(deviceId) {
     });
 
     if (response.status === 200) {
-      return 'Deleted successfully';
+      return response
     }
   } catch (error) {
     console.log('Error in removing device: ' + error);
@@ -87,7 +84,6 @@ export async function removeAccessToDevice(accessId){
     })
     
     if(response){
-      console.log(response);
       return response; 
     }
     deleteSharedDevice

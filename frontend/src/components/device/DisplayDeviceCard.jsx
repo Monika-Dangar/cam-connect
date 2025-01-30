@@ -4,8 +4,13 @@ import { removeDevice,removeAccessToDevice } from '../../services/deviceServices
 import BasicModalDialog from '../modal/Modal';
 import TransitionsSnackbar from '../toaster/TransitionsSnackbar';
 
-const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: EditIcon, type }) => {
-
+const DisplayDeviceCard = ({
+  handleChanges,
+  device,
+  delete: DeleteIcon,
+  edit: EditIcon,
+  type,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleModalToggle = () => {
@@ -13,16 +18,15 @@ const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: Edi
   };
 
   const handleDelete = async (deviceId) => {
-    console.log('clicked delete');
-    
-    if(type === 'sharedWithOthers'){
+    console.log("clicked delete");
+
+    if (type === "sharedWithOthers" || type === "sharedWithMe") {
       const response = await removeAccessToDevice(deviceId);
       if (response) {
         // console.log(response);
         handleChanges()
       }
-    }else{
-
+    } else {
       const response = await removeDevice(deviceId);
       if (response) {
         // console.log(response);
@@ -37,12 +41,15 @@ const DisplayDeviceCard = ({handleChanges, device, delete: DeleteIcon, edit: Edi
 
   // Standardize access to the device properties
   const deviceName = device?.deviceId?.deviceName || device?.deviceName;
-  const deviceLocation = device?.deviceId?.deviceLocation || device?.deviceLocation;
+  const deviceLocation =
+    device?.deviceId?.deviceLocation || device?.deviceLocation;
   const deviceType = device?.deviceId?.deviceType || device?.deviceType;
 
   // Conditionally check for owner or requester depending on the type
-  const deviceOwner = type === 'sharedWithMe' ? device?.ownerId?.username : null;
-  const deviceRequester = type === 'sharedWithOthers' ? device?.requesterId?.username : null;
+  const deviceOwner =
+    type === "sharedWithMe" ? device?.ownerId?.username : null;
+  const deviceRequester =
+    type === "sharedWithOthers" ? device?.requesterId?.username : null;
 
   return (
     <>

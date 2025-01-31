@@ -2,6 +2,8 @@ import '../../css/modal/modal.css';
 import React, { useEffect, useState } from 'react';
 import { Modal, Box, Button, TextField } from '@mui/material';
 import { createDevice, editDevice } from '../../services/deviceServices';
+import TransitionsSnackbar from '../toaster/TransitionsSnackbar'; 
+
 
 const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,9 @@ const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
     deviceLocation: '',
     deviceType: '',
   });
+    const [openToast, setOpenToast] = useState(false); 
+      const [toastMessage, setToastMessage] = useState(''); 
+    
 
   useEffect(() => {
     if (device) {
@@ -27,26 +32,60 @@ const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
     }
   }, [device]); // Only run when the device prop changes
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (device) {
+  //     const response = await editDevice(device._id, formData);
+  //     if (response) {
+  //       handleChanges();
+  //     }else{
+  //       setToastMessage("No able to update. Please try again later."); 
+  //       setOpenToast(true); 
+  
+  //     }
+  //   } else {
+  //     const response = await createDevice(formData);
+  //     if (response) {
+  //       handleChanges();
+  //     }else{
+  //       setToastMessage("Not able to create. Please try again later."); 
+  //       setOpenToast(true); 
+  
+  //     }
+  //   }
+
+  //   onClose();
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (device) {
-      const response = await editDevice(device._id, formData);
-      if (response) {
-        // console.log(response);
-        handleChanges();
+      try {
+        const response = await editDevice(device._id, formData);
+        if (response) {
+          handleChanges();
+        }
+      } catch (error) {
+        setToastMessage(error.message)
+        setOpenToast(true);
       }
     } else {
-      // console.log('creating device');
-      const response = await createDevice(formData);
-      if (response) {
-        // console.log(response);
-        handleChanges();
+      try {
+        const response = await createDevice(formData);
+        if (response) {
+          handleChanges();
+        }
+      } catch (error) {
+        setToastMessage(error.message);
+        setOpenToast(true);
       }
     }
 
     onClose();
   };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,6 +96,7 @@ const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
   };
 
   return (
+    <>
     <Modal open={open} onClose={onClose}>
       <Box id="deviceBox">
         <form onSubmit={handleSubmit}>
@@ -109,6 +149,14 @@ const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
         </form>
       </Box>
     </Modal>
+
+    <TransitionsSnackbar
+        open={openToast}
+        message={toastMessage}
+        onClose={() => setOpenToast(false)} // Close the toast after it's shown
+        autoHideDuration={5000} 
+      />
+    </>
   );
 };
 

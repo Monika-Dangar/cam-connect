@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import '../../css/device/device.css';
-import { removeDevice,removeAccessToDevice } from '../../services/deviceServices';
+import { removeDevice, removeAccessToDevice } from '../../services/deviceServices';
 import BasicModalDialog from '../modal/Modal';
-import TransitionsSnackbar from '../toaster/TransitionsSnackbar';
+import TransitionsSnackbar from '../toaster/TransitionsSnackbar'; 
 
 const DisplayDeviceCard = ({
   handleChanges,
@@ -12,44 +12,45 @@ const DisplayDeviceCard = ({
   type,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [openToast, setOpenToast] = useState(false); 
+  const [toastMessage, setToastMessage] = useState(''); 
 
   const handleModalToggle = () => {
     setModalOpen((prev) => !prev);
   };
 
   const handleDelete = async (deviceId) => {
-    console.log("clicked delete");
-
+    try {
+      
+    let response;
     if (type === "sharedWithOthers" || type === "sharedWithMe") {
-      const response = await removeAccessToDevice(deviceId);
-      if (response) {
-        // console.log(response);
-        handleChanges()
-      }
+      response = await removeAccessToDevice(deviceId);
     } else {
-      const response = await removeDevice(deviceId);
-      if (response) {
-        // console.log(response);
-        handleChanges()
-      }
+      response = await removeDevice(deviceId);
     }
+
+    if (response) {
+      handleChanges();
+    } 
+  } catch (error) {
+      
+      setToastMessage(error.message); 
+      setOpenToast(true); 
+  }
   };
 
-  const handleEdit = async () => {
+  const handleEdit = () => {
     setModalOpen(true);
   };
 
   // Standardize access to the device properties
   const deviceName = device?.deviceId?.deviceName || device?.deviceName;
-  const deviceLocation =
-    device?.deviceId?.deviceLocation || device?.deviceLocation;
+  const deviceLocation = device?.deviceId?.deviceLocation || device?.deviceLocation;
   const deviceType = device?.deviceId?.deviceType || device?.deviceType;
 
   // Conditionally check for owner or requester depending on the type
-  const deviceOwner =
-    type === "sharedWithMe" ? device?.ownerId?.username : null;
-  const deviceRequester =
-    type === "sharedWithOthers" ? device?.requesterId?.username : null;
+  const deviceOwner = type === "sharedWithMe" ? device?.ownerId?.username : null;
+  const deviceRequester = type === "sharedWithOthers" ? device?.requesterId?.username : null;
 
   return (
     <>
@@ -69,7 +70,6 @@ const DisplayDeviceCard = ({
         <td className="tableData">
           <button type="button" onClick={() => handleEdit(device._id)}>
             <EditIcon />
-            <TransitionsSnackbar/>
           </button>
         </td>
       )}
@@ -81,6 +81,13 @@ const DisplayDeviceCard = ({
       </td>
 
       <BasicModalDialog handleChanges={handleChanges} device={device} open={modalOpen} onClose={handleModalToggle} />
+
+      <TransitionsSnackbar
+        open={openToast}
+        message={toastMessage}
+        onClose={() => setOpenToast(false)} // Close the toast after it's shown
+        autoHideDuration={5000} 
+      />
     </>
   );
 };

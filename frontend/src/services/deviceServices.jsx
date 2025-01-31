@@ -16,7 +16,7 @@ export async function createDevice(data) {
       return response;
     }
   } catch (error) {
-    console.log("Error in creating device: " + error);
+    throw new Error(`Not able to create. Please try again later.`)
   }
 }
 
@@ -34,7 +34,7 @@ export async function displayDevice() {
       return data;
     }
   } catch (error) {
-    console.log("Error in displaying devices: " + error);
+    throw new Error(`Error fetching devices`)
   }
 }
 
@@ -44,16 +44,16 @@ export async function editDevice(deviceId, data) {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json", // Ensure this header is set to 'application/json'
+        "Content-Type": "application/json", 
       },
       body: JSON.stringify(data),
     });
 
     if (response) {
-      return response;
+      return response
     }
   } catch (error) {
-    console.log("Error in editing device: " + error);
+    throw new Error(`No able to update. Please try again later.`)
   }
 }
 
@@ -70,7 +70,7 @@ export async function removeDevice(deviceId) {
       return response
     }
   } catch (error) {
-    console.log("Error in removing device: " + error);
+    throw new Error(`Failed to delete the device. Please try again later.`)
   }
 }
 
@@ -84,13 +84,12 @@ export async function removeAccessToDevice(accessId) {
           Authorization: `Bearer ${token}`,
         },
       }
-    })
+    );
     
-    if(response){
-      return response; 
+    if (response.ok) {
+      return response;
     }
-    deleteSharedDevice;
   } catch (error) {
-    console.log("Error in removing device access to other: " + error);
+    throw new Error('Failed to delete the device. Please try again later.')
   }
 }

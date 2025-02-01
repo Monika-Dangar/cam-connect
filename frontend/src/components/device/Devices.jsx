@@ -3,27 +3,38 @@ import DisplayDeviceCard from './DisplayDeviceCard';
 import { displayDevice } from '../../services/deviceServices';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlineSharpIcon from '@mui/icons-material/DeleteOutlineSharp';
-import BasicModalDialog from '../modal/Modal'; // Assuming this is the modal component you mentioned
+import BasicModalDialog from '../modal/Modal'; 
+import TransitionsSnackbar from '../toaster/TransitionsSnackbar'; 
 
 const Devices = () => {
   const [devices, setDevices] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [changes, setChanges] = useState(false);
-
+  const [openToast, setOpenToast] = useState(false); 
+  const [toastMessage, setToastMessage] = useState(''); 
+  
   const handleChanges = ()=>{
     setChanges((prev) => !prev)
   }
 
   const handleModalToggle = () => {
-    // setModalOpen((prev) => setModalOpen(!prev));
     setModalOpen((prev) => !prev);
   };
 
   useEffect(() => {
     const fetchDevices = async () => {
-      const response = await displayDevice();
-      if (response) {
-        setDevices(response.device); // devices array
+      try {
+      
+        const response = await displayDevice();
+        if (response) {
+          console.log(response.device);
+          
+          setDevices(response.device); 
+        }
+
+    } catch (error) {
+      setToastMessage(error.message); 
+      setOpenToast(true); 
       }
     };
     fetchDevices();
@@ -59,7 +70,7 @@ const Devices = () => {
           ))
         ) : (
           <tr>
-            <td>No devices</td>
+            <td className='text-white'>No devices</td>
           </tr>
         )
       }
@@ -72,6 +83,13 @@ const Devices = () => {
           </main>
       {/* Modal */}
       <BasicModalDialog handleChanges={handleChanges} device={''} open={modalOpen} onClose={handleModalToggle} />
+
+      <TransitionsSnackbar
+        open={openToast}
+        message={toastMessage}
+        onClose={() => setOpenToast(false)} // Close the toast after it's shown
+        autoHideDuration={5000} 
+      />
       </>
   );
 };

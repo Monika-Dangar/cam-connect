@@ -6,7 +6,6 @@ const MainContent = () => {
   return (
     <>
       <div className="mainContainer">
-        {/* <p>MainContent</p> */}
         <Outlet />
       </div>
     </>

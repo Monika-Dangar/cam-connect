@@ -36,18 +36,19 @@ const getDevice = async (req, res) => {
     if (userDeviceData) {
       const response = {
         device:
-          userDeviceData.device != ""
-            ? userDeviceData.device
+          userDeviceData[0].length > 0
+            ? userDeviceData[0]
             : { message: "Create your device" },
         sharedDeviceWithMe:
-          userDeviceData.sharedDeviceDataWithMe != ""
-            ? userDeviceData.sharedDeviceDataWithMe
+          userDeviceData[1].length > 0
+            ? userDeviceData[1]
             : { message: "No shared device available" },
         sharedDeviceWithOthers:
-          userDeviceData.sharedDeviceDataWithOthers != ""
-            ? userDeviceData.sharedDeviceDataWithOthers
+          userDeviceData[2].length > 0
+            ? userDeviceData[2]
             : { message: "No device shared with others" },
       };
+
       res.status(200).send(response);
     } else {
       res.status(200).send({ message: "No device data available " });

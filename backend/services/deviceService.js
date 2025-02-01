@@ -9,17 +9,12 @@ async function createDevice(deviceData) {
   }
 }
 async function readDevice(userId) {
-  const Device = await deviceRepo.findDeviceByUserId(userId);
-  const sharedDeviceDataWithMe = await deviceRepo.findSharedDevice(userId);
-  const sharedDeviceDataWithOthers =
-    await deviceRepo.findDeviceSharedWithOthers(userId);
-  const combinedData = {
-    device: Device,
-    sharedDeviceDataWithMe: sharedDeviceDataWithMe,
-    sharedDeviceDataWithOthers: sharedDeviceDataWithOthers,
-  };
-
-  return combinedData;
+  const deviceData = await Promise.all([
+    deviceRepo.findDeviceByUserId(userId),
+    deviceRepo.findSharedDevice(userId),
+    deviceRepo.findDeviceSharedWithOthers(userId),
+  ]);
+  return deviceData;
 }
 
 async function updateDevice(newDeviceData) {

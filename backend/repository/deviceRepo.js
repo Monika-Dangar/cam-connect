@@ -1,16 +1,16 @@
-const Device = require("../models/cameraSchema");
+const device = require("../models/cameraSchema");
 const accessRequest = require("../models//accessRequestSchema");
 function createUserDevice(data) {
   try {
-    const device = new Device(data);
-    return device.save();
+    const deviceData = new device(data);
+    return deviceData.save();
   } catch (error) {
     console.log("Error creating device", error);
     return null;
   }
 }
 function findDeviceByUserId(userId) {
-  return Device.find({ userId });
+  return device.find({ userId });
 }
 function findSharedDevice(requesterId) {
   return accessRequest
@@ -39,12 +39,12 @@ function findDeviceSharedWithOthers(ownerId) {
     .select("deviceId requesterId ");
 }
 function findDeviceById(deviceId) {
-  return Device.findById({ _id: deviceId }).select(
-    "deviceName deviceLocation deviceType -_id"
-  );
+  return device
+    .findById({ _id: deviceId })
+    .select("deviceName deviceLocation deviceType -_id");
 }
 function updateDevice(deviceId, newDeviceData) {
-  return Device.findByIdAndUpdate(
+  return device.findByIdAndUpdate(
     { _id: deviceId },
     {
       $set: {
@@ -57,7 +57,7 @@ function updateDevice(deviceId, newDeviceData) {
   );
 }
 function deleteDeviceById(_id) {
-  return Device.findByIdAndDelete(_id);
+  return device.findByIdAndDelete(_id);
 }
 function deleteSharedDevice(_id) {
   return accessRequest.findByIdAndDelete(_id);

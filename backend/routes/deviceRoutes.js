@@ -1,5 +1,5 @@
 const express = require("express");
-const device = require("../controllers/DeviceController");
+const device = require("../controllers/deviceController");
 const { authenticate } = require("../services/authService");
 const router = express.Router();
 router.route("/create").post(authenticate, device.createDevice);

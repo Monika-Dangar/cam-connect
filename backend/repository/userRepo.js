@@ -9,7 +9,7 @@ function create(data) {
     const newUser = new User(data);
     return newUser.save();
   } catch (error) {
-    console.log("Error in userRepo:", error);
+    console.error("Error in userRepo:", error);
     return null;
   }
 }

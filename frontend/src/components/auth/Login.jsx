@@ -1,18 +1,18 @@
-import '../../css/form/form.css';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
-import { userLogin } from '../../services/userServices';
-import TransitionsSnackbar from '../toaster/TransitionsSnackbar';
+import "../../css/form/form.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
+import { userLogin } from "../../services/userServices";
+import TransitionsSnackbar from "../toaster/TransitionsSnackbar";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
-  const [error, SetError] = useState('');
+  const [error, SetError] = useState("");
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -29,11 +29,10 @@ const Login = () => {
 
     try {
       const response = await userLogin(formData);
-
-      if (response) {
-        navigate('/user/dashboard');
-      } else {
-        SetError('Login failed. Username or Password is invalid.');
+      setToastMessage(response.data.message);
+      setOpenToast(true);
+      if (response.success) {
+        navigate("/user/dashboard");
       }
     } catch (error) {
       setToastMessage(error.message);
@@ -42,7 +41,7 @@ const Login = () => {
   };
 
   const handleGotToSignup = () => {
-    navigate('/account/signup');
+    navigate("/account/signup");
   };
 
   return (
@@ -85,7 +84,7 @@ const Login = () => {
           <p>Forgot password?</p>
 
           <p onClick={handleGotToSignup} className="navigate">
-            Don&apos;t have an account? Sign up here
+            Don&apos;t have an account? <b>Sign up here</b>
           </p>
         </form>
       </div>

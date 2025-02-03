@@ -1,20 +1,20 @@
-import '../../css/form/form.css';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
-import { userSignup } from '../../services/userServices';
-import TransitionsSnackbar from '../toaster/TransitionsSnackbar';
+import "../../css/form/form.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
+import { userSignup } from "../../services/userServices";
+import TransitionsSnackbar from "../toaster/TransitionsSnackbar";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    emailId: '',
-    dateOfBirth: '',
+    firstName: "",
+    lastName: "",
+    emailId: "",
+    dateOfBirth: "",
   });
-  const [error, SetError] = useState('');
+  const [error, SetError] = useState("");
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -31,11 +31,12 @@ const Signup = () => {
 
     try {
       const response = await userSignup(formData);
-
-      if (response) {
-        navigate('/account/login');
+      console.log(response);
+      if (response.success) {
+        navigate("/account/login");
       } else {
-        SetError('Signup failed. Please try again.');
+        setToastMessage(response.data.message);
+        setOpenToast(true);
       }
     } catch (error) {
       setToastMessage(error.message);
@@ -44,7 +45,7 @@ const Signup = () => {
   };
 
   const handleGoToLoginPage = () => {
-    navigate('/account/login');
+    navigate("/account/login");
   };
 
   return (

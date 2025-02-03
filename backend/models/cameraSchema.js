@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const imei = require("node-imei");
 const cameraSchema = new mongoose.Schema(
   {
     userId: {
@@ -17,6 +18,11 @@ const cameraSchema = new mongoose.Schema(
     deviceType: {
       type: String,
       required: true,
+    },
+    imeiNumber: {
+      type: String,
+      unique: true,
+      default: () => imei.getRandom(),
     },
   },
   { timestamps: true }

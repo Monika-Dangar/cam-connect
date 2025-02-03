@@ -1,8 +1,8 @@
-import '../../css/form/form.css'
-import React from 'react'
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
+import "../../css/form/form.css";
+import React from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
 
 const Form = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const Form = () => {
   const [isSignInPage, setIsSignInPage] = useState(true);
   useEffect(() => {
     const path = location.pathname;
-    if (path.includes('signup')) {
+    if (path.includes("signup")) {
       setIsSignInPage(false);
     } else {
       setIsSignInPage(true);
@@ -18,13 +18,13 @@ const Form = () => {
   }, [location]);
   const [formData, setformData] = useState({
     ...(!isSignInPage && {
-      firstName: '',
-      lastName: '',
-      emailId: '',
-      dateOfBirth: '',
+      firstName: "",
+      lastName: "",
+      emailId: "",
+      dateOfBirth: "",
     }),
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
 
   const handleChange = async (e) => {
@@ -38,40 +38,40 @@ const Form = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/user/${isSignInPage ? 'login' : 'signup'}`,
+        `http://localhost:3000/api/user/${isSignInPage ? "login" : "signup"}`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-        },
+        }
       );
 
       const data = await response.json();
       if (response.status == 200 && isSignInPage) {
         const { token } = data;
-        console.log('token', token);
-        localStorage.setItem('token', token);
+        console.log("token", token);
+        localStorage.setItem("token", token);
         alert(`Login successfull`);
-        navigate('/user/dashboard');
+        navigate("/user/dashboard");
       } else if (response.status == 201 && !isSignInPage) {
         alert(`${formData.firstName} you have registered successfully`);
-        console.log('login');
-        navigate('/account/login');
+        console.log("login");
+        navigate("/account/login");
       } else {
         const message = data.message;
         alert(message);
       }
     } catch (error) {
-      console.log('Error in login', error);
+      console.log("Error in login", error);
     }
   };
 
   const handleTogglePage = () => {
     setTimeout(() => {
       setIsSignInPage((prev) => !prev);
-      navigate(`${isSignInPage ? '/account/signup' : '/account/login'}`);
+      navigate(`${isSignInPage ? "/account/signup" : "/account/login"}`);
     }, 300);
   };
   return (
@@ -112,7 +112,7 @@ const Form = () => {
             </Button>
             <p>Forgot password?</p>
             <p onClick={handleTogglePage} className="navigate">
-              Don&apos;t have an account? Sign up here
+              Don&apos;t have an account? <b>Sign in here</b>
             </p>
           </form>
         </>

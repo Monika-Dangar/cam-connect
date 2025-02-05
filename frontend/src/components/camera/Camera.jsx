@@ -1,5 +1,4 @@
-import React from "react";
-import BasicTabs from "./BasicTabs";
+import React from 'react';
 
 const Camera = () => {
   return <div>Camera</div>;

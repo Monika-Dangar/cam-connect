@@ -1,8 +1,9 @@
-import "./form.css";
-//import { useState } from "react";
+import "../../css/form/form.css";
+import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button, TextField } from "@mui/material";
+
 const Form = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -77,7 +78,7 @@ const Form = () => {
     <div className="flex-create">
       {isSignInPage ? (
         <>
-          <h2 className="text"> Welcome To Camconnect</h2>
+          <h2 className="text"> Welcome To Cam connect</h2>
 
           <form className="flex-div-child-node" onSubmit={handleSubmit}>
             <h2 className="text">Login</h2>
@@ -111,7 +112,7 @@ const Form = () => {
             </Button>
             <p>Forgot password?</p>
             <p onClick={handleTogglePage} className="navigate">
-              Don&apos;t have an account? Sign up here
+              Don&apos;t have an account? <b>Sign in here</b>
             </p>
           </form>
         </>

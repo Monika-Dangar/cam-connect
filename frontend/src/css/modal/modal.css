@@ -1,0 +1,36 @@
+#deviceBox {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  width: 30%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(114, 108, 108);
+  padding: 4;
+  border-radius: 2;
+  box-shadow: 24;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  margin: 3%;
+  text-align: center;
+}
+
+.textField {
+  /* width: 90%; */
+  /* display: flex;
+  justify-content: center; */
+  /* margin-left: 5%;
+  padding-left: 5%; */
+  color: aqua;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 3%;
+}

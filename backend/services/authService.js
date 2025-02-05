@@ -1,35 +1,38 @@
-const User = require("../models/userSchema");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const { getUser } = require("./tokenGenerationService");
+const { default: messages } = require("../utils/constants");
 
-const authenticate = async (req, res, next) => {
+const authenticate = (req, res, next) => {
   try {
     const { authorization } = req.headers;
 
-    if (!authorization && !authorization.startsWith("Bearer")) {
+    // Check if authorization header is present and starts with "Bearer"
+    if (!authorization || !authorization.startsWith("Bearer")) {
       return res
-        .status(401)
-        .json({ error: "Authorization token missing or invalid" });
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: messages.auth.tokenMissing });
     }
 
     const receivedToken = authorization.split(" ")[1];
 
     const isTokenVerified = getUser(receivedToken);
-
-    if (isPasswordValid.status == 200) {
-      const { userId } = isTokenVerified;
-
-      const user = await User.findById(userId);
-      req.user = user;
+    if (isTokenVerified) {
+      req.user = isTokenVerified;
       next();
     } else {
-      return res.send(isTokenVerified);
+      return res.status(StatusCodes.UNAUTHORIZED).json(isTokenVerified);
     }
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
-      return res.status(401).json({ error: "Invalid token" });
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: messages.auth.inValidToken });
     }
 
     console.error("Authentication error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 

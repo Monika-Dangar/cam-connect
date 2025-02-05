@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import DisplayDeviceCard from './DisplayDeviceCard';
-import { displayDevice } from '../../services/deviceServices';
-import DeleteOutlineSharpIcon from '@mui/icons-material/DeleteOutlineSharp';
-import TransitionsSnackbar from '../toaster/TransitionsSnackbar';
+import React, { useState, useEffect } from "react";
+import DisplayDeviceCard from "./DisplayDeviceCard";
+import { displayDevice } from "../../services/deviceServices";
+import DeleteOutlineSharpIcon from "@mui/icons-material/DeleteOutlineSharp";
+import TransitionsSnackbar from "../toaster/TransitionsSnackbar";
 
 const SharedWithMe = () => {
   const [sharedDevices, setSharedDevices] = useState([]);
   const [changes, setChanges] = useState(false);
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState("");
 
   const handleChanges = () => {
     setChanges((prev) => !prev);
@@ -33,11 +33,13 @@ const SharedWithMe = () => {
       <table className="tableContainer">
         <thead className="th">
           <tr className="tableRow">
-            <th className="tableHeading">Device Owner</th>
-            <th className="tableHeading">Device Name</th>
-            <th className="tableHeading">Location</th>
-            <th className="tableHeading">Device Type</th>
-            <th className="tableHeading">Delete</th>
+            <th>Device Owner</th>
+            <th>IMEI Number</th>
+
+            <th>Device Name</th>
+            <th>Location</th>
+            <th>Device Type</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -47,6 +49,7 @@ const SharedWithMe = () => {
                 <DisplayDeviceCard
                   handleChanges={handleChanges}
                   device={device}
+                  setSharedDevicesWithMe={setSharedDevices}
                   delete={DeleteOutlineSharpIcon}
                   type="sharedWithMe"
                 />

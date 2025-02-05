@@ -11,12 +11,12 @@ export async function createDevice(data) {
       },
       body: JSON.stringify(data),
     });
-
+    const res = await response.json();
     if (response) {
-      return response;
+      return res;
     }
   } catch (error) {
-    throw new Error(`Not able to create. Please try again later.`)
+    throw new Error(`Not able to create. Please try again later.`);
   }
 }
 
@@ -34,7 +34,7 @@ export async function displayDevice() {
       return data;
     }
   } catch (error) {
-    throw new Error(`Error fetching devices`)
+    throw new Error(`Error fetching devices`);
   }
 }
 
@@ -44,16 +44,17 @@ export async function editDevice(deviceId, data) {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json", 
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
+    const res = await response.json();
 
-    if (response) {
-      return response
+    if (res) {
+      return res.message;
     }
   } catch (error) {
-    throw new Error(`No able to update. Please try again later.`)
+    throw new Error(`No able to update. Please try again later.`);
   }
 }
 
@@ -67,10 +68,10 @@ export async function removeDevice(deviceId) {
     });
 
     if (response.status === 200) {
-      return response
+      return await response.json();
     }
   } catch (error) {
-    throw new Error(`Failed to delete the device. Please try again later.`)
+    throw new Error(`Failed to delete the device. Please try again later.`);
   }
 }
 
@@ -85,11 +86,11 @@ export async function removeAccessToDevice(accessId) {
         },
       }
     );
-    
+
     if (response.ok) {
       return response;
     }
   } catch (error) {
-    throw new Error('Failed to delete the device. Please try again later.')
+    throw new Error("Failed to delete the device. Please try again later.");
   }
 }

@@ -1,4 +1,5 @@
 const device = require("../models/cameraSchema");
+const accessRequest = require("../models/accessRequestSchema");
 function createUserDevice(data) {
   try {
     const deviceData = new device(data);

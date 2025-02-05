@@ -1,62 +1,24 @@
-import '../../css/modal/modal.css';
-import React, { useEffect, useState } from 'react';
-import { Modal, Box, Button, TextField } from '@mui/material';
-import { createDevice, editDevice } from '../../services/deviceServices';
-import TransitionsSnackbar from '../toaster/TransitionsSnackbar'; 
+import "../../css/modal/modal.css";
+import React, { useEffect, useState } from "react";
+import { Modal, Box, Button, TextField } from "@mui/material";
+import { createDevice, editDevice } from "../../services/deviceServices";
+import TransitionsSnackbar from "../toaster/TransitionsSnackbar";
 
-
-const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
+const BasicModalDialog = ({
+  handleChanges,
+  device,
+  setDevices,
+  devices,
+  open,
+  onClose,
+}) => {
   const [formData, setFormData] = useState({
-    deviceName: '',
-    deviceLocation: '',
-    deviceType: '',
+    deviceName: device.deviceName,
+    deviceLocation: device.deviceLocation,
+    deviceType: device.deviceType,
   });
-    const [openToast, setOpenToast] = useState(false); 
-      const [toastMessage, setToastMessage] = useState(''); 
-    
-
-  useEffect(() => {
-    if (device) {
-      setFormData({
-        deviceName: device.deviceName,
-        deviceLocation: device.deviceLocation,
-        deviceType: device.deviceType,
-      });
-    } else {
-      // Reset form data if it's in create mode
-      setFormData({
-        deviceName: '',
-        deviceLocation: '',
-        deviceType: '',
-      });
-    }
-  }, [device]); // Only run when the device prop changes
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (device) {
-  //     const response = await editDevice(device._id, formData);
-  //     if (response) {
-  //       handleChanges();
-  //     }else{
-  //       setToastMessage("No able to update. Please try again later."); 
-  //       setOpenToast(true); 
-  
-  //     }
-  //   } else {
-  //     const response = await createDevice(formData);
-  //     if (response) {
-  //       handleChanges();
-  //     }else{
-  //       setToastMessage("Not able to create. Please try again later."); 
-  //       setOpenToast(true); 
-  
-  //     }
-  //   }
-
-  //   onClose();
-  // };
+  const [openToast, setOpenToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,19 +26,28 @@ const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
     if (device) {
       try {
         const response = await editDevice(device._id, formData);
+        console.log(response);
         if (response) {
-          handleChanges();
+          setToastMessage(response);
+          setOpenToast(true);
+          const updatedDevices = devices.map(
+            (d) => (d._id === device._id ? { ...d, ...formData } : d) // Replace the edited device
+          );
+          setDevices(updatedDevices);
         }
       } catch (error) {
-        setToastMessage(error.message)
+        setToastMessage(error.message);
         setOpenToast(true);
       }
     } else {
       try {
         const response = await createDevice(formData);
+
         if (response) {
-          handleChanges();
+          setDevices((prevData) => [...prevData, response.response]);
         }
+        setToastMessage(response.message);
+        setOpenToast(true);
       } catch (error) {
         setToastMessage(error.message);
         setOpenToast(true);
@@ -85,7 +56,6 @@ const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
 
     onClose();
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,64 +67,64 @@ const BasicModalDialog = ({handleChanges, device, open, onClose }) => {
 
   return (
     <>
-    <Modal open={open} onClose={onClose}>
-      <Box id="deviceBox">
-        <form onSubmit={handleSubmit}>
-          <h4 className="text">{device ? 'Edit device' : 'Create device'}</h4>
-          <TextField
-            type="text"
-            name="deviceName"
-            id="standard-basic"
-            label="Device name"
-            variant="filled"
-            className="textField"
-            color="primary"
-            value={formData.deviceName}
-            onChange={handleChange}
-            required
-          ></TextField>
+      <Modal open={open} onClose={onClose}>
+        <Box id="deviceBox">
+          <form onSubmit={handleSubmit}>
+            <h4 className="text">{device ? "Edit device" : "Create device"}</h4>
+            <TextField
+              type="text"
+              name="deviceName"
+              id="standard-basic"
+              label="Device name"
+              variant="filled"
+              className="textField"
+              color="primary"
+              value={formData.deviceName}
+              onChange={handleChange}
+              required
+            ></TextField>
 
-          <TextField
-            type="text"
-            name="deviceLocation"
-            id="standard-basic"
-            label="Location"
-            variant="filled"
-            className="textField"
-            value={formData.deviceLocation}
-            onChange={handleChange}
-            required
-          ></TextField>
+            <TextField
+              type="text"
+              name="deviceLocation"
+              id="standard-basic"
+              label="Location"
+              variant="filled"
+              className="textField"
+              value={formData.deviceLocation}
+              onChange={handleChange}
+              required
+            ></TextField>
 
-          <TextField
-            type="text"
-            name="deviceType"
-            id="standard-basic"
-            label="Type"
-            variant="filled"
-            className="textField"
-            value={formData.deviceType}
-            onChange={handleChange}
-            required
-          ></TextField>
+            <TextField
+              type="text"
+              name="deviceType"
+              id="standard-basic"
+              label="Type"
+              variant="filled"
+              className="textField"
+              value={formData.deviceType}
+              onChange={handleChange}
+              required
+            ></TextField>
 
-          <div className="buttonContainer">
-            <Button variant="contained" className="button" type="submit">
-              Submit
-            </Button>
-            <Button variant="contained" className="button" onClick={onClose}>
-              Close
-            </Button>
-          </div>
-        </form>
-      </Box>
-    </Modal>
+            <div className="buttonContainer">
+              <Button variant="contained" className="button" type="submit">
+                Submit
+              </Button>
+              <Button variant="contained" className="button" onClick={onClose}>
+                Close
+              </Button>
+            </div>
+          </form>
+        </Box>
+      </Modal>
 
-    <TransitionsSnackbar
+      <TransitionsSnackbar
         open={openToast}
         message={toastMessage}
         onClose={() => setOpenToast(false)} // Close the toast after it's shown
-        autoHideDuration={5000} 
+        autoHideDuration={1000}
       />
     </>
   );

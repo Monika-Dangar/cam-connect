@@ -19,7 +19,9 @@ const createDevice = async (req, res) => {
       deviceLocation.trim() === "" ||
       deviceType.trim() === ""
     ) {
-      return res.status(StatusCodes.BAD_REQUEST).send(messages.validation);
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .send({ message: messages.validation });
     }
     const deviceData = {
       userId: user._id,
@@ -51,6 +53,7 @@ const getDevice = async (req, res) => {
   //Find device data of logggedin User
   try {
     const userDeviceData = await deviceService.readDevice(user._id);
+
     if (userDeviceData.length > 0) {
       const response = {
         device:
@@ -92,7 +95,9 @@ const editDevice = async (req, res) => {
       deviceLocation.trim() === "" ||
       deviceType.trim() === ""
     ) {
-      return res.status(StatusCodes.BAD_REQUEST).send(messages.validation);
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .send({ message: messages.validation });
     }
     const deviceData = {
       deviceId: deviceId,
@@ -103,10 +108,12 @@ const editDevice = async (req, res) => {
     const response = await deviceService.updateDevice(deviceData);
     if (response.success) {
       return res
-        .status(StatusCodes.NO_CONTENT)
+        .status(StatusCodes.OK)
         .json({ message: messages.updateSuccess });
     } else {
-      return res.status(200).json({ message: messages.updateError });
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: messages.updateError });
     }
   } catch (error) {
     return res
@@ -120,7 +127,7 @@ const removeDevice = async (req, res) => {
     const response = await deviceService.deleteDevice(deviceId);
     if (response.success) {
       return res
-        .status(StatusCodes.NO_CONTENT)
+        .status(StatusCodes.OK)
         .send({ message: messages.deleteSucess });
     } else {
       return res
@@ -139,7 +146,7 @@ const removeSharedDevice = async (req, res) => {
     const response = await deviceService.deleteSharedDevice(accessId);
     if (response.success) {
       return res
-        .status(StatusCodes.NO_CONTENT)
+        .status(StatusCodes.OK)
         .send({ message: messages.deleteSucess });
     } else {
       return res

@@ -30,7 +30,9 @@ const findDevicesByUsername = async (req, res) => {
   try {
     const { username } = req.body;
 
-    const response = await cameraService.findDevicesByUsername(username);
+    const regex = new RegExp(username, 'i'); // 'i' for case-insensitive search
+
+    const response = await cameraService.findDevicesByUsername(regex);
 
     if (response) {
       return res

@@ -9,6 +9,7 @@ function createUserDevice(data) {
     return null;
   }
 }
+
 function findDeviceByUserId(userId) {
   return device.find({ userId });
 }

@@ -9,7 +9,7 @@ const requestToAccessDevice = async (req, res) => {
     const { deviceId } = req.body;
     const user = await findByUsername(req.user);
 
-    const response = cameraService.accessToDevice(deviceId, user._id);
+    const response = await cameraService.accessToDevice(deviceId, user._id);
     // const response = await cameraService.requestToAccessDevice(deviceId, userId);
 
     if (response) {
@@ -51,7 +51,7 @@ const getApprovedDevice = async (req, res) => {
     // const { userId } = req.body;
     const user = await findByUsername(req.user);
 
-    const response = cameraService.getApprovedDevice(user._id);
+    const response = await cameraService.getApprovedDevice(user._id);
     // const response = await cameraService.getApprovedDevice(userId);
 
     if (!response) {
@@ -69,7 +69,7 @@ const getDeniedDevice = async (req, res) => {
     // const { userId } = req.body;
     const user = await findByUsername(req.user);
 
-    const response = cameraService.getDeniedDevice(user._id);
+    const response = await cameraService.getDeniedDevice(user._id);
     // const response = await cameraService.getDeniedDevice(userId);
 
     if (!response) {
@@ -103,7 +103,7 @@ const getPendingRequest = async (req, res) => {
     // const { userId } = req.body;
     const user = await findByUsername(req.user);
 
-    const response = cameraService.pendingRequests(user._id);
+    const response = await cameraService.pendingRequests(user._id);
     // const response = await cameraService.pendingRequests(userId);
 
     if (!response) {

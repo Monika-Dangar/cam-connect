@@ -5,11 +5,25 @@ import { Tooltip } from "@mui/material";
 import { ViewListSharp as ViewListSharpIcon } from "@mui/icons-material";
 import DeviceDetailModal from "../modal/DeviceDetailModal";
 import { useState } from "react";
+import cameraServices from "../../services/cameraServices";
 // import VideocamSharpIcon from "@mui/icons-material/VideocamSharp";
-const UserListCard = ({ type, deviceData, response }) => {
+const UserListCard = ({ type, deviceData, response, setDeviceData }) => {
   const [showModal, setshowModal] = useState(false);
   const handleModal = () => {
     setshowModal((prev) => !prev);
+  };
+  const handleApprovedRrequests = async (deviceId, requesterId) => {
+    const response = await cameraServices.acceptRequests(deviceId, requesterId);
+    console.log(response);
+    if (response) {
+      setDeviceData((deviceData) =>
+        deviceData.filter(
+          (deviceData) =>
+            deviceData.deviceId._id !== deviceId &&
+            deviceData.requesterId._id !== requesterId
+        )
+      );
+    }
   };
   return (
     <>
@@ -58,6 +72,12 @@ const UserListCard = ({ type, deviceData, response }) => {
                           variant="contained"
                           type="button"
                           size="small"
+                          onClick={() =>
+                            handleApprovedRrequests(
+                              deviceData.deviceId._id,
+                              deviceData.requesterId._id
+                            )
+                          }
                         >
                           Accept
                         </Button>
@@ -78,6 +98,7 @@ const UserListCard = ({ type, deviceData, response }) => {
                         variant="contained"
                         type="button"
                         size="small"
+                        onClick={() => handleDeniedRequests()}
                       >
                         {type === "pending" ? "Decline" : "Remove"}
                       </Button>

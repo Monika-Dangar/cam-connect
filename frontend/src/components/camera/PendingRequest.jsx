@@ -1,7 +1,13 @@
 import React from "react";
 import UserListCard from "./UserListCard";
 
-const PendingRequest = ({ handleModal, pendingDeviceData, type }) => {
+const PendingRequest = ({
+  handleModal,
+  pendingDeviceData,
+  type,
+  response,
+  setDeviceData,
+}) => {
   return (
     <>
       {/* i will map this */}
@@ -13,6 +19,8 @@ const PendingRequest = ({ handleModal, pendingDeviceData, type }) => {
               type={type}
               handleModal={handleModal}
               deviceData={pendingData}
+              response={response}
+              setDeviceData={setDeviceData}
             />
           );
         })

@@ -5,6 +5,7 @@ const ApprovedRequest = ({
   approvedDeviceData,
   type,
   response,
+  setDeviceData,
 }) => {
   return (
     <>
@@ -18,6 +19,7 @@ const ApprovedRequest = ({
               handleModal={handleModal}
               deviceData={approveData}
               response={response}
+              setDeviceData={setDeviceData}
             />
           );
         })

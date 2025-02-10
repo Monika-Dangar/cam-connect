@@ -102,6 +102,7 @@ export default function BasicCameraTab() {
             // handleModal={handleModal}
             approvedDeviceData={deviceData}
             response={deviceData}
+            setDeviceData={setDeviceData}
             type={type}
           />
         </CustomTabPanel>
@@ -109,6 +110,8 @@ export default function BasicCameraTab() {
           <PendingRequest
             // handleModal={handleModal}
             pendingDeviceData={deviceData}
+            response={deviceData}
+            setDeviceData={setDeviceData}
             type={type}
           />
         </CustomTabPanel>

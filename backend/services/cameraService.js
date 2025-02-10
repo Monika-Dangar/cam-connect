@@ -1,6 +1,6 @@
-const cameraRepo = require('../repository/cameraRepo');
-const userRepo = require('../repository/userRepo');
-const deviceRepo = require('../repository/deviceRepo');
+const cameraRepo = require("../repository/cameraRepo");
+const userRepo = require("../repository/userRepo");
+const deviceRepo = require("../repository/deviceRepo");
 
 async function requestToAccessDevice(deviceId, requesterId) {
   try {
@@ -21,7 +21,7 @@ async function requestToAccessDevice(deviceId, requesterId) {
       requesterId: requesterId,
       deviceId: response._id,
       isActive: true,
-      status: 'pending',
+      status: "pending",
     };
 
     const accessApproved = await cameraRepo.createRequestToAccessDevice(data);
@@ -34,13 +34,12 @@ async function requestToAccessDevice(deviceId, requesterId) {
 
 async function findDevicesByUsername(username) {
   const userFound = await userRepo.findByUsername(username);
-
+  console.log(userFound);
   if (!userFound) {
     return;
   }
 
   const devicesFound = await deviceRepo.findDeviceByUserId(userFound._id);
-
   if (!devicesFound) {
     return;
   }
@@ -85,7 +84,11 @@ async function pendingRequests(ownerId) {
 }
 
 async function allowAccessToDevice(ownerId, requesterId, deviceId) {
-  const response = await cameraRepo.allowAccessToDevice(ownerId, requesterId, deviceId);
+  const response = await cameraRepo.allowAccessToDevice(
+    ownerId,
+    requesterId,
+    deviceId
+  );
 
   if (!response) {
     return;
@@ -95,7 +98,11 @@ async function allowAccessToDevice(ownerId, requesterId, deviceId) {
 }
 
 async function deniedAccessToDevice(ownerId, requesterId, deviceId) {
-  const response = await cameraRepo.deniedAccessToDevice(ownerId, requesterId, deviceId);
+  const response = await cameraRepo.deniedAccessToDevice(
+    ownerId,
+    requesterId,
+    deviceId
+  );
 
   if (!response) {
     return;

@@ -1,7 +1,7 @@
-const { StatusCodes } = require('http-status-codes');
-const messages = require('../utils/constants').default;
-const cameraService = require('../services/cameraService');
-const { findByUsername } = require('../repository/userRepo');
+const { StatusCodes } = require("http-status-codes");
+const messages = require("../utils/constants").default;
+const cameraService = require("../services/cameraService");
+const { findByUsername } = require("../repository/userRepo");
 
 const requestToAccessDevice = async (req, res) => {
   try {
@@ -28,8 +28,8 @@ const requestToAccessDevice = async (req, res) => {
 
 const findDevicesByUsername = async (req, res) => {
   try {
-    const { username } = req.body;
-
+    const { username } = req.params;
+    console.log(username);
     const response = await cameraService.findDevicesByUsername(username);
 
     if (response) {
@@ -55,7 +55,9 @@ const getApprovedDevice = async (req, res) => {
     // const response = await cameraService.getApprovedDevice(userId);
 
     if (!response) {
-      return res.status(StatusCodes.NOT_FOUND).send({ message: messages.approvedRequestError });
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ message: messages.approvedRequestError });
     }
 
     return res.status(StatusCodes.OK).send(response);
@@ -73,7 +75,9 @@ const getDeniedDevice = async (req, res) => {
     // const response = await cameraService.getDeniedDevice(userId);
 
     if (!response) {
-      return res.status(StatusCodes.NOT_FOUND).send({ message: messages.deniedRequestError });
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ message: messages.deniedRequestError });
     }
 
     return res.status(StatusCodes.OK).send(response);
@@ -89,7 +93,9 @@ const removeDeniedRequest = async (req, res) => {
     const response = await cameraService.removeDeniedRequest(requestId);
 
     if (!response) {
-      return res.status(StatusCodes.NOT_FOUND).send({ message: messages.removeDeniedRequestError });
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ message: messages.removeDeniedRequestError });
     }
 
     return res.status(StatusCodes.OK).send(response);
@@ -107,7 +113,9 @@ const getPendingRequest = async (req, res) => {
     // const response = await cameraService.pendingRequests(userId);
 
     if (!response) {
-      return res.status(StatusCodes.NOT_FOUND).send({ message: messages.pendingRequestsError });
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ message: messages.pendingRequestsError });
     }
 
     return res.status(StatusCodes.OK).send(response);
@@ -122,10 +130,16 @@ const allowAccessToDevice = async (req, res) => {
 
     const user = await findByUsername(req.user);
 
-    const response = await cameraService.allowAccessToDevice(user._id, requesterId, deviceId);
+    const response = await cameraService.allowAccessToDevice(
+      user._id,
+      requesterId,
+      deviceId
+    );
 
     if (response) {
-      return res.status(StatusCodes.OK).send({ message: messages.allowedAccess, response });
+      return res
+        .status(StatusCodes.OK)
+        .send({ message: messages.allowedAccess, response });
     } else {
       return res
         .status(StatusCodes.UNPROCESSABLE_ENTITY)
@@ -142,10 +156,16 @@ const deniedAccessToDevice = async (req, res) => {
 
     const user = await findByUsername(req.user);
 
-    const response = await cameraService.deniedAccessToDevice(user._id, requesterId, deviceId);
+    const response = await cameraService.deniedAccessToDevice(
+      user._id,
+      requesterId,
+      deviceId
+    );
 
     if (response) {
-      return res.status(StatusCodes.OK).send({ message: messages.deniedAccess, response });
+      return res
+        .status(StatusCodes.OK)
+        .send({ message: messages.deniedAccess, response });
     } else {
       return res
         .status(StatusCodes.UNPROCESSABLE_ENTITY)

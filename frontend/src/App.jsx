@@ -8,6 +8,15 @@ const theme = createTheme({
       dark: "#e91e63",
     },
   },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#424242",
+        },
+      },
+    },
+  },
 });
 function App() {
   return (

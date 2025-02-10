@@ -1,6 +1,6 @@
 body {
-    background-color: black;
-  }
+  background-color: black;
+}
 
 .mainContainer {
   /* background-color: rgb(114, 108, 108); */
@@ -9,3 +9,7 @@ body {
   border: 1px solid black;
   margin: 0.5%;
 }
+/* .container {
+  color: white;
+  width: 100px;
+} */

@@ -6,7 +6,7 @@ const { findByUsername } = require("../repository/userRepo");
 const requestToAccessDevice = async (req, res) => {
   try {
     // const { deviceId, userId } = req.body;
-    const { deviceId } = req.body;
+    const { deviceId } = req.params;
     const user = await findByUsername(req.user);
 
     const response = await cameraService.accessToDevice(deviceId, user._id);

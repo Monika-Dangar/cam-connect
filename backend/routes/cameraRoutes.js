@@ -29,11 +29,11 @@ router
 router
   .route('/notificationBar')
   .get(authenticate, camera.getDeniedDevice)
-  .delete(camera.removeDeniedRequest);
+  .delete(authenticate, camera.removeDeniedRequest);
 
 router
   .route('/searchBar')
   .post(authenticate, camera.requestToAccessDevice)
-  .get(camera.findDevicesByUsername);
+  .get(authenticate, camera.findDevicesByUsername);
 
 module.exports = router;

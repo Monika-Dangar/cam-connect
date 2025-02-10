@@ -28,7 +28,7 @@ const requestToAccessDevice = async (req, res) => {
 
 const findDevicesByUsername = async (req, res) => {
   try {
-    const { username } = req.body;
+    const { username } = req.params;
 
     const regex = new RegExp(username, "i"); // 'i' for case-insensitive search
 
@@ -129,15 +129,11 @@ const getPendingRequest = async (req, res) => {
 const allowAccessToDevice = async (req, res) => {
   try {
     const { requesterId, deviceId } = req.body;
-
-    const user = await findByUsername(req.user);
-
     const response = await cameraService.allowAccessToDevice(
-      user._id,
       requesterId,
       deviceId
     );
-
+    console.log(response);
     if (response) {
       return res
         .status(StatusCodes.OK)

@@ -1,6 +1,6 @@
-const device = require('../models/cameraSchema');
-const accessRequestSchema = require('../models/accessRequestSchema');
-const User = require('../models/userSchema');
+const device = require("../models/cameraSchema");
+const accessRequestSchema = require("../models/accessRequestSchema");
+const User = require("../models/userSchema");
 
 function findByUsername(usernameRegex) {
   return User.find({ username: usernameRegex });
@@ -25,20 +25,20 @@ function getApprovedDevice(userId) {
   return accessRequestSchema
     .find({
       ownerId: userId,
-      status: 'approved',
+      status: "approved",
     })
-    .populate('deviceId')
-    .populate('requesterId');
+    .populate("deviceId")
+    .populate("requesterId");
 }
 
 function getDeniedDevice(userId) {
   return accessRequestSchema
     .find({
       ownerId: userId,
-      status: 'denied',
+      status: "denied",
     })
-    .populate('deviceId')
-    .populate('requesterId');
+    .populate("deviceId")
+    .populate("requesterId");
 }
 
 function removeDeniedRequest(requestId) {
@@ -54,28 +54,27 @@ function getPendingRequests(ownerId) {
   const resp = accessRequestSchema
     .find({
       ownerId: ownerId,
-      status: 'pending',
+      status: "pending",
     })
-    .populate('requesterId')
-    .populate('deviceId');
+    .populate("requesterId")
+    .populate("deviceId");
 
   return resp;
 }
 
-function allowAccessToDevice(ownerId, requesterId, deviceId) {
+function allowAccessToDevice(requesterId, deviceId) {
   return accessRequestSchema
     .findOneAndUpdate(
       {
-        ownerId: ownerId,
         requesterId: requesterId,
         deviceId: deviceId,
-        status: 'pending',
+        status: "pending",
       },
-      { status: 'approved' },
-      { new: true },
+      { status: "approved" },
+      { new: true }
     )
-    .populate('deviceId')
-    .populate('requesterId');
+    .populate("deviceId")
+    .populate("requesterId");
 }
 
 function deniedAccessToDevice(ownerId, requesterId, deviceId) {
@@ -85,8 +84,8 @@ function deniedAccessToDevice(ownerId, requesterId, deviceId) {
       requesterId: requesterId,
       deviceId: deviceId,
     },
-    { status: 'denied' },
-    { new: true },
+    { status: "denied" },
+    { new: true }
   );
 }
 

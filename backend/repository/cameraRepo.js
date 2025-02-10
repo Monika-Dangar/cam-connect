@@ -1,5 +1,14 @@
 const device = require('../models/cameraSchema');
 const accessRequestSchema = require('../models/accessRequestSchema');
+const User = require('../models/userSchema');
+
+function findByUsername(usernameRegex) {
+  return User.find({ username: usernameRegex });
+}
+
+function findDevicesByUserIds(userIds) {
+  return device.find({ userId: { $in: userIds } });
+}
 
 function findCameraById(deviceId) {
   return device.findById(deviceId);
@@ -82,6 +91,8 @@ function deniedAccessToDevice(ownerId, requesterId, deviceId) {
 }
 
 module.exports = {
+  findByUsername,
+  findDevicesByUserIds,
   findCameraById,
   requestExistsOrNot,
   getApprovedDevice,

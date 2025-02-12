@@ -1,6 +1,4 @@
 const cameraRepo = require('../repository/cameraRepo');
-const userRepo = require('../repository/userRepo');
-const deviceRepo = require('../repository/deviceRepo');
 
 async function requestToAccessDevice(deviceId, requesterId) {
   try {

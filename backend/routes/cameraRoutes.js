@@ -17,9 +17,8 @@ router
   .get(authenticate, camera.getDeniedDevice)
   .delete(authenticate, camera.removeDeniedRequest);
 
-router
-  .route('/searchBar/:username')
-  .post(authenticate, camera.requestToAccessDevice)
-  .get(authenticate, camera.findDevicesByUsername);
+router.route('/searchBar/:username').get(authenticate, camera.findDevicesByUsername);
+
+router.route('/searchBar').post(authenticate, camera.requestToAccessDevice);
 
 module.exports = router;

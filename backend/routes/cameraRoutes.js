@@ -18,7 +18,7 @@ router
   .delete(authenticate, camera.removeDeniedRequest);
 
 router
-  .route('/searchBar:username')
+  .route('/searchBar/:username')
   .post(authenticate, camera.requestToAccessDevice)
   .get(authenticate, camera.findDevicesByUsername);
 

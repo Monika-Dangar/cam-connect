@@ -1,11 +1,25 @@
-import React from "react";
-import NotifyCard from "./NotifyCard";
+import UserListCard from "./UserListCard";
 
-const Notifications = ({ handleModal }) => {
+const Notifications = ({ type, groupData }) => {
   return (
     <>
-      <NotifyCard handleModal={handleModal} />
-      {/* <NotifyCard /> */}
+      <>
+        {/* i will map this */}
+        {groupData.length > 0 ? (
+          groupData.map((data) => {
+            return (
+              <UserListCard
+                key={data.requester._id}
+                type={type}
+                requester={data.requester}
+                devices={data.devices}
+              />
+            );
+          })
+        ) : (
+          <p>No device data found</p>
+        )}
+      </>
     </>
   );
 };

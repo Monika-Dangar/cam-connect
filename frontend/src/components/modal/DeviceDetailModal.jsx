@@ -1,12 +1,58 @@
-import React from "react";
-import { Box, Card, CardContent, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Card, CardContent, Button, Tooltip } from "@mui/material";
 import "../../css/camera/camera.css";
-import { useEffect } from "react";
-
-const DeviceDetailModal = ({ handleModal, response, type, requesterId }) => {
-  useEffect(() => {
-    console.log("Received response in modal:", response);
-  }, [response]);
+import cameraServices from "../../services/cameraServices";
+const DeviceDetailModal = ({
+  handleModal,
+  devices,
+  type,
+  requesterId,
+  setRequesterData,
+}) => {
+  const [deviceList, setDeviceList] = useState(devices);
+  const handleApprovedRequests = async (deviceId, requesterId) => {
+    const response = await cameraServices.acceptRequests(deviceId, requesterId);
+    if (response) {
+      setDeviceList((devices) => {
+        const updatedDevices = devices.filter(
+          (device) => device._id !== deviceId
+        );
+        if (updatedDevices.length === 0) {
+          setRequesterData({});
+        }
+        return updatedDevices;
+      });
+    }
+  };
+  const handleDeniedRequests = async (deviceId, requesterId) => {
+    const response = await cameraServices.denyRequest(deviceId, requesterId);
+    if (response) {
+      setDeviceList((devices) => {
+        const updatedDevices = devices.filter(
+          (device) => device._id !== deviceId
+        );
+        if (updatedDevices.length === 0) {
+          setRequesterData({});
+        }
+        return updatedDevices;
+      });
+    }
+  };
+  const handleSeenDenied = async (deviceId, ownerId) => {
+    const response = await cameraServices.seenDenied(deviceId, ownerId);
+    console.log(response);
+    if (response) {
+      setDeviceList((devices) => {
+        const updatedDevices = devices.filter(
+          (device) => device._id !== deviceId
+        );
+        if (updatedDevices.length === 0) {
+          setRequesterData({});
+        }
+        return updatedDevices;
+      });
+    }
+  };
   return (
     <>
       <Box className="deviceListModal">
@@ -23,7 +69,9 @@ const DeviceDetailModal = ({ handleModal, response, type, requesterId }) => {
 
                   <td className="btnClose">
                     <Button
-                      onClick={() => handleModal()}
+                      onClick={() => {
+                        handleModal();
+                      }}
                       variant="contained"
                       size="small"
                     >
@@ -37,26 +85,18 @@ const DeviceDetailModal = ({ handleModal, response, type, requesterId }) => {
           <CardContent className="scrollableContent">
             <table>
               <tbody>
-                {response.length > 0 ? (
-                  response
-                    .filter((device) => device.requesterId._id === requesterId)
-                    .map((device) => {
-                      return (
-                        <tr key={device.deviceId._id}>
-                          <td className="tableContent2">
-                            {device.deviceId.imeiNumber}
-                          </td>
-                          <td className="tableContent">
-                            {device.deviceId.deviceName}
-                          </td>
-                          <td className="tableContent">
-                            {device.deviceId.deviceLocation}
-                          </td>
-                          <td className="tableContent3">
-                            {device.deviceId.deviceType}
-                          </td>
+                {deviceList.length > 0 ? (
+                  deviceList.map((device) => {
+                    return (
+                      <tr key={device._id}>
+                        <td className="tableContent2">{device.imeiNumber}</td>
+                        <td className="tableContent">{device.deviceName}</td>
+                        <td className="tableContent">
+                          {device.deviceLocation}
+                        </td>
+                        <td className="tableContent3">{device.deviceType}</td>
 
-                          <td className="tableContent">
+                        {/* <td className="tableContent">
                             {type === "search" && (
                               <Button
                                 color="primary"
@@ -72,10 +112,69 @@ const DeviceDetailModal = ({ handleModal, response, type, requesterId }) => {
                                 Send Request
                               </Button>
                             )}
+                          </td> */}
+                        {type === "pending" && (
+                          <td className="">
+                            <Tooltip title="GIVE ACCESS" arrow>
+                              <Button
+                                color="primary"
+                                variant="contained"
+                                type="button"
+                                size="small"
+                                onClick={() =>
+                                  handleApprovedRequests(
+                                    device._id,
+                                    requesterId
+                                  )
+                                }
+                              >
+                                Accept
+                              </Button>
+                            </Tooltip>
                           </td>
-                        </tr>
-                      );
-                    })
+                        )}
+                        {type != "denied" ? (
+                          <td className="tableContentCamera">
+                            <Tooltip
+                              title={
+                                type === "pending"
+                                  ? "REFUSE ACCESS"
+                                  : "STOP GIVING ACCESS"
+                              }
+                              arrow
+                            >
+                              <Button
+                                color="primary"
+                                variant="contained"
+                                type="button"
+                                size="small"
+                                onClick={() =>
+                                  handleDeniedRequests(device._id, requesterId)
+                                }
+                              >
+                                {type === "pending" ? "Decline" : "Remove"}
+                              </Button>
+                            </Tooltip>
+                          </td>
+                        ) : (
+                          <td>
+                            <Tooltip title="Click if you have read">
+                              <Button
+                                variant="outlined"
+                                color="error"
+                                size="small"
+                                onClick={() =>
+                                  handleSeenDenied(device._id, requesterId)
+                                }
+                              >
+                                Permission Denied
+                              </Button>
+                            </Tooltip>
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })
                 ) : (
                   <tr>
                     <td>No device</td>

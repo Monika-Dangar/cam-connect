@@ -7,7 +7,6 @@ import Search from "./Search";
 import ApprovedRequest from "./ApprovedRequest";
 import PendingRequest from "./PendingRequest";
 import Notifications from "./Notifications";
-// import DeviceDetailModal from "../modal/DeviceDetailModal";
 import cameraServies from "../../services/cameraServices";
 
 function CustomTabPanel(props) {
@@ -44,33 +43,69 @@ export default function BasicCameraTab() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // const [showModal, setshowModal] = React.useState(false);
-  // const handleModal = () => {
-  //   setshowModal((prev) => !prev);
-  // };
+
   const [deviceData, setDeviceData] = React.useState([]);
   const [type, setType] = React.useState();
   React.useEffect(() => {
     const fetchApprovedDevices = async () => {
       setType("approved");
       const response = await cameraServies.getApprovedDevice();
-      console.log(response);
+
       if (response) {
-        setDeviceData(response);
+        const result = Object.values(groupedData(response));
+        console.log(result);
+        setDeviceData(result);
       }
     };
-
+    const groupedData = (response) => {
+      return response.reduce((acc, curr) => {
+        const { requesterId, deviceId } = curr;
+        if (!acc[requesterId.username]) {
+          acc[requesterId.username] = {
+            requester: requesterId,
+            devices: [],
+          };
+        }
+        acc[requesterId.username].devices.push(deviceId);
+        return acc;
+      }, {});
+    };
+    const groupedDeniedData = (response) => {
+      return response.reduce((acc, curr) => {
+        const { ownerId, deviceId } = curr;
+        if (!acc[ownerId.username]) {
+          acc[ownerId.username] = {
+            requester: ownerId, //THIS REQUESTER SHOULD BE OWNER I HAVE JUST KEEP NAME SAME
+            devices: [],
+          };
+        }
+        acc[ownerId.username].devices.push(deviceId);
+        return acc;
+      }, {});
+    };
     const fetchPendingDevices = async () => {
       setType("pending");
       const response = await cameraServies.getPendingDevice();
       if (response) {
-        setDeviceData(response);
+        const result = Object.values(groupedData(response));
+        setDeviceData(result);
       }
     };
-    if (value == 0) {
+    const fetchDeniedDevices = async () => {
+      setType("denied");
+      const response = await cameraServies.getDeniedDevice();
+      console.log("denied", response);
+      if (response) {
+        const result = Object.values(groupedDeniedData(response));
+        setDeviceData(result);
+      }
+    };
+    if (value === 0) {
       fetchApprovedDevices();
-    } else if (value == 1) {
+    } else if (value === 1) {
       fetchPendingDevices();
+    } else if (value === 2) {
+      fetchDeniedDevices();
     }
   }, [value]);
   return (
@@ -98,52 +133,24 @@ export default function BasicCameraTab() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <ApprovedRequest
-            // handleModal={handleModal}
-            approvedDeviceData={deviceData}
-            response={deviceData}
-            setDeviceData={setDeviceData}
-            type={type}
-          />
+          <ApprovedRequest groupData={deviceData} type={type} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <PendingRequest
             // handleModal={handleModal}
             pendingDeviceData={deviceData}
-            response={deviceData}
+            groupData={deviceData}
             setDeviceData={setDeviceData}
             type={type}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <Notifications />
+          <Notifications groupData={deviceData} type={type} />
         </CustomTabPanel>
       </Box>
       <Box sx={{ width: "50%" }}>
         <Search />
       </Box>
-      {/* {showModal && (
-        <>
-          <Box
-            sx={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              zIndex: 9,
-              backgroundColor: "rgb(189, 189, 189, 0.1)",
-            }}
-            onClick={handleModal}
-          />
-
-          <DeviceDetailModal
-            handleModal={handleModal}
-            response={deviceData}
-            type={type}
-          />
-        </>
-      )} */}
     </Box>
   );
 }

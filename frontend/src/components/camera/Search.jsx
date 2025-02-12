@@ -3,15 +3,26 @@ import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import "../../css/camera/camera.css";
 import { TextField } from "@mui/material";
 import SearchListCard from "./SearchListCard";
-
-const Search = ({ handleModal }) => {
+import cameraServies from "../../services/cameraServices";
+const Search = () => {
   const [searchText, setSearchText] = useState("");
+  const [searchUserData, setSearchUserData] = useState({});
+
+  const handleSearch = async (e) => {
+    setSearchText(e.target.value);
+    const response = await cameraServies.searchUser(searchText);
+    console.log(response);
+    if (response) {
+      setSearchUserData(response.response);
+    }
+    console.log(searchUserData[0]);
+  };
   return (
     <div className="searchContainer">
       <TextField
         id="standard-search"
         value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+        onChange={handleSearch}
         label={
           <div
             style={{
@@ -31,9 +42,16 @@ const Search = ({ handleModal }) => {
       />
       {searchText && (
         <div>
-          {/* UserListCard will come under map */}
-          <SearchListCard handleModal={handleModal} />
-          <SearchListCard handleModal={handleModal} />
+          {/* Map as many times of data length and send user data and device data to modal */}
+          {Object.keys(searchUserData).length > 0 &&
+            searchUserData.map((searchData) => {
+              return (
+                <SearchListCard
+                  searchUserData={searchData}
+                  key={searchData.user._id}
+                />
+              );
+            })}
         </div>
       )}
     </div>

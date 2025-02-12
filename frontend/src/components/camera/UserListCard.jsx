@@ -5,110 +5,56 @@ import { Tooltip } from "@mui/material";
 import { ViewListSharp as ViewListSharpIcon } from "@mui/icons-material";
 import DeviceDetailModal from "../modal/DeviceDetailModal";
 import { useState } from "react";
-import cameraServices from "../../services/cameraServices";
 // import VideocamSharpIcon from "@mui/icons-material/VideocamSharp";
-const UserListCard = ({ type, deviceData, response, setDeviceData }) => {
+const UserListCard = ({ type, requester, devices, setDeviceData }) => {
   const [showModal, setshowModal] = useState(false);
   const handleModal = () => {
     setshowModal((prev) => !prev);
   };
-  const handleApprovedRrequests = async (deviceId, requesterId) => {
-    const response = await cameraServices.acceptRequests(deviceId, requesterId);
-    console.log(response);
-    if (response) {
-      setDeviceData((deviceData) =>
-        deviceData.filter(
-          (deviceData) =>
-            deviceData.deviceId._id !== deviceId &&
-            deviceData.requesterId._id !== requesterId
-        )
-      );
-    }
-  };
+  const [requesterData, setRequesterData] = useState(requester);
   return (
     <>
       <Box
         sx={{ width: type === "pending" ? "540px" : "450px", height: "150px" }}
         className="boxContainer"
       >
-        <Card className="card ">
-          <CardContent>
-            <table>
-              <tbody>
-                <tr className="tableRowCamera" key={deviceData.requesterId._id}>
-                  <td className="tableContentCamera">
-                    <Avatar
-                      src={img}
-                      variant="square"
-                      sx={{ width: 80, height: 80 }}
-                    ></Avatar>
-                  </td>
-                  <td className="content">
-                    {(deviceData && deviceData.requesterId.username) ||
-                      "nakshi"}
-                  </td>
-                  <td
-                    className="tableContentCamera"
-                    onClick={() => handleModal()}
-                  >
-                    <Tooltip
-                      title={
-                        type === "pending"
-                          ? "User have requested accessed for this device"
-                          : "View device details"
-                      }
-                      arrow
-                    >
-                      {/* <VideocamSharpIcon /> */}
-                      {/* <ViewHeadlineSharpIcon /> */}
-                      <ViewListSharpIcon />
-                    </Tooltip>
-                  </td>
-                  {type === "pending" && (
+        {Object.keys(requesterData).length !== 0 && (
+          <Card className="card ">
+            <CardContent>
+              <table>
+                <tbody>
+                  <tr className="tableRowCamera" key={requesterData.username}>
                     <td className="tableContentCamera">
-                      <Tooltip title="GIVE ACCESS" arrow>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          type="button"
-                          size="small"
-                          onClick={() =>
-                            handleApprovedRrequests(
-                              deviceData.deviceId._id,
-                              deviceData.requesterId._id
-                            )
-                          }
-                        >
-                          Accept
-                        </Button>
+                      <Avatar
+                        src={img}
+                        variant="square"
+                        sx={{ width: 80, height: 80 }}
+                      ></Avatar>
+                    </td>
+                    <td className="content">
+                      {requesterData.username || "nakshi"}
+                    </td>
+                    <td
+                      className="tableContentCamera"
+                      onClick={() => handleModal()}
+                    >
+                      <Tooltip
+                        title={
+                          type === "pending"
+                            ? "User have requested accessed for this device"
+                            : "View device details"
+                        }
+                        arrow
+                      >
+                        <ViewListSharpIcon />
                       </Tooltip>
                     </td>
-                  )}
-                  <td className="tableContentCamera">
-                    <Tooltip
-                      title={
-                        type === "pending"
-                          ? "REFUSE ACCESS"
-                          : "STOP GIVING ACCESS"
-                      }
-                      arrow
-                    >
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        type="button"
-                        size="small"
-                        onClick={() => handleDeniedRequests()}
-                      >
-                        {type === "pending" ? "Decline" : "Remove"}
-                      </Button>
-                    </Tooltip>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </CardContent>
-        </Card>
+                  </tr>
+                </tbody>
+              </table>
+            </CardContent>
+          </Card>
+        )}
         {showModal && (
           <>
             <Box
@@ -126,9 +72,11 @@ const UserListCard = ({ type, deviceData, response, setDeviceData }) => {
 
             <DeviceDetailModal
               handleModal={handleModal}
-              response={response}
+              devices={devices}
               type={type}
-              requesterId={deviceData.requesterId._id}
+              requesterId={requester._id}
+              setDeviceData={setDeviceData}
+              setRequesterData={setRequesterData}
             />
           </>
         )}

@@ -1,26 +1,19 @@
 import React from "react";
 import UserListCard from "./UserListCard";
 
-const PendingRequest = ({
-  handleModal,
-  pendingDeviceData,
-  type,
-  response,
-  setDeviceData,
-}) => {
+const PendingRequest = ({ handleModal, type, groupData }) => {
   return (
     <>
       {/* i will map this */}
-      {pendingDeviceData.length > 0 ? (
-        pendingDeviceData.map((pendingData) => {
+      {groupData.length > 0 ? (
+        groupData.map((data) => {
           return (
             <UserListCard
-              key={pendingData._id}
+              key={data.requester._id}
               type={type}
               handleModal={handleModal}
-              deviceData={pendingData}
-              response={response}
-              setDeviceData={setDeviceData}
+              requester={data.requester}
+              devices={data.devices}
             />
           );
         })

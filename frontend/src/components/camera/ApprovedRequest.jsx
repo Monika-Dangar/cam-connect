@@ -1,30 +1,22 @@
 import UserListCard from "./UserListCard";
 
-const ApprovedRequest = ({
-  handleModal,
-  approvedDeviceData,
-  type,
-  response,
-  setDeviceData,
-}) => {
+const ApprovedRequest = ({ type, groupData }) => {
   return (
     <>
-      {/* i will map this*/}
-      {approvedDeviceData.length > 0 ? (
-        approvedDeviceData.map((approveData) => {
+      {/* i will map this */}
+      {groupData.length > 0 ? (
+        groupData.map((data) => {
           return (
             <UserListCard
-              key={approveData._id}
+              key={data.requester._id}
               type={type}
-              handleModal={handleModal}
-              deviceData={approveData}
-              response={response}
-              setDeviceData={setDeviceData}
+              requester={data.requester}
+              devices={data.devices}
             />
           );
         })
       ) : (
-        <p>No Device data is approved</p>
+        <p>No device data found</p>
       )}
     </>
   );

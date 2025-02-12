@@ -29,7 +29,7 @@ const messages = {
   requestToAccessDeviceError: 'Request to access device failed.',
   approvedRequestError: 'No approved request found',
   removeDeniedRequestError: 'Request can not remove',
-  deniedRequestError: 'No approved request found',
+  deniedRequestError: 'No denied request found',
   pendingRequestsError: 'No pending requests found.',
   allowedAccess: 'Access granted for the device.',
   allowedAccessError: 'Failed to grant access for the device.',

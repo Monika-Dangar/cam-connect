@@ -30,24 +30,9 @@ async function requestToAccessDevice(requesterId, ownerId, deviceId) {
 }
 
 async function findDevicesByUsername(usernameRegex) {
-  // const usersFound = await cameraRepo.findByUsername(usernameRegex);
-
-  // if (!usersFound) {
-  //   return;
-  // }
-
-  // const userIds = usersFound.map((user) => user._id);
-
-  // const devicesFound = await cameraRepo.findDevicesByUserIds(userIds);
-
-  // if (!devicesFound) {
-  //   return;
-  // }
-
-  // return devicesFound;
   const usersFound = await cameraRepo.findByUsername(usernameRegex);
 
-  if (!usersFound) {
+  if (usersFound.length == 0) {
     return;
   }
 

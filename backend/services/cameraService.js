@@ -7,8 +7,9 @@ async function requestToAccessDevice(requesterId, ownerId, deviceId) {
       ownerId,
       deviceId
     );
-
-    if (response) {
+    console.log("pres", response);
+    if (response.length > 0) {
+      console.log("hello");
       return response;
     }
 
@@ -19,9 +20,9 @@ async function requestToAccessDevice(requesterId, ownerId, deviceId) {
       isActive: true,
       status: "pending",
     };
-
+    console.log(data);
     const accessApproved = await cameraRepo.createRequestToAccessDevice(data);
-
+    console.log("after", accessApproved);
     if (accessApproved) {
       return accessApproved;
     }

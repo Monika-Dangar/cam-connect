@@ -26,7 +26,6 @@ router
 
 router
   .route("/searchBar/:username")
-  .post(authenticate, camera.requestToAccessDevice)
   .get(authenticate, camera.findDevicesByUsername);
-
+router.route("/searchBar").post(authenticate, camera.requestToAccessDevice);
 module.exports = router;

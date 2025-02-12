@@ -91,11 +91,13 @@ const handleRequestOnSearch = async (deviceId, ownerId) => {
   const response = await fetch(`${URI}/camera/searchBar`, {
     method: "POST",
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ deviceId, ownerId }),
   });
   const res = await response.json();
+
   return res;
 };
 export default {
@@ -106,4 +108,5 @@ export default {
   denyRequest,
   seenDenied,
   searchUser,
+  handleRequestOnSearch,
 };

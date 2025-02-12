@@ -11,7 +11,6 @@ const Search = () => {
   const handleSearch = async (e) => {
     setSearchText(e.target.value);
     const response = await cameraServies.searchUser(searchText);
-    console.log(response);
     if (response) {
       setSearchUserData(response.response);
     }

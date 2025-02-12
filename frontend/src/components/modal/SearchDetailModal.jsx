@@ -1,9 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Card, CardContent, Button, Tooltip } from "@mui/material";
 import "../../css/camera/camera.css";
-const SearchDetailModal = ({ handleModal, devices }) => {
+import cameraServices from "../../services/cameraServices";
+const Status = ({ deviceId, ownerId }) => {
   const [buttonType, setButtonType] = useState("Request Access");
-  const handleRequest = (deviceId, ownerId) => {};
+  console.log(deviceId, ownerId);
+  // useEffect(() => {
+  //   const response = await cameraServices.handleRequestOnSearch(
+  //     deviceId,
+  //     ownerId
+  //   );
+  //   if(response.response[0].status){
+  //     setButtonType(response.response[0].status);
+
+  //   }
+  // }, []);
+
+  const handleRequest = async (deviceId, ownerId) => {
+    const response = await cameraServices.handleRequestOnSearch(
+      deviceId,
+      ownerId
+    );
+    console.log(response);
+    // console.log(response.response[0].status);
+    if (response) {
+      setButtonType(response.response[0].status);
+    }
+  };
+  return (
+    <Button
+      variant="contained"
+      sx={{
+        width: 100,
+        height: 30,
+        fontSize: 9,
+        whiteSpace: "nowrap",
+      }}
+      onClick={() => handleRequest(deviceId, ownerId)}
+    >
+      {buttonType}
+    </Button>
+  );
+};
+const SearchDetailModal = ({ handleModal, devices }) => {
   return (
     <>
       <Box className="deviceListModal">
@@ -48,18 +87,10 @@ const SearchDetailModal = ({ handleModal, devices }) => {
                           {device.deviceType}
                         </td>
                         <td>
-                          <Button
-                            variant="contained"
-                            sx={{
-                              width: 100,
-                              height: 30,
-                              fontSize: 9,
-                              whiteSpace: "nowrap",
-                            }}
-                            onClick={handleRequest(device._id, device.userId)}
-                          >
-                            {buttonType}
-                          </Button>
+                          <Status
+                            deviceId={device._id}
+                            ownerId={device.userId}
+                          />
                         </td>
                       </tr>
                     );

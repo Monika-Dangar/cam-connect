@@ -8,8 +8,12 @@ const requestToAccessDevice = async (req, res) => {
     const { deviceId, ownerId } = req.body;
     const user = await findByUsername(req.user);
 
-    const response = await cameraService.accessToDevice(user._id, ownerId, deviceId);
-
+    const response = await cameraService.requestToAccessDevice(
+      user._id,
+      ownerId,
+      deviceId
+    );
+    console.log("controller response", response);
     if (response) {
       return res
         .status(StatusCodes.OK)
@@ -35,7 +39,7 @@ const findDevicesByUsername = async (req, res) => {
     if (response) {
       return res
         .status(StatusCodes.OK)
-        .send({ message: messages.requestSentToAccessDevice, response, userId: req.user._id });
+        .send({ message: messages.requestSentToAccessDevice, response });
     } else {
       return res
         .status(StatusCodes.NOT_FOUND)
@@ -73,7 +77,7 @@ const getDeniedDevice = async (req, res) => {
 
     const response = await cameraService.getDeniedDevice(user._id);
     // const response = await cameraService.getDeniedDevice(userId);
-
+    console.log(response);
     if (!response) {
       return res
         .status(StatusCodes.NOT_FOUND)
@@ -88,9 +92,12 @@ const getDeniedDevice = async (req, res) => {
 
 const removeDeniedRequest = async (req, res) => {
   try {
-    const { requestId } = req.body;
+    const { requestId, deviceId } = req.body;
 
-    const response = await cameraService.removeDeniedRequest(requestId);
+    const response = await cameraService.removeDeniedRequest(
+      requestId,
+      deviceId
+    );
 
     if (!response) {
       return res
@@ -131,7 +138,6 @@ const allowAccessToDevice = async (req, res) => {
       requesterId,
       deviceId
     );
-    console.log(response);
     if (response) {
       return res
         .status(StatusCodes.OK)

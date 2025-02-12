@@ -53,7 +53,6 @@ export default function BasicCameraTab() {
 
       if (response) {
         const result = Object.values(groupedData(response));
-        console.log(result);
         setDeviceData(result);
       }
     };
@@ -94,7 +93,6 @@ export default function BasicCameraTab() {
     const fetchDeniedDevices = async () => {
       setType("denied");
       const response = await cameraServies.getDeniedDevice();
-      console.log("denied", response);
       if (response) {
         const result = Object.values(groupedDeniedData(response));
         setDeviceData(result);

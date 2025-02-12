@@ -18,6 +18,13 @@ function findDevicesByUserIds(userIds) {
   return device.find({ userId: { $in: userIds } });
 }
 
+function findRequestStatus(requesterId, deviceId) {
+  return accessRequestSchema.find({
+    requesterId: requesterId,
+    deviceId: deviceId,
+  });
+}
+
 function requestExistsOrNot(requesterId, deviceId) {
   return accessRequestSchema.find({
     requesterId: requesterId,
@@ -98,6 +105,7 @@ module.exports = {
   findIsRequestExist,
   findByUsername,
   findDevicesByUserIds,
+  findRequestStatus,
   requestExistsOrNot,
   getApprovedDevice,
   getDeniedDevice,

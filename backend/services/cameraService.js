@@ -50,6 +50,16 @@ async function findDevicesByUsername(usernameRegex) {
   return userData;
 }
 
+async function findRequestStatus(requesterId, deviceId) {
+  const response = await cameraRepo.findRequestStatus(requesterId, deviceId);
+
+  if (response.length == 0) {
+    return;
+  }
+
+  return response;
+}
+
 async function getApprovedDevice(userId) {
   const response = await cameraRepo.getApprovedDevice(userId);
   if (!response) {
@@ -117,6 +127,7 @@ async function deniedAccessToDevice(ownerId, requesterId, deviceId) {
 module.exports = {
   requestToAccessDevice,
   findDevicesByUsername,
+  findRequestStatus,
   getApprovedDevice,
   getDeniedDevice,
   removeDeniedRequest,

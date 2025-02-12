@@ -35,7 +35,7 @@ const findDevicesByUsername = async (req, res) => {
     if (response) {
       return res
         .status(StatusCodes.OK)
-        .send({ message: messages.requestSentToAccessDevice, response });
+        .send({ message: messages.requestSentToAccessDevice, response, userId: req.user._id });
     } else {
       return res
         .status(StatusCodes.NOT_FOUND)

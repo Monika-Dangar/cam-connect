@@ -27,7 +27,7 @@ const requestToAccessDevice = async (req, res) => {
 const findDevicesByUsername = async (req, res) => {
   try {
     const { username } = req.params;
-  
+
     const user = await findByUsername(req.user);
 
     const regex = new RegExp(username, 'i'); // 'i' for case-insensitive search
@@ -48,13 +48,30 @@ const findDevicesByUsername = async (req, res) => {
   }
 };
 
+const findRequestStatus = async (req, res) => {
+  try {
+    console.log('callled');
+
+    const { requesterId, deviceId } = req.body;
+    console.log(`requesterId - deviceId: ${requesterId} - ${deviceId}`);
+
+    const response = await cameraService.findRequestStatus(requesterId, deviceId);
+
+    if (response) {
+      return res.status(StatusCodes.OK).send({ message: messages.requestStatus, response });
+    } else {
+      return res.status(StatusCodes.NOT_FOUND).send({ message: messages.requestStatusError });
+    }
+  } catch (error) {
+    console.error(messages.serverError, error);
+  }
+};
+
 const getApprovedDevice = async (req, res) => {
   try {
-    // const { userId } = req.body;
     const user = await findByUsername(req.user);
 
     const response = await cameraService.getApprovedDevice(user._id);
-    // const response = await cameraService.getApprovedDevice(userId);
 
     if (!response) {
       return res.status(StatusCodes.NOT_FOUND).send({ message: messages.approvedRequestError });
@@ -68,11 +85,9 @@ const getApprovedDevice = async (req, res) => {
 
 const getDeniedDevice = async (req, res) => {
   try {
-    // const { userId } = req.body;
     const user = await findByUsername(req.user);
 
     const response = await cameraService.getDeniedDevice(user._id);
-    // const response = await cameraService.getDeniedDevice(userId);
 
     if (!response) {
       return res.status(StatusCodes.NOT_FOUND).send({ message: messages.deniedRequestError });
@@ -102,11 +117,9 @@ const removeDeniedRequest = async (req, res) => {
 
 const getPendingRequest = async (req, res) => {
   try {
-    // const { userId } = req.body;
     const user = await findByUsername(req.user);
 
     const response = await cameraService.pendingRequests(user._id);
-    // const response = await cameraService.pendingRequests(userId);
 
     if (!response) {
       return res.status(StatusCodes.NOT_FOUND).send({ message: messages.pendingRequestsError });
@@ -161,6 +174,7 @@ const deniedAccessToDevice = async (req, res) => {
 module.exports = {
   requestToAccessDevice,
   findDevicesByUsername,
+  findRequestStatus,
   getApprovedDevice,
   getDeniedDevice,
   removeDeniedRequest,

@@ -1,23 +1,17 @@
 const cameraRepo = require('../repository/cameraRepo');
 
-async function requestToAccessDevice(deviceId, requesterId) {
+async function requestToAccessDevice(requesterId, ownerId, deviceId) {
   try {
-    const response = await cameraRepo.findCameraById(deviceId);
+    const response = await cameraRepo.findIsRequestExist(requesterId, ownerId, deviceId);
 
-    if (!response.userId) {
-      return;
-    }
-
-    const resp = await cameraRepo.requestExistsOrNot(requesterId, response._id);
-
-    if (resp) {
-      return resp;
+    if (response) {
+      return response;
     }
 
     const data = {
-      ownerId: response.userId,
+      ownerId: ownerId,
       requesterId: requesterId,
-      deviceId: response._id,
+      deviceId: deviceId,
       isActive: true,
       status: 'pending',
     };
@@ -31,21 +25,52 @@ async function requestToAccessDevice(deviceId, requesterId) {
 }
 
 async function findDevicesByUsername(usernameRegex) {
+  // const usersFound = await cameraRepo.findByUsername(usernameRegex);
+
+  // if (!usersFound) {
+  //   return;
+  // }
+
+  // const userIds = usersFound.map((user) => user._id);
+
+  // const devicesFound = await cameraRepo.findDevicesByUserIds(userIds);
+
+  // if (!devicesFound) {
+  //   return;
+  // }
+
+  // return devicesFound;
   const usersFound = await cameraRepo.findByUsername(usernameRegex);
 
   if (!usersFound) {
     return;
   }
 
-  const userIds = usersFound.map((user) => user._id);
+  let userData = {};
 
-  const devicesFound = await cameraRepo.findDevicesByUserIds(userIds);
+  for (const curr of usersFound) {
+    userData[curr.username] = {
+      user: curr,
+      devices: [],
+    };
 
-  if (!devicesFound) {
-    return;
+    const deviceFound = await cameraRepo.findDevicesByUserIds(curr._id);
+    if (deviceFound) {
+      userData[curr.username].devices.push(deviceFound);
+    }
   }
 
-  return devicesFound;
+  userData = Object.values(userData);
+
+  return userData;
+}
+
+async function getApprovedDevice(userId) {
+  const response = await cameraRepo.getApprovedDevice(userId);
+  if (!response) {
+    return;
+  }
+  return response;
 }
 
 async function getApprovedDevice(userId) {

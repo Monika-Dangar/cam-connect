@@ -8,7 +8,7 @@ const requestToAccessDevice = async (req, res) => {
     const { deviceId, ownerId } = req.body;
     const user = await findByUsername(req.user);
 
-    const response = await cameraService.accessToDevice(user._id, ownerId, deviceId);
+    const response = await cameraService.requestToAccessDevice(user._id, ownerId, deviceId);
 
     if (response) {
       return res
@@ -27,6 +27,8 @@ const requestToAccessDevice = async (req, res) => {
 const findDevicesByUsername = async (req, res) => {
   try {
     const { username } = req.params;
+  
+    const user = await findByUsername(req.user);
 
     const regex = new RegExp(username, "i"); // 'i' for case-insensitive search
 
@@ -35,7 +37,7 @@ const findDevicesByUsername = async (req, res) => {
     if (response) {
       return res
         .status(StatusCodes.OK)
-        .send({ message: messages.requestSentToAccessDevice, response, userId: req.user._id });
+        .send({ message: messages.requestSentToAccessDevice, response, userId: user._id });
     } else {
       return res
         .status(StatusCodes.NOT_FOUND)

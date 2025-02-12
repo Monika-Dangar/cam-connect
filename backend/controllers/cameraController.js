@@ -5,12 +5,10 @@ const { findByUsername } = require("../repository/userRepo");
 
 const requestToAccessDevice = async (req, res) => {
   try {
-    // const { deviceId, userId } = req.body;
-    const { deviceId } = req.params;
+    const { deviceId, ownerId } = req.body;
     const user = await findByUsername(req.user);
 
-    const response = await cameraService.accessToDevice(deviceId, user._id);
-    // const response = await cameraService.requestToAccessDevice(deviceId, userId);
+    const response = await cameraService.accessToDevice(user._id, ownerId, deviceId);
 
     if (response) {
       return res
@@ -37,7 +35,7 @@ const findDevicesByUsername = async (req, res) => {
     if (response) {
       return res
         .status(StatusCodes.OK)
-        .send({ message: messages.requestSentToAccessDevice, response });
+        .send({ message: messages.requestSentToAccessDevice, response, userId: req.user._id });
     } else {
       return res
         .status(StatusCodes.NOT_FOUND)

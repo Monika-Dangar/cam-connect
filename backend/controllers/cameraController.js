@@ -37,7 +37,12 @@ const findDevicesByUsername = async (req, res) => {
     if (response) {
       return res
         .status(StatusCodes.OK)
-        .send({ message: messages.requestSentToAccessDevice, response, userId: user._id });
+
+        .send({
+          message: messages.requestSentToAccessDevice,
+          response,
+          userId: user._id,
+        });
     } else {
       return res
         .status(StatusCodes.NOT_FOUND)
@@ -50,12 +55,11 @@ const findDevicesByUsername = async (req, res) => {
 
 const findRequestStatus = async (req, res) => {
   try {
-    console.log('callled');
+    const { deviceId } = req.body;
 
-    const { requesterId, deviceId } = req.body;
-    console.log(`requesterId - deviceId: ${requesterId} - ${deviceId}`);
+    const user = await findByUsername(req.user);
 
-    const response = await cameraService.findRequestStatus(requesterId, deviceId);
+    const response = await cameraService.findRequestStatus(user._id, deviceId);
 
     if (response) {
       return res.status(StatusCodes.OK).send({ message: messages.requestStatus, response });
@@ -72,8 +76,7 @@ const getApprovedDevice = async (req, res) => {
     const user = await findByUsername(req.user);
 
     const response = await cameraService.getApprovedDevice(user._id);
-
-    if (!response) {
+    if (response.length === 0) {
       return res.status(StatusCodes.NOT_FOUND).send({ message: messages.approvedRequestError });
     }
 
@@ -101,9 +104,9 @@ const getDeniedDevice = async (req, res) => {
 
 const removeDeniedRequest = async (req, res) => {
   try {
-    const { requestId } = req.body;
-
-    const response = await cameraService.removeDeniedRequest(requestId);
+    const { deviceId } = req.body;
+    const user = await findByUsername(req.user);
+    const response = await cameraService.removeDeniedRequest(user._id, deviceId);
 
     if (!response) {
       return res.status(StatusCodes.NOT_FOUND).send({ message: messages.removeDeniedRequestError });
@@ -118,10 +121,9 @@ const removeDeniedRequest = async (req, res) => {
 const getPendingRequest = async (req, res) => {
   try {
     const user = await findByUsername(req.user);
-
     const response = await cameraService.pendingRequests(user._id);
-
-    if (!response) {
+    console.log(response);
+    if (response.length === 0) {
       return res.status(StatusCodes.NOT_FOUND).send({ message: messages.pendingRequestsError });
     }
 
@@ -134,11 +136,7 @@ const getPendingRequest = async (req, res) => {
 const allowAccessToDevice = async (req, res) => {
   try {
     const { requesterId, deviceId } = req.body;
-
-    const user = await findByUsername(req.user);
-
-    const response = await cameraService.allowAccessToDevice(user._id, requesterId, deviceId);
-
+    const response = await cameraService.allowAccessToDevice(requesterId, deviceId);
     if (response) {
       return res.status(StatusCodes.OK).send({ message: messages.allowedAccess, response });
     } else {

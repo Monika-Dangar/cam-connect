@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Card, CardContent, Button, Tooltip } from "@mui/material";
 import "../../css/camera/camera.css";
-import { CloseSharp as CloseSharpIcon } from "@mui/icons-material";
 import cameraServices from "../../services/cameraServices";
 const DeviceDetailModal = ({
   handleModal,
@@ -41,7 +40,6 @@ const DeviceDetailModal = ({
   };
   const handleSeenDenied = async (deviceId) => {
     const response = await cameraServices.seenDenied(deviceId);
-    console.log(response);
     if (response) {
       setDeviceList((devices) => {
         const updatedDevices = devices.filter(
@@ -96,24 +94,6 @@ const DeviceDetailModal = ({
                           {device.deviceLocation}
                         </td>
                         <td className="tableContent">{device.deviceType}</td>
-
-                        {/* <td className="tableContent">
-                            {type === "search" && (
-                              <Button
-                                color="primary"
-                                size="small"
-                                variant="contained"
-                                sx={{
-                                  width: "100px",
-                                  height: "30px",
-                                  fontSize: 10,
-                                  whiteSpace: "nowrap",
-                                }}
-                              >
-                                Send Request
-                              </Button>
-                            )}
-                          </td> */}
                         {type === "pending" && (
                           <td>
                             <Tooltip title="GIVE ACCESS" arrow>
@@ -180,8 +160,6 @@ const DeviceDetailModal = ({
                     <td>No device</td>
                   </tr>
                 )}
-
-                {/* ------------------- */}
               </tbody>
             </table>
           </CardContent>

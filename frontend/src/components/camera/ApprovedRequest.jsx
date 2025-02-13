@@ -3,7 +3,6 @@ import UserListCard from "./UserListCard";
 const ApprovedRequest = ({ type, groupData, setDeviceApprovedData }) => {
   return (
     <>
-      {/* i will map this */}
       {groupData.length > 0 ? (
         groupData.map((data) => {
           return (

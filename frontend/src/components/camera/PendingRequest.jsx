@@ -9,7 +9,6 @@ const PendingRequest = ({
 }) => {
   return (
     <>
-      {/* i will map this */}
       {groupData.length > 0 ? (
         groupData.map((data) => {
           return (

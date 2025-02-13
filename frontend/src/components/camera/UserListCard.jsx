@@ -1,11 +1,9 @@
 import { Card, CardContent, Button, Box, Avatar } from "@mui/material";
 import img from "../../assets/profile.jpg";
 import { Tooltip } from "@mui/material";
-// import { ViewHeadlineSharp as ViewHeadlineSharpIcon } from "@mui/icons-material";
 import { ViewListSharp as ViewListSharpIcon } from "@mui/icons-material";
 import DeviceDetailModal from "../modal/DeviceDetailModal";
 import { useState } from "react";
-// import VideocamSharpIcon from "@mui/icons-material/VideocamSharp";
 const UserListCard = ({ type, requester, devices, setDeviceData }) => {
   const [showModal, setshowModal] = useState(false);
   const handleModal = () => {

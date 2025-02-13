@@ -45,7 +45,6 @@ const Search = () => {
       />
       {searchText && (
         <div>
-          {/* Map as many times of data length and send user data and device data to modal */}
           {Object.keys(searchUserData).length > 0 &&
             searchUserData.map((searchData) => {
               return (

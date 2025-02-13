@@ -4,7 +4,6 @@ const Notifications = ({ type, groupData, setDeviceDeniedData }) => {
   return (
     <>
       <>
-        {/* i will map this */}
         {groupData.length > 0 ? (
           groupData.map((data) => {
             return (

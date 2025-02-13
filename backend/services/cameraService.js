@@ -2,7 +2,11 @@ const cameraRepo = require("../repository/cameraRepo");
 
 async function requestToAccessDevice(requesterId, ownerId, deviceId) {
   try {
-    const response = await cameraRepo.findIsRequestExist(requesterId, ownerId, deviceId);
+    const response = await cameraRepo.findIsRequestExist(
+      requesterId,
+      ownerId,
+      deviceId
+    );
     if (response.length > 0) {
       return response;
     }
@@ -111,21 +115,19 @@ async function deniedAccessToDevice(ownerId, requesterId, deviceId) {
     requesterId,
     deviceId
   );
-
+  console.log(response);
   if (!response) {
     return;
   }
 
   return response;
 }
-
 async function findRequestStatus(requesterId, deviceId) {
   const response = await cameraRepo.findRequestStatus(requesterId, deviceId);
   console.log(response);
 
   return response;
 }
-
 module.exports = {
   requestToAccessDevice,
   findDevicesByUsername,

@@ -37,11 +37,6 @@ const messages = {
   allowedAccessError: 'Failed to grant access for the device.',
   deniedAccess: 'Access to the device has been successfully denied.',
   deniedAccessError: 'Failed to deny access to the device.',
-  enumStatus: {
-    pendingStatus: 'pending',
-    approvedStatus: 'approved',
-    deniedStatus: 'denied',
-  },
 };
 
 export default messages;

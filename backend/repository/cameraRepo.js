@@ -1,14 +1,19 @@
 const device = require('../models/cameraSchema');
 const accessRequestSchema = require('../models/accessRequestSchema');
 const User = require('../models/userSchema');
-const messages = require('../utils/constants').default;
+const enumStatus = require('../utils/enumStatus').default;
 
 function findIsRequestExist(requesterId, ownerId, deviceId) {
-  return accessRequestSchema.find({
-    ownerId: ownerId,
-    requesterId: requesterId,
-    deviceId: deviceId,
-  });
+  return accessRequestSchema.findOneAndUpdate(
+    {
+      ownerId: ownerId,
+      requesterId: requesterId,
+      deviceId: deviceId,
+      status: enumStatus.deniedStatus,
+    },
+    { status: enumStatus.pendingStatus },
+    { new: true },
+  );
 }
 
 function findByUsername(usernameRegex) {
@@ -30,7 +35,7 @@ function getApprovedDevice(userId) {
   return accessRequestSchema
     .find({
       ownerId: userId,
-      status: messages.enumStatus.approvedStatus,
+      status: enumStatus.approvedStatus,
     })
     .populate('deviceId')
     .populate('requesterId');
@@ -40,7 +45,7 @@ function getDeniedDevice(userId) {
   return accessRequestSchema
     .find({
       requesterId: userId,
-      status: messages.enumStatus.deniedStatus,
+      status: enumStatus.deniedStatus,
     })
     .populate('deviceId')
     .populate('ownerId');
@@ -59,7 +64,7 @@ function getPendingRequests(ownerId) {
   const resp = accessRequestSchema
     .find({
       ownerId: ownerId,
-      status: messages.enumStatus.pendingStatus,
+      status: enumStatus.pendingStatus,
     })
     .populate('requesterId')
     .populate('deviceId');
@@ -73,9 +78,9 @@ function allowAccessToDevice(requesterId, deviceId) {
       {
         requesterId: requesterId,
         deviceId: deviceId,
-        status: messages.enumStatus.pendingStatus,
+        status: enumStatus.pendingStatus,
       },
-      { status: messages.enumStatus.approvedStatus },
+      { status: enumStatus.approvedStatus },
       { new: true },
     )
     .populate('deviceId')
@@ -89,7 +94,7 @@ function deniedAccessToDevice(ownerId, requesterId, deviceId) {
       requesterId: requesterId,
       deviceId: deviceId,
     },
-    { status: messages.enumStatus.deniedStatus },
+    { status: enumStatus.deniedStatus },
     { new: true },
   );
 }

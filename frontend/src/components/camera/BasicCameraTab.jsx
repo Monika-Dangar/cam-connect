@@ -84,7 +84,7 @@ export default function BasicCameraTab() {
         const { ownerId, deviceId } = curr;
         if (!acc[ownerId.username]) {
           acc[ownerId.username] = {
-            requester: ownerId, //THIS REQUESTER SHOULD BE OWNER I HAVE JUST KEEP NAME SAME
+            requester: ownerId,
             devices: [],
           };
         }
@@ -134,11 +134,11 @@ export default function BasicCameraTab() {
             aria-label="basic tabs example"
             sx={{
               "& .MuiTab-root": {
-                color: "gray", // Inactive tab color
-                fontWeight: "normal", // Normal font weight for inactive tabs
+                color: "gray",
+                fontWeight: "normal",
                 "&.Mui-selected": {
-                  color: "white", // Selected tab color
-                  fontWeight: "bold", // Bold text for the active tab
+                  color: "white",
+                  fontWeight: "bold",
                 },
               },
             }}
@@ -177,7 +177,7 @@ export default function BasicCameraTab() {
       <TransitionsSnackbar
         open={openToast}
         message={toastMessage}
-        onClose={() => setOpenToast(false)} // Close the toast after it's shown
+        onClose={() => setOpenToast(false)}
         autoHideDuration={5000}
       />
     </Box>

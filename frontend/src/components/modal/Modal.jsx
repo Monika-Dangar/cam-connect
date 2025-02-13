@@ -1,8 +1,8 @@
-import '../../css/modal/modal.css';
-import React, { useState } from 'react';
-import { Modal, Box, Button, TextField } from '@mui/material';
-import { createDevice, editDevice } from '../../services/deviceServices';
-import TransitionsSnackbar from '../toaster/TransitionsSnackbar';
+import "../../css/modal/modal.css";
+import React, { useState } from "react";
+import { Modal, Box, Button, TextField } from "@mui/material";
+import { createDevice, editDevice } from "../../services/deviceServices";
+import TransitionsSnackbar from "../toaster/TransitionsSnackbar";
 
 const BasicModalDialog = ({ device, setDevices, devices, open, onClose }) => {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ const BasicModalDialog = ({ device, setDevices, devices, open, onClose }) => {
     deviceType: device.deviceType,
   });
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,12 +19,11 @@ const BasicModalDialog = ({ device, setDevices, devices, open, onClose }) => {
     if (device) {
       try {
         const response = await editDevice(device._id, formData);
-        console.log(response);
         if (response) {
           setToastMessage(response);
           setOpenToast(true);
-          const updatedDevices = devices.map(
-            (d) => (d._id === device._id ? { ...d, ...formData } : d), // Replace the edited device
+          const updatedDevices = devices.map((d) =>
+            d._id === device._id ? { ...d, ...formData } : d
           );
           setDevices(updatedDevices);
         }
@@ -64,7 +63,7 @@ const BasicModalDialog = ({ device, setDevices, devices, open, onClose }) => {
       <Modal open={open} onClose={onClose}>
         <Box id="deviceBox">
           <form onSubmit={handleSubmit}>
-            <h4 className="text">{device ? 'Edit device' : 'Create device'}</h4>
+            <h4 className="text">{device ? "Edit device" : "Create device"}</h4>
             <TextField
               type="text"
               name="deviceName"

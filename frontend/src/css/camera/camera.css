@@ -1,12 +1,9 @@
-/* -------------------BasicCameraTa-------------- */
 .boxStyling {
   display: flex;
   flex-direction: row;
   width: 91%;
 }
-/* ---------------------------------------- */
 .text {
-  /* margin-left: 100px; */
   caret-color: beige;
   color: beige;
 
@@ -61,11 +58,11 @@
 
 .text input:-webkit-autofill {
   background-color: transparent !important;
-  box-shadow: 0 0 0px 1000px rgb(23, 23, 24) inset !important; /* Override autofill background */
+  box-shadow: 0 0 0px 1000px rgb(23, 23, 24) inset !important;
   -webkit-text-fill-color: white !important;
 }
 .toolTip .MuiTooltip-tooltip {
-  background-color: black !important; /* Force override */
+  background-color: black !important;
   color: white !important;
 }
 
@@ -79,7 +76,6 @@
 .tableRowCamera {
   color: white;
 }
-/* ------------UserListCard -------------------*/
 .userListCard {
   height: 40;
   border-bottom: 2px solid grey;
@@ -88,13 +84,11 @@
   padding: 1px 20px 0px 5px;
   font-size: medium;
 }
-/* Device Details Modal */
 .deviceDetailContainer {
   height: 50;
   width: 50;
   background-color: white;
 }
-/* Device List Modal */
 .deviceListModal {
   color: white;
   width: 100%;
@@ -176,6 +170,5 @@
   padding-left: 100px;
   margin-left: 80px;
   padding-bottom: 40px;
-  /* border: 2px solid black; */
   color: white;
 }

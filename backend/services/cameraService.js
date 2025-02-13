@@ -1,4 +1,5 @@
 const cameraRepo = require('../repository/cameraRepo');
+const enumStatus = require('../utils/enumStatus').default;
 
 async function requestToAccessDevice(requesterId, ownerId, deviceId) {
   try {
@@ -12,7 +13,7 @@ async function requestToAccessDevice(requesterId, ownerId, deviceId) {
       requesterId: requesterId,
       deviceId: deviceId,
       isActive: true,
-      status: 'pending',
+      status: enumStatus.pendingStatus,
     };
     const accessApproved = await cameraRepo.createRequestToAccessDevice(data);
     if (accessApproved) {

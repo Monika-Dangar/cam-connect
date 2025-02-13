@@ -64,8 +64,7 @@ const getApprovedDevice = async (req, res) => {
 
     const response = await cameraService.getApprovedDevice(user._id);
     // const response = await cameraService.getApprovedDevice(userId);
-
-    if (!response) {
+    if (response.length === 0) {
       return res
         .status(StatusCodes.NOT_FOUND)
         .send({ message: messages.approvedRequestError });
@@ -84,7 +83,7 @@ const getDeniedDevice = async (req, res) => {
 
     const response = await cameraService.getDeniedDevice(user._id);
     // const response = await cameraService.getDeniedDevice(userId);
-    console.log(response);
+
     if (!response) {
       return res
         .status(StatusCodes.NOT_FOUND)
@@ -99,10 +98,10 @@ const getDeniedDevice = async (req, res) => {
 
 const removeDeniedRequest = async (req, res) => {
   try {
-    const { requestId, deviceId } = req.body;
-
+    const { deviceId } = req.body;
+    const user = await findByUsername(req.user);
     const response = await cameraService.removeDeniedRequest(
-      requestId,
+      user._id,
       deviceId
     );
 
@@ -122,11 +121,11 @@ const getPendingRequest = async (req, res) => {
   try {
     // const { userId } = req.body;
     const user = await findByUsername(req.user);
-
+    console.log(req.user);
     const response = await cameraService.pendingRequests(user._id);
     // const response = await cameraService.pendingRequests(userId);
-
-    if (!response) {
+    console.log(response);
+    if (response.length === 0) {
       return res
         .status(StatusCodes.NOT_FOUND)
         .send({ message: messages.pendingRequestsError });
@@ -184,10 +183,29 @@ const deniedAccessToDevice = async (req, res) => {
     console.error(messages.serverError, error);
   }
 };
-
+const findRequestStatus = async (req, res) => {
+  try {
+    const { deviceId } = req.body;
+    console.log(deviceId);
+    const user = await findByUsername(req.user);
+    const response = await cameraService.findRequestStatus(user._id, deviceId);
+    if (response) {
+      return res
+        .status(StatusCodes.OK)
+        .send({ message: messages.requestStatus, response });
+    } else {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .send({ message: messages.requestStatusError });
+    }
+  } catch (error) {
+    console.error(messages.serverError, error);
+  }
+};
 module.exports = {
   requestToAccessDevice,
   findDevicesByUsername,
+  findRequestStatus,
   getApprovedDevice,
   getDeniedDevice,
   removeDeniedRequest,

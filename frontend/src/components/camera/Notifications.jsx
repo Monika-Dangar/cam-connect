@@ -1,6 +1,6 @@
 import UserListCard from "./UserListCard";
 
-const Notifications = ({ type, groupData }) => {
+const Notifications = ({ type, groupData, setDeviceDeniedData }) => {
   return (
     <>
       <>
@@ -13,6 +13,7 @@ const Notifications = ({ type, groupData }) => {
                 type={type}
                 requester={data.requester}
                 devices={data.devices}
+                setDeviceData={setDeviceDeniedData}
               />
             );
           })

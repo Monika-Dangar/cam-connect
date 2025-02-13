@@ -7,14 +7,18 @@ import cameraServies from "../../services/cameraServices";
 const Search = () => {
   const [searchText, setSearchText] = useState("");
   const [searchUserData, setSearchUserData] = useState({});
-
+  const [userId, setuserId] = useState({});
   const handleSearch = async (e) => {
     setSearchText(e.target.value);
+
     const response = await cameraServies.searchUser(searchText);
     if (response) {
-      setSearchUserData(response.response);
+      response.response && setSearchUserData(response.response);
+
+      if (userId) {
+        setuserId(response.userId);
+      }
     }
-    console.log(searchUserData[0]);
   };
   return (
     <div className="searchContainer">
@@ -47,6 +51,7 @@ const Search = () => {
               return (
                 <SearchListCard
                   searchUserData={searchData}
+                  userId={userId}
                   key={searchData.user._id}
                 />
               );

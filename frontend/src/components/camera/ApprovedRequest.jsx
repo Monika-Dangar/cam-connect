@@ -1,6 +1,6 @@
 import UserListCard from "./UserListCard";
 
-const ApprovedRequest = ({ type, groupData }) => {
+const ApprovedRequest = ({ type, groupData, setDeviceApprovedData }) => {
   return (
     <>
       {/* i will map this */}
@@ -12,6 +12,7 @@ const ApprovedRequest = ({ type, groupData }) => {
               type={type}
               requester={data.requester}
               devices={data.devices}
+              setDeviceData={setDeviceApprovedData}
             />
           );
         })

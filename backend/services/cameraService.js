@@ -2,14 +2,8 @@ const cameraRepo = require("../repository/cameraRepo");
 
 async function requestToAccessDevice(requesterId, ownerId, deviceId) {
   try {
-    const response = await cameraRepo.findIsRequestExist(
-      requesterId,
-      ownerId,
-      deviceId
-    );
-    console.log("pres", response);
+    const response = await cameraRepo.findIsRequestExist(requesterId, ownerId, deviceId);
     if (response.length > 0) {
-      console.log("hello");
       return response;
     }
 
@@ -20,9 +14,7 @@ async function requestToAccessDevice(requesterId, ownerId, deviceId) {
       isActive: true,
       status: "pending",
     };
-    console.log(data);
     const accessApproved = await cameraRepo.createRequestToAccessDevice(data);
-    console.log("after", accessApproved);
     if (accessApproved) {
       return accessApproved;
     }
@@ -30,24 +22,9 @@ async function requestToAccessDevice(requesterId, ownerId, deviceId) {
 }
 
 async function findDevicesByUsername(usernameRegex) {
-  // const usersFound = await cameraRepo.findByUsername(usernameRegex);
-
-  // if (!usersFound) {
-  //   return;
-  // }
-
-  // const userIds = usersFound.map((user) => user._id);
-
-  // const devicesFound = await cameraRepo.findDevicesByUserIds(userIds);
-
-  // if (!devicesFound) {
-  //   return;
-  // }
-
-  // return devicesFound;
   const usersFound = await cameraRepo.findByUsername(usernameRegex);
 
-  if (!usersFound) {
+  if (usersFound.length == 0) {
     return;
   }
 
@@ -87,7 +64,7 @@ async function getApprovedDevice(userId) {
 }
 
 async function getDeniedDevice(userId) {
-  const response = await cameraRepo.removeDeniedRequest(userId);
+  const response = await cameraRepo.getDeniedDevice(userId);
   if (!response) {
     return;
   }
@@ -95,8 +72,8 @@ async function getDeniedDevice(userId) {
   return response;
 }
 
-async function removeDeniedRequest(requestId) {
-  const response = await cameraRepo.removeDeniedRequest(requestId);
+async function removeDeniedRequest(requesterId, deviceId) {
+  const response = await cameraRepo.removeDeniedRequest(requesterId, deviceId);
   if (!response) {
     return;
   }
@@ -142,9 +119,17 @@ async function deniedAccessToDevice(ownerId, requesterId, deviceId) {
   return response;
 }
 
+async function findRequestStatus(requesterId, deviceId) {
+  const response = await cameraRepo.findRequestStatus(requesterId, deviceId);
+  console.log(response);
+
+  return response;
+}
+
 module.exports = {
   requestToAccessDevice,
   findDevicesByUsername,
+  findRequestStatus,
   getApprovedDevice,
   getDeniedDevice,
   removeDeniedRequest,

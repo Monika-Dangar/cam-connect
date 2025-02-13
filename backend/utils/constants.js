@@ -27,6 +27,8 @@ const messages = {
   },
   requestSentToAccessDevice: 'Request to access device sent successfully.',
   requestToAccessDeviceError: 'Request to access device failed.',
+  requestStatus: 'Request status sent successfully',
+  requestStatusError: 'No request status found',
   approvedRequestError: 'No approved request found',
   removeDeniedRequestError: 'Request can not remove',
   deniedRequestError: 'No denied request found',

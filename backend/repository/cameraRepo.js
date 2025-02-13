@@ -38,15 +38,15 @@ function getApprovedDevice(userId) {
 function getDeniedDevice(userId) {
   return accessRequestSchema
     .find({
-      ownerId: userId,
-      status: "denied",
+      requesterId: userId,
+      status: 'denied',
     })
-    .populate("deviceId")
-    .populate("requesterId");
+    .populate('deviceId')
+    .populate('ownerId');
 }
 
-function removeDeniedRequest(requestId) {
-  return accessRequestSchema.findByIdAndDelete(requestId);
+function removeDeniedRequest(requesterId, deviceId) {
+  return accessRequestSchema.deleteOne({ requesterId, deviceId });
 }
 
 function createRequestToAccessDevice(data) {
@@ -93,10 +93,25 @@ function deniedAccessToDevice(ownerId, requesterId, deviceId) {
   );
 }
 
+function findRequestStatus(requesterId, deviceId) {
+  return accessRequestSchema.find({
+    requesterId,
+    deviceId,
+  });
+}
+
+function findRequestStatus(requesterId, deviceId) {
+  return accessRequestSchema.find({
+    requesterId,
+    deviceId,
+  });
+}
+
 module.exports = {
   findIsRequestExist,
   findByUsername,
   findDevicesByUserIds,
+  findRequestStatus,
   requestExistsOrNot,
   getApprovedDevice,
   getDeniedDevice,

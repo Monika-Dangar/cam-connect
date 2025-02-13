@@ -122,7 +122,7 @@ const getPendingRequest = async (req, res) => {
   try {
     const user = await findByUsername(req.user);
     const response = await cameraService.pendingRequests(user._id);
-    console.log(response);
+
     if (response.length === 0) {
       return res.status(StatusCodes.NOT_FOUND).send({ message: messages.pendingRequestsError });
     }

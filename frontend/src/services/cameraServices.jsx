@@ -1,104 +1,163 @@
 const URI = import.meta.env.VITE_BACKEND_URI;
 const token = localStorage.getItem("token");
 const getApprovedDevice = async () => {
-  const response = await fetch(`${URI}/camera/approvedRequest`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const res = await response.json();
-
-  return res;
+  try {
+    const response = await fetch(`${URI}/camera/approvedRequest`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const res = await response.json();
+    if (response.status == 200) {
+      return res;
+    } else {
+      return res;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getPendingDevice = async () => {
-  const response = await fetch(`${URI}/camera/pendingRequest`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const res = await response.json();
-  return res;
+  try {
+    const response = await fetch(`${URI}/camera/pendingRequest`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const res = await response.json();
+    console.log(res, "sebe");
+    if (response.status == 200) {
+      return res;
+    } else {
+      return res;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 const getDeniedDevice = async () => {
-  const response = await fetch(`${URI}/camera/notificationBar`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const res = await response.json();
-  return res;
+  try {
+    const response = await fetch(`${URI}/camera/notificationBar`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const res = await response.json();
+    if (response.status == 200) {
+      return res;
+    } else {
+      return res;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 const acceptRequests = async (deviceId, requesterId) => {
-  const response = await fetch(`${URI}/camera/pendingRequest`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ deviceId, requesterId }),
-  });
-  console.log(response);
-  if (response.status === 200) {
-    const res = await response.json();
-    return res;
-  } else {
-    const res = await response.json();
-    console.log(res);
-    return res;
+  try {
+    const response = await fetch(`${URI}/camera/pendingRequest`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ deviceId, requesterId }),
+    });
+
+    if (response.status === 200) {
+      const res = await response.json();
+
+      return res;
+    } else {
+      return res;
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 const denyRequest = async (deviceId, requesterId) => {
-  const response = await fetch(`${URI}/camera/denyAccess`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ deviceId, requesterId }),
-  });
-  const res = await response.json();
-  return res;
+  try {
+    const response = await fetch(`${URI}/camera/denyAccess`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ deviceId, requesterId }),
+    });
+    const res = await response.json();
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
-const seenDenied = async (deviceId, requesterId) => {
-  const response = await fetch(`${URI}/camera/notificationBar`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ deviceId, requesterId }),
-  });
-  const res = await response.json();
-  return res;
+const seenDenied = async (deviceId) => {
+  try {
+    const response = await fetch(`${URI}/camera/notificationBar`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ deviceId }),
+    });
+
+    const res = await response.json();
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 const searchUser = async (username) => {
-  const response = await fetch(`${URI}/camera/searchBar/${username}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const res = await response.json();
-  console.log(res);
-  if (res) {
-    return res;
+  try {
+    const response = await fetch(`${URI}/camera/searchBar/${username}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const res = await response.json();
+    // console.log(res);
+    if (res) {
+      return res;
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 const handleRequestOnSearch = async (deviceId, ownerId) => {
-  const response = await fetch(`${URI}/camera/searchBar`, {
+  try {
+    const response = await fetch(`${URI}/camera/searchBar`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ deviceId, ownerId }),
+    });
+    const res = await response.json();
+
+    return res;
+  } catch (error) {}
+};
+const handleRequestStatus = async (deviceId) => {
+  const response = await fetch(`${URI}/camera/requestStatus`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ deviceId, ownerId }),
+    body: JSON.stringify({ deviceId }),
   });
+  // console.log(response);
   const res = await response.json();
-
-  return res;
+  if (response.status === 200) {
+    return res;
+  } else {
+    return res;
+  }
 };
 export default {
   getApprovedDevice,
@@ -109,4 +168,5 @@ export default {
   seenDenied,
   searchUser,
   handleRequestOnSearch,
+  handleRequestStatus,
 };

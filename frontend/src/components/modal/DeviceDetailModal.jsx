@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Card, CardContent, Button, Tooltip } from "@mui/material";
 import "../../css/camera/camera.css";
+import { CloseSharp as CloseSharpIcon } from "@mui/icons-material";
 import cameraServices from "../../services/cameraServices";
 const DeviceDetailModal = ({
   handleModal,
@@ -38,8 +39,8 @@ const DeviceDetailModal = ({
       });
     }
   };
-  const handleSeenDenied = async (deviceId, ownerId) => {
-    const response = await cameraServices.seenDenied(deviceId, ownerId);
+  const handleSeenDenied = async (deviceId) => {
+    const response = await cameraServices.seenDenied(deviceId);
     console.log(response);
     if (response) {
       setDeviceList((devices) => {
@@ -60,7 +61,7 @@ const DeviceDetailModal = ({
           <CardContent>
             <table>
               <tbody>
-                <tr>
+                <tr className="">
                   <td className="heading2">IMEI number</td>
 
                   <td className="heading">Name</td>
@@ -89,12 +90,12 @@ const DeviceDetailModal = ({
                   deviceList.map((device) => {
                     return (
                       <tr key={device._id}>
-                        <td className="tableContent2">{device.imeiNumber}</td>
+                        <td className="tableContent">{device.imeiNumber}</td>
                         <td className="tableContent">{device.deviceName}</td>
                         <td className="tableContent">
                           {device.deviceLocation}
                         </td>
-                        <td className="tableContent3">{device.deviceType}</td>
+                        <td className="tableContent">{device.deviceType}</td>
 
                         {/* <td className="tableContent">
                             {type === "search" && (
@@ -114,7 +115,7 @@ const DeviceDetailModal = ({
                             )}
                           </td> */}
                         {type === "pending" && (
-                          <td className="">
+                          <td>
                             <Tooltip title="GIVE ACCESS" arrow>
                               <Button
                                 color="primary"
@@ -160,12 +161,11 @@ const DeviceDetailModal = ({
                           <td>
                             <Tooltip title="Click if you have read">
                               <Button
-                                variant="outlined"
+                                variant="contained"
                                 color="error"
                                 size="small"
-                                onClick={() =>
-                                  handleSeenDenied(device._id, requesterId)
-                                }
+                                onClick={() => handleSeenDenied(device._id)}
+                                sx={{ whiteSpace: "nowrap" }}
                               >
                                 Permission Denied
                               </Button>

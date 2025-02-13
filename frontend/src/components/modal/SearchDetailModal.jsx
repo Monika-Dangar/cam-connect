@@ -4,25 +4,23 @@ import "../../css/camera/camera.css";
 import cameraServices from "../../services/cameraServices";
 const Status = ({ deviceId, ownerId }) => {
   const [buttonType, setButtonType] = useState("Request Access");
-  console.log(deviceId, ownerId);
-  // useEffect(() => {
-  //   const response = await cameraServices.handleRequestOnSearch(
-  //     deviceId,
-  //     ownerId
-  //   );
-  //   if(response.response[0].status){
-  //     setButtonType(response.response[0].status);
-
-  //   }
-  // }, []);
+  const handleStatus = async () => {
+    const response = await cameraServices.handleRequestStatus(deviceId);
+    console.log(response.response[0].status);
+    if (response.response.length == 1) {
+      setButtonType(response.response[0].status);
+    }
+  };
+  useEffect(() => {
+    console.log("hello");
+    handleStatus();
+  }, []);
 
   const handleRequest = async (deviceId, ownerId) => {
     const response = await cameraServices.handleRequestOnSearch(
       deviceId,
       ownerId
     );
-    console.log(response);
-    // console.log(response.response[0].status);
     if (response) {
       setButtonType(response.response[0].status);
     }
@@ -42,7 +40,7 @@ const Status = ({ deviceId, ownerId }) => {
     </Button>
   );
 };
-const SearchDetailModal = ({ handleModal, devices }) => {
+const SearchDetailModal = ({ handleModal, devices, userId }) => {
   return (
     <>
       <Box className="deviceListModal">
@@ -87,10 +85,12 @@ const SearchDetailModal = ({ handleModal, devices }) => {
                           {device.deviceType}
                         </td>
                         <td>
-                          <Status
-                            deviceId={device._id}
-                            ownerId={device.userId}
-                          />
+                          {device.userId != userId && (
+                            <Status
+                              deviceId={device._id}
+                              ownerId={device.userId}
+                            />
+                          )}
                         </td>
                       </tr>
                     );

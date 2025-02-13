@@ -111,7 +111,7 @@
   border-radius: 3;
 }
 .deviceListCard {
-  width: 600px;
+  width: 650px;
   max-height: 300px;
   color: white;
   border: 2px solid rgb(85, 82, 82);
@@ -135,7 +135,7 @@
   background-color: rgba(189, 189, 189, 0.9);
 }
 .heading {
-  padding: 0px 20px 0px 38px;
+  padding: 0px 30px 0px 38px;
   border-bottom: 2px solid grey;
   color: white;
 }
@@ -145,7 +145,7 @@
   color: white;
 }
 .tableContent {
-  padding: 5px 20px 15px 0px;
+  padding: 5px 38px 15px 8px;
 }
 .tableContent2 {
   padding: 5px 25px 15px 0px;
@@ -153,12 +153,14 @@
 .tableContent3 {
   padding: 5px 20px 15px 20px;
 }
-
+.tableRowDisplayDevice {
+  width: 300px;
+}
 .scrollableContent::-webkit-scrollbar {
   display: none;
 }
 .searchListCard {
-  width: 500px;
+  width: 550px;
   max-height: 300px;
   color: white;
   border: 2px solid rgb(85, 82, 82);
@@ -168,12 +170,12 @@
   flex-direction: column;
 }
 .searchDeviceContent {
-  padding: 5px 40px 15px 20px;
+  padding: 5px 40px 15px 38px;
 }
 .btnClose {
-  padding-left: 90px;
+  padding-left: 100px;
   margin-left: 80px;
-  padding-bottom: 60px;
-
+  padding-bottom: 40px;
+  /* border: 2px solid black; */
   color: white;
 }

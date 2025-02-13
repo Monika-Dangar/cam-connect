@@ -4,7 +4,7 @@ import img from "../../assets/profile.jpg";
 import { ViewListSharp as ViewListSharpIcon } from "@mui/icons-material";
 import SearchDetailModal from "../modal/SearchDetailModal";
 
-const SearchListCard = ({ searchUserData }) => {
+const SearchListCard = ({ searchUserData, userId }) => {
   const [showModal, setshowModal] = useState(false);
   const handleModal = () => {
     setshowModal((prev) => !prev);
@@ -57,6 +57,7 @@ const SearchListCard = ({ searchUserData }) => {
           <SearchDetailModal
             handleModal={handleModal}
             devices={searchUserData.devices}
+            userId={userId}
           />
         </>
       )}

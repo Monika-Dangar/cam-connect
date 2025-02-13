@@ -1,7 +1,12 @@
 import React from "react";
 import UserListCard from "./UserListCard";
 
-const PendingRequest = ({ handleModal, type, groupData }) => {
+const PendingRequest = ({
+  handleModal,
+  type,
+  groupData,
+  setDevicePendingData,
+}) => {
   return (
     <>
       {/* i will map this */}
@@ -14,6 +19,7 @@ const PendingRequest = ({ handleModal, type, groupData }) => {
               handleModal={handleModal}
               requester={data.requester}
               devices={data.devices}
+              setDeviceData={setDevicePendingData}
             />
           );
         })

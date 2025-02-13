@@ -8,6 +8,7 @@ import ApprovedRequest from "./ApprovedRequest";
 import PendingRequest from "./PendingRequest";
 import Notifications from "./Notifications";
 import cameraServies from "../../services/cameraServices";
+import TransitionsSnackbar from "../toaster/TransitionsSnackbar";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,17 +44,28 @@ export default function BasicCameraTab() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [toastMessage, setToastMessage] = React.useState("");
+  const [openToast, setOpenToast] = React.useState(false);
 
-  const [deviceData, setDeviceData] = React.useState([]);
+  const [devicePendingData, setDevicePendingData] = React.useState([]);
+  const [deviceApprovedData, setDeviceApprovedData] = React.useState([]);
+  const [deviceDeniedData, setDeviceDeniedData] = React.useState([]);
+
   const [type, setType] = React.useState();
+
   React.useEffect(() => {
     const fetchApprovedDevices = async () => {
       setType("approved");
       const response = await cameraServies.getApprovedDevice();
-
-      if (response) {
+      console.log("approved", response);
+      if (response.message) {
+        setDeviceApprovedData([]);
+        setToastMessage(response.message);
+        setOpenToast(true);
+      } else if (response) {
         const result = Object.values(groupedData(response));
-        setDeviceData(result);
+        console.log(result);
+        setDeviceApprovedData(result);
       }
     };
     const groupedData = (response) => {
@@ -85,24 +97,39 @@ export default function BasicCameraTab() {
     const fetchPendingDevices = async () => {
       setType("pending");
       const response = await cameraServies.getPendingDevice();
-      if (response) {
+      console.log(response);
+      if (response.message) {
+        setDevicePendingData([]);
+        setToastMessage(response.message);
+        setOpenToast(true);
+      } else if (response) {
         const result = Object.values(groupedData(response));
-        setDeviceData(result);
+        setDevicePendingData(result);
       }
     };
     const fetchDeniedDevices = async () => {
       setType("denied");
       const response = await cameraServies.getDeniedDevice();
-      if (response) {
+      console.log(response, "denied");
+      if (response.message) {
+        setDeviceDeniedData([]);
+        setToastMessage(response.message);
+        setOpenToast(true);
+      } else if (response) {
         const result = Object.values(groupedDeniedData(response));
-        setDeviceData(result);
+        setDeviceDeniedData(result);
       }
     };
     if (value === 0) {
+      console.log(value);
       fetchApprovedDevices();
     } else if (value === 1) {
+      console.log(value);
+
       fetchPendingDevices();
     } else if (value === 2) {
+      console.log(value);
+
       fetchDeniedDevices();
     }
   }, [value]);
@@ -131,24 +158,37 @@ export default function BasicCameraTab() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <ApprovedRequest groupData={deviceData} type={type} />
+          <ApprovedRequest
+            groupData={deviceApprovedData}
+            type={type}
+            setDeviceApprovedData={setDeviceApprovedData}
+          />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <PendingRequest
-            // handleModal={handleModal}
-            pendingDeviceData={deviceData}
-            groupData={deviceData}
-            setDeviceData={setDeviceData}
+            pendingDeviceData={devicePendingData}
+            groupData={devicePendingData}
+            setDevicePendingData={setDevicePendingData}
             type={type}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <Notifications groupData={deviceData} type={type} />
+          <Notifications
+            groupData={deviceDeniedData}
+            type={type}
+            setDeviceDeniedData={setDeviceDeniedData}
+          />
         </CustomTabPanel>
       </Box>
       <Box sx={{ width: "50%" }}>
         <Search />
       </Box>
+      <TransitionsSnackbar
+        open={openToast}
+        message={toastMessage}
+        onClose={() => setOpenToast(false)} // Close the toast after it's shown
+        autoHideDuration={5000}
+      />
     </Box>
   );
 }

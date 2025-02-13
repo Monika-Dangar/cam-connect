@@ -81,7 +81,8 @@ const Devices = () => {
             seticonType("create");
           }}
           variant="contained"
-          color="error"
+          color="primary"
+          size="small"
         >
           Create
         </Button>

@@ -1,14 +1,15 @@
-const device = require("../models/cameraSchema");
-const accessRequest = require("../models/accessRequestSchema");
+const device = require('../models/cameraSchema');
+
 function createUserDevice(data) {
   try {
     const deviceData = new device(data);
     return deviceData.save();
   } catch (error) {
-    console.log("Error creating device", error);
+    console.log('Error creating device', error);
     return null;
   }
 }
+
 function findDeviceByUserId(userId) {
   return device.find({ userId });
 }
@@ -23,7 +24,7 @@ function updateDevice(deviceId, newDeviceData) {
         deviceType: newDeviceData.deviceType,
       },
     },
-    { new: true }
+    { new: true },
   );
 }
 function deleteDeviceById(_id) {

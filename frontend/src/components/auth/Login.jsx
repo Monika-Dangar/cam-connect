@@ -10,7 +10,7 @@ const Login = () => {
     username: "",
     password: "",
   });
-  const [error, SetError] = useState("");
+
   const [openToast, setOpenToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -80,7 +80,6 @@ const Login = () => {
             Login
           </Button>
 
-          {error ? <p>{error}</p> : null}
           <p>Forgot password?</p>
 
           <p onClick={handleGotToSignup} className="navigate">

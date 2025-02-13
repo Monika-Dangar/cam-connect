@@ -18,13 +18,6 @@ function findDevicesByUserIds(userIds) {
   return device.find({ userId: { $in: userIds } });
 }
 
-function findRequestStatus(requesterId, deviceId) {
-  return accessRequestSchema.find({
-    requesterId: requesterId,
-    deviceId: deviceId,
-  });
-}
-
 function requestExistsOrNot(requesterId, deviceId) {
   return accessRequestSchema.find({
     requesterId: requesterId,
@@ -45,15 +38,15 @@ function getApprovedDevice(userId) {
 function getDeniedDevice(userId) {
   return accessRequestSchema
     .find({
-      ownerId: userId,
+      requesterId: userId,
       status: 'denied',
     })
     .populate('deviceId')
-    .populate('requesterId');
+    .populate('ownerId');
 }
 
-function removeDeniedRequest(requestId) {
-  return accessRequestSchema.findByIdAndDelete(requestId);
+function removeDeniedRequest(requesterId, deviceId) {
+  return accessRequestSchema.deleteOne({ requesterId, deviceId });
 }
 
 function createRequestToAccessDevice(data) {
@@ -73,11 +66,10 @@ function getPendingRequests(ownerId) {
   return resp;
 }
 
-function allowAccessToDevice(ownerId, requesterId, deviceId) {
+function allowAccessToDevice(requesterId, deviceId) {
   return accessRequestSchema
     .findOneAndUpdate(
       {
-        ownerId: ownerId,
         requesterId: requesterId,
         deviceId: deviceId,
         status: 'pending',
@@ -99,6 +91,13 @@ function deniedAccessToDevice(ownerId, requesterId, deviceId) {
     { status: 'denied' },
     { new: true },
   );
+}
+
+function findRequestStatus(requesterId, deviceId) {
+  return accessRequestSchema.find({
+    requesterId,
+    deviceId,
+  });
 }
 
 module.exports = {

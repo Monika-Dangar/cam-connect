@@ -3,8 +3,7 @@ const cameraRepo = require('../repository/cameraRepo');
 async function requestToAccessDevice(requesterId, ownerId, deviceId) {
   try {
     const response = await cameraRepo.findIsRequestExist(requesterId, ownerId, deviceId);
-
-    if (response) {
+    if (response.length > 0) {
       return response;
     }
 
@@ -15,9 +14,7 @@ async function requestToAccessDevice(requesterId, ownerId, deviceId) {
       isActive: true,
       status: 'pending',
     };
-
     const accessApproved = await cameraRepo.createRequestToAccessDevice(data);
-
     if (accessApproved) {
       return accessApproved;
     }
@@ -50,16 +47,6 @@ async function findDevicesByUsername(usernameRegex) {
   return userData;
 }
 
-async function findRequestStatus(requesterId, deviceId) {
-  const response = await cameraRepo.findRequestStatus(requesterId, deviceId);
-
-  if (response.length == 0) {
-    return;
-  }
-
-  return response;
-}
-
 async function getApprovedDevice(userId) {
   const response = await cameraRepo.getApprovedDevice(userId);
   if (!response) {
@@ -77,7 +64,7 @@ async function getApprovedDevice(userId) {
 }
 
 async function getDeniedDevice(userId) {
-  const response = await cameraRepo.removeDeniedRequest(userId);
+  const response = await cameraRepo.getDeniedDevice(userId);
   if (!response) {
     return;
   }
@@ -85,8 +72,8 @@ async function getDeniedDevice(userId) {
   return response;
 }
 
-async function removeDeniedRequest(requestId) {
-  const response = await cameraRepo.removeDeniedRequest(requestId);
+async function removeDeniedRequest(requesterId, deviceId) {
+  const response = await cameraRepo.removeDeniedRequest(requesterId, deviceId);
   if (!response) {
     return;
   }
@@ -120,6 +107,13 @@ async function deniedAccessToDevice(ownerId, requesterId, deviceId) {
   if (!response) {
     return;
   }
+
+  return response;
+}
+
+async function findRequestStatus(requesterId, deviceId) {
+  const response = await cameraRepo.findRequestStatus(requesterId, deviceId);
+  console.log(response);
 
   return response;
 }

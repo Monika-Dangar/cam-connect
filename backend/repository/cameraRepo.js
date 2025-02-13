@@ -1,6 +1,7 @@
-const device = require("../models/cameraSchema");
-const accessRequestSchema = require("../models/accessRequestSchema");
-const User = require("../models/userSchema");
+const device = require('../models/cameraSchema');
+const accessRequestSchema = require('../models/accessRequestSchema');
+const User = require('../models/userSchema');
+const messages = require('../utils/constants').default;
 
 function findIsRequestExist(requesterId, ownerId, deviceId) {
   return accessRequestSchema.find({
@@ -29,20 +30,20 @@ function getApprovedDevice(userId) {
   return accessRequestSchema
     .find({
       ownerId: userId,
-      status: "approved",
+      status: messages.enumStatus.approvedStatus,
     })
-    .populate("deviceId")
-    .populate("requesterId");
+    .populate('deviceId')
+    .populate('requesterId');
 }
 
 function getDeniedDevice(userId) {
   return accessRequestSchema
     .find({
       requesterId: userId,
-      status: "denied",
+      status: messages.enumStatus.deniedStatus,
     })
-    .populate("deviceId")
-    .populate("ownerId");
+    .populate('deviceId')
+    .populate('ownerId');
 }
 
 function removeDeniedRequest(requesterId, deviceId) {
@@ -58,10 +59,10 @@ function getPendingRequests(ownerId) {
   const resp = accessRequestSchema
     .find({
       ownerId: ownerId,
-      status: "pending",
+      status: messages.enumStatus.pendingStatus,
     })
-    .populate("requesterId")
-    .populate("deviceId");
+    .populate('requesterId')
+    .populate('deviceId');
 
   return resp;
 }
@@ -72,13 +73,13 @@ function allowAccessToDevice(requesterId, deviceId) {
       {
         requesterId: requesterId,
         deviceId: deviceId,
-        status: "pending",
+        status: messages.enumStatus.pendingStatus,
       },
-      { status: "approved" },
-      { new: true }
+      { status: messages.enumStatus.approvedStatus },
+      { new: true },
     )
-    .populate("deviceId")
-    .populate("requesterId");
+    .populate('deviceId')
+    .populate('requesterId');
 }
 
 function deniedAccessToDevice(ownerId, requesterId, deviceId) {
@@ -88,16 +89,18 @@ function deniedAccessToDevice(ownerId, requesterId, deviceId) {
       requesterId: requesterId,
       deviceId: deviceId,
     },
-    { status: "denied" },
-    { new: true }
+    { status: messages.enumStatus.deniedStatus },
+    { new: true },
   );
 }
+
 function findRequestStatus(requesterId, deviceId) {
   return accessRequestSchema.find({
     requesterId,
     deviceId,
   });
 }
+
 module.exports = {
   findIsRequestExist,
   findByUsername,

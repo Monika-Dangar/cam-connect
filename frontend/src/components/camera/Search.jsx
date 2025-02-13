@@ -19,7 +19,6 @@ const Search = () => {
         setuserId(response.userId);
       }
     }
-    console.log(userId);
   };
   return (
     <div className="searchContainer">

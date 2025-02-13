@@ -27,7 +27,6 @@ const getPendingDevice = async () => {
       },
     });
     const res = await response.json();
-    console.log(res, "sebe");
     if (response.status == 200) {
       return res;
     } else {
@@ -119,7 +118,6 @@ const searchUser = async (username) => {
       },
     });
     const res = await response.json();
-    // console.log(res);
     if (res) {
       return res;
     }
@@ -151,7 +149,6 @@ const handleRequestStatus = async (deviceId) => {
     },
     body: JSON.stringify({ deviceId }),
   });
-  // console.log(response);
   const res = await response.json();
   if (response.status === 200) {
     return res;

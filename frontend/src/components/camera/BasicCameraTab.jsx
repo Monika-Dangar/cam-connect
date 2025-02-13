@@ -57,14 +57,12 @@ export default function BasicCameraTab() {
     const fetchApprovedDevices = async () => {
       setType("approved");
       const response = await cameraServies.getApprovedDevice();
-      console.log("approved", response);
       if (response.message) {
         setDeviceApprovedData([]);
         setToastMessage(response.message);
         setOpenToast(true);
       } else if (response) {
         const result = Object.values(groupedData(response));
-        console.log(result);
         setDeviceApprovedData(result);
       }
     };
@@ -97,7 +95,6 @@ export default function BasicCameraTab() {
     const fetchPendingDevices = async () => {
       setType("pending");
       const response = await cameraServies.getPendingDevice();
-      console.log(response);
       if (response.message) {
         setDevicePendingData([]);
         setToastMessage(response.message);
@@ -110,7 +107,6 @@ export default function BasicCameraTab() {
     const fetchDeniedDevices = async () => {
       setType("denied");
       const response = await cameraServies.getDeniedDevice();
-      console.log(response, "denied");
       if (response.message) {
         setDeviceDeniedData([]);
         setToastMessage(response.message);
@@ -121,15 +117,10 @@ export default function BasicCameraTab() {
       }
     };
     if (value === 0) {
-      console.log(value);
       fetchApprovedDevices();
     } else if (value === 1) {
-      console.log(value);
-
       fetchPendingDevices();
     } else if (value === 2) {
-      console.log(value);
-
       fetchDeniedDevices();
     }
   }, [value]);

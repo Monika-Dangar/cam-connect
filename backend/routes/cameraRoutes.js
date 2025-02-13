@@ -5,7 +5,7 @@ const camera = require('../controllers/cameraController');
 
 router.route('/approvedRequest').get(authenticate, camera.getApprovedDevice);
 
-router.route('denyAccess').post(authenticate, camera.deniedAccessToDevice);
+router.route('/denyAccess').post(authenticate, camera.deniedAccessToDevice);
 
 router
   .route('/pendingRequest')
@@ -21,7 +21,6 @@ router.route('/searchBar/:username').get(authenticate, camera.findDevicesByUsern
 
 router.route('/searchBar').post(authenticate, camera.requestToAccessDevice);
 
-// router.route('/requestStatus').get(authenticate, camera.findRequestStatus);
-router.route('/requestStatus').get(camera.findRequestStatus);
+router.route('/requestStatus').post(authenticate, camera.findRequestStatus);
 
 module.exports = router;

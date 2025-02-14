@@ -52,70 +52,69 @@ export default function BasicCameraTab() {
   const [deviceDeniedData, setDeviceDeniedData] = React.useState([]);
 
   const [type, setType] = React.useState();
-
+  const fetchApprovedDevices = async () => {
+    setType("approved");
+    const response = await cameraServies.getApprovedDevice();
+    if (response.message) {
+      setDeviceApprovedData([]);
+      setToastMessage(response.message);
+      setOpenToast(true);
+    } else if (response) {
+      const result = Object.values(groupedData(response));
+      setDeviceApprovedData(result);
+    }
+  };
+  const groupedData = (response) => {
+    return response.reduce((acc, curr) => {
+      const { requesterId, deviceId } = curr;
+      if (!acc[requesterId.username]) {
+        acc[requesterId.username] = {
+          requester: requesterId,
+          devices: [],
+        };
+      }
+      acc[requesterId.username].devices.push(deviceId);
+      return acc;
+    }, {});
+  };
+  const groupedDeniedData = (response) => {
+    return response.reduce((acc, curr) => {
+      const { ownerId, deviceId } = curr;
+      if (!acc[ownerId.username]) {
+        acc[ownerId.username] = {
+          requester: ownerId,
+          devices: [],
+        };
+      }
+      acc[ownerId.username].devices.push(deviceId);
+      return acc;
+    }, {});
+  };
+  const fetchPendingDevices = async () => {
+    setType("pending");
+    const response = await cameraServies.getPendingDevice();
+    if (response.message) {
+      setDevicePendingData([]);
+      setToastMessage(response.message);
+      setOpenToast(true);
+    } else if (response) {
+      const result = Object.values(groupedData(response));
+      setDevicePendingData(result);
+    }
+  };
+  const fetchDeniedDevices = async () => {
+    setType("denied");
+    const response = await cameraServies.getDeniedDevice();
+    if (response.message) {
+      setDeviceDeniedData([]);
+      setToastMessage(response.message);
+      setOpenToast(true);
+    } else if (response) {
+      const result = Object.values(groupedDeniedData(response));
+      setDeviceDeniedData(result);
+    }
+  };
   React.useEffect(() => {
-    const fetchApprovedDevices = async () => {
-      setType("approved");
-      const response = await cameraServies.getApprovedDevice();
-      if (response.message) {
-        setDeviceApprovedData([]);
-        setToastMessage(response.message);
-        setOpenToast(true);
-      } else if (response) {
-        const result = Object.values(groupedData(response));
-        setDeviceApprovedData(result);
-      }
-    };
-    const groupedData = (response) => {
-      return response.reduce((acc, curr) => {
-        const { requesterId, deviceId } = curr;
-        if (!acc[requesterId.username]) {
-          acc[requesterId.username] = {
-            requester: requesterId,
-            devices: [],
-          };
-        }
-        acc[requesterId.username].devices.push(deviceId);
-        return acc;
-      }, {});
-    };
-    const groupedDeniedData = (response) => {
-      return response.reduce((acc, curr) => {
-        const { ownerId, deviceId } = curr;
-        if (!acc[ownerId.username]) {
-          acc[ownerId.username] = {
-            requester: ownerId,
-            devices: [],
-          };
-        }
-        acc[ownerId.username].devices.push(deviceId);
-        return acc;
-      }, {});
-    };
-    const fetchPendingDevices = async () => {
-      setType("pending");
-      const response = await cameraServies.getPendingDevice();
-      if (response.message) {
-        setDevicePendingData([]);
-        setToastMessage(response.message);
-        setOpenToast(true);
-      } else if (response) {
-        const result = Object.values(groupedData(response));
-        setDevicePendingData(result);
-      }
-    };
-    const fetchDeniedDevices = async () => {
-      setType("denied");
-      const response = await cameraServies.getDeniedDevice();
-      if (response.message) {
-        setDeviceDeniedData([]);
-        setToastMessage(response.message);
-        setOpenToast(true);
-      } else if (response) {
-        const result = Object.values(groupedDeniedData(response));
-        setDeviceDeniedData(result);
-      }
-    };
     if (value === 0) {
       fetchApprovedDevices();
     } else if (value === 1) {
@@ -154,6 +153,7 @@ export default function BasicCameraTab() {
             groupData={deviceApprovedData}
             type={type}
             setDeviceApprovedData={setDeviceApprovedData}
+            fetch={fetchApprovedDevices}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
@@ -162,6 +162,7 @@ export default function BasicCameraTab() {
             groupData={devicePendingData}
             setDevicePendingData={setDevicePendingData}
             type={type}
+            fetch={fetchPendingDevices}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
@@ -169,6 +170,7 @@ export default function BasicCameraTab() {
             groupData={deviceDeniedData}
             type={type}
             setDeviceDeniedData={setDeviceDeniedData}
+            fetch={fetchDeniedDevices}
           />
         </CustomTabPanel>
       </Box>

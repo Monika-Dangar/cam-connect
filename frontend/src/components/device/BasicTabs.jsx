@@ -64,7 +64,7 @@ export default function BasicTabs() {
         >
           <Tab label="My Devices" {...a11yProps(0)} />
           <Tab label="Shared with me" {...a11yProps(1)} />
-          <Tab label="Shared with others" {...a11yProps(2)} />
+          {/* <Tab label="Shared with others" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -73,9 +73,9 @@ export default function BasicTabs() {
       <CustomTabPanel value={value} index={1}>
         <SharedWithMe />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
+      {/* <CustomTabPanel value={value} index={2}>
         <SharedWithOthers />
-      </CustomTabPanel>
+      </CustomTabPanel> */}
     </Box>
   );
 }

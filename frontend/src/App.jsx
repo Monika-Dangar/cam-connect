@@ -25,6 +25,14 @@ const theme = createTheme({
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: "cursive",
+          fontWeight: "bolder",
+        },
+      },
+    },
   },
 });
 function App() {

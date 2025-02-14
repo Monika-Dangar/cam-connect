@@ -6,6 +6,7 @@ const Status = ({ deviceId, ownerId }) => {
   const [buttonType, setButtonType] = useState("Request Access");
   const handleStatus = async () => {
     const response = await cameraServices.handleRequestStatus(deviceId);
+    console.log(response);
     if (response.response.length == 1) {
       setButtonType(response.response[0].status);
     }

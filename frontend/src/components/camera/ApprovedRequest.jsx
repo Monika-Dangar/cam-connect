@@ -21,7 +21,7 @@ const ApprovedRequest = ({ type, groupData, setDeviceApprovedData }) => {
         <>
           <img src={emptyImg} className="emptyImage"></img>
           <Typography variant="h6" className="emptyText" sx={{ ml: 22, mt: 5 }}>
-            No Approved Device
+            No device is approved
           </Typography>
         </>
       )}

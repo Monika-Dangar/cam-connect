@@ -27,7 +27,7 @@ const PendingRequest = ({
         <>
           <img src={emptyImg} className="emptyImage"></img>
           <Typography variant="h6" className="emptyText" sx={{ ml: 22, mt: 5 }}>
-            No Pending request
+            No device is pending
           </Typography>
         </>
       )}

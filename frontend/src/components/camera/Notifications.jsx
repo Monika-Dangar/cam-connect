@@ -2,7 +2,7 @@ import UserListCard from "./UserListCard";
 import emptyImg from "../../assets/empty.png";
 import { Typography } from "@mui/material";
 
-const Notifications = ({ type, groupData, setDeviceDeniedData }) => {
+const Notifications = ({ type, groupData, setDeviceDeniedData, fetch }) => {
   return (
     <>
       <>
@@ -15,6 +15,7 @@ const Notifications = ({ type, groupData, setDeviceDeniedData }) => {
                 requester={data.requester}
                 devices={data.devices}
                 setDeviceData={setDeviceDeniedData}
+                fetch={fetch}
               />
             );
           })
@@ -27,7 +28,7 @@ const Notifications = ({ type, groupData, setDeviceDeniedData }) => {
               className="emptyText"
               sx={{ ml: 22, mt: 5 }}
             >
-              No Access Denied Alert
+              No alert for access denied
             </Typography>
           </>
         )}

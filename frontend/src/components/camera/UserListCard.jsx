@@ -4,12 +4,14 @@ import { Tooltip } from "@mui/material";
 import { ViewListSharp as ViewListSharpIcon } from "@mui/icons-material";
 import DeviceDetailModal from "../modal/DeviceDetailModal";
 import { useState } from "react";
+import { useEffect } from "react";
 const UserListCard = ({ type, requester, devices, setDeviceData }) => {
   const [showModal, setshowModal] = useState(false);
   const handleModal = () => {
     setshowModal((prev) => !prev);
   };
   const [requesterData, setRequesterData] = useState(requester);
+
   return (
     <>
       <Box

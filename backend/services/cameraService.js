@@ -17,20 +17,19 @@ async function requestToAccessDevice(requesterId, ownerId, deviceId) {
       };
 
       const accessApproved = await cameraRepo.createRequestToAccessDevice(data);
-      console.log(accessApproved);
       if (accessApproved) {
         return [accessApproved];
-      } else if (requestExists[0].status === "denied") {
-        const response = await cameraRepo.findIsRequestExist(
-          requesterId,
-          ownerId,
-          deviceId
-        );
-        const res = [response];
-        return res;
-      } else if (requestExists.length > 0) {
-        return requestExists;
       }
+    } else if (requestExists[0].status === enumStatus.deniedStatus) {
+      const response = await cameraRepo.findIsRequestExist(
+        requesterId,
+        ownerId,
+        deviceId
+      );
+      const res = [response];
+      return res;
+    } else if (requestExists.length > 0) {
+      return requestExists;
     }
   } catch (error) {}
 }

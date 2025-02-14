@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import DisplayDeviceCard from "./DisplayDeviceCard";
-import { displayDevice } from "../../services/deviceServices";
-import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
-import DeleteOutlineSharpIcon from "@mui/icons-material/DeleteOutlineSharp";
-import BasicModalDialog from "../modal/Modal";
-import TransitionsSnackbar from "../toaster/TransitionsSnackbar";
-import { Button } from "@mui/material";
+import React, { useState, useEffect } from 'react';
+import DisplayDeviceCard from './DisplayDeviceCard';
+import { displayDevice } from '../../services/deviceServices';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import DeleteOutlineSharpIcon from '@mui/icons-material/DeleteOutlineSharp';
+import BasicModalDialog from '../modal/Modal';
+import TransitionsSnackbar from '../toaster/TransitionsSnackbar';
+import { Button } from '@mui/material';
 
 const Devices = () => {
   const [devices, setDevices] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [changes, setChanges] = useState(false);
   const [openToast, setOpenToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [iconType, seticonType] = useState("");
+  const [toastMessage, setToastMessage] = useState('');
+  const [iconType, setIconType] = useState('');
   const handleChanges = () => {
     setChanges((prev) => !prev);
   };
@@ -78,7 +78,7 @@ const Devices = () => {
           className="createBtn"
           onClick={() => {
             handleModalToggle();
-            seticonType("create");
+            setIconType('create');
           }}
           variant="contained"
           color="primary"
@@ -90,7 +90,7 @@ const Devices = () => {
       {/* Modal */}
       <BasicModalDialog
         handleChanges={handleChanges}
-        device={""}
+        device={''}
         devices={devices}
         setDevices={setDevices}
         iconType={iconType}

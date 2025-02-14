@@ -7,8 +7,9 @@ function TransitionsSnackbar({ open, message, onClose, autoHideDuration }) {
       open={open}
       onClose={onClose}
       autoHideDuration={autoHideDuration}
-      TransitionComponent={(props) => <Slide {...props} direction="up" />}
+      TransitionComponent={(props) => <Slide {...props} direction="down" />}
       message={message}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
     />
   );
 }

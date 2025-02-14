@@ -1,11 +1,11 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import Devices from '../device/Devices';
-import SharedWithOthers from './SharedWithOthers';
-import SharedWithMe from './SharedWithMe';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
+import Devices from "../device/Devices";
+import SharedWithOthers from "./SharedWithOthers";
+import SharedWithMe from "./SharedWithMe";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -32,7 +32,7 @@ CustomTabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -44,26 +44,27 @@ export default function BasicTabs() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
           sx={{
-            '& .MuiTab-root': {
-              color: 'gray', // Inactive tab color
-              fontWeight: 'normal', // Normal font weight for inactive tabs
-              '&.Mui-selected': {
-                color: 'white', // Selected tab color
-                fontWeight: 'bold', // Bold text for the active tab
+            "& .MuiTab-root": {
+              color: "gray", // Inactive tab color
+              fontWeight: "normal", // Normal font weight for inactive tabs
+              width: 200,
+              "&.Mui-selected": {
+                color: "white", // Selected tab color
+                fontWeight: "bold", // Bold text for the active tab
               },
             },
           }}
         >
           <Tab label="My Devices" {...a11yProps(0)} />
           <Tab label="Shared with me" {...a11yProps(1)} />
-          <Tab label="Shared with others" {...a11yProps(2)} />
+          {/* <Tab label="Shared with others" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -72,9 +73,9 @@ export default function BasicTabs() {
       <CustomTabPanel value={value} index={1}>
         <SharedWithMe />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
+      {/* <CustomTabPanel value={value} index={2}>
         <SharedWithOthers />
-      </CustomTabPanel>
+      </CustomTabPanel> */}
     </Box>
   );
 }

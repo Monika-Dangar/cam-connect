@@ -8,6 +8,32 @@ const theme = createTheme({
       dark: "#e91e63",
     },
   },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#424242",
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontWeight: "bold",
+          whiteSpace: "nowrap",
+          fontSize: 12.95,
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: "cursive",
+          fontWeight: "bolder",
+        },
+      },
+    },
+  },
 });
 function App() {
   return (

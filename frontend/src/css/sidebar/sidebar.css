@@ -30,9 +30,10 @@
 }
 
 .linkText {
-  font-size: large;
+  font-size: medium;
   color: white;
-  padding-left: 10%;
+  padding-left: 6%;
+  white-space: nowrap;
 }
 
 .linkContainer.active {

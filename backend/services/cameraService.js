@@ -1,23 +1,36 @@
-const cameraRepo = require('../repository/cameraRepo');
-const enumStatus = require('../utils/enumStatus').default;
+const cameraRepo = require("../repository/cameraRepo");
+const enumStatus = require("../utils/enumStatus").default;
 
 async function requestToAccessDevice(requesterId, ownerId, deviceId) {
   try {
-    const response = await cameraRepo.findIsRequestExist(requesterId, ownerId, deviceId);
-    if (response.length > 0) {
-      return response;
-    }
+    const requestExists = await cameraRepo.requestExistsOrNot(
+      requesterId,
+      deviceId
+    );
+    if (requestExists.length === 0) {
+      const data = {
+        ownerId: ownerId,
+        requesterId: requesterId,
+        deviceId: deviceId,
+        isActive: true,
+        status: enumStatus.pendingStatus,
+      };
 
-    const data = {
-      ownerId: ownerId,
-      requesterId: requesterId,
-      deviceId: deviceId,
-      isActive: true,
-      status: enumStatus.pendingStatus,
-    };
-    const accessApproved = await cameraRepo.createRequestToAccessDevice(data);
-    if (accessApproved) {
-      return accessApproved;
+      const accessApproved = await cameraRepo.createRequestToAccessDevice(data);
+      console.log(accessApproved);
+      if (accessApproved) {
+        return [accessApproved];
+      } else if (requestExists[0].status === "denied") {
+        const response = await cameraRepo.findIsRequestExist(
+          requesterId,
+          ownerId,
+          deviceId
+        );
+        const res = [response];
+        return res;
+      } else if (requestExists.length > 0) {
+        return requestExists;
+      }
     }
   } catch (error) {}
 }
@@ -93,7 +106,11 @@ async function pendingRequests(ownerId) {
 }
 
 async function allowAccessToDevice(ownerId, requesterId, deviceId) {
-  const response = await cameraRepo.allowAccessToDevice(ownerId, requesterId, deviceId);
+  const response = await cameraRepo.allowAccessToDevice(
+    ownerId,
+    requesterId,
+    deviceId
+  );
 
   if (!response) {
     return;
@@ -103,7 +120,11 @@ async function allowAccessToDevice(ownerId, requesterId, deviceId) {
 }
 
 async function deniedAccessToDevice(ownerId, requesterId, deviceId) {
-  const response = await cameraRepo.deniedAccessToDevice(ownerId, requesterId, deviceId);
+  const response = await cameraRepo.deniedAccessToDevice(
+    ownerId,
+    requesterId,
+    deviceId
+  );
 
   if (!response) {
     return;

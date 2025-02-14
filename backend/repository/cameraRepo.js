@@ -1,7 +1,7 @@
-const device = require('../models/cameraSchema');
-const accessRequestSchema = require('../models/accessRequestSchema');
-const User = require('../models/userSchema');
-const enumStatus = require('../utils/enumStatus').default;
+const device = require("../models/cameraSchema");
+const accessRequestSchema = require("../models/accessRequestSchema");
+const User = require("../models/userSchema");
+const enumStatus = require("../utils/enumStatus").default;
 
 function findIsRequestExist(requesterId, ownerId, deviceId) {
   return accessRequestSchema.findOneAndUpdate(
@@ -12,7 +12,7 @@ function findIsRequestExist(requesterId, ownerId, deviceId) {
       status: enumStatus.deniedStatus,
     },
     { status: enumStatus.pendingStatus },
-    { new: true },
+    { new: true }
   );
 }
 
@@ -37,8 +37,8 @@ function getApprovedDevice(userId) {
       ownerId: userId,
       status: enumStatus.approvedStatus,
     })
-    .populate('deviceId')
-    .populate('requesterId');
+    .populate("deviceId")
+    .populate("requesterId");
 }
 
 function getDeniedDevice(userId) {
@@ -47,8 +47,8 @@ function getDeniedDevice(userId) {
       requesterId: userId,
       status: enumStatus.deniedStatus,
     })
-    .populate('deviceId')
-    .populate('ownerId');
+    .populate("deviceId")
+    .populate("ownerId");
 }
 
 function removeDeniedRequest(requesterId, deviceId) {
@@ -66,8 +66,8 @@ function getPendingRequests(ownerId) {
       ownerId: ownerId,
       status: enumStatus.pendingStatus,
     })
-    .populate('requesterId')
-    .populate('deviceId');
+    .populate("requesterId")
+    .populate("deviceId");
 
   return resp;
 }
@@ -81,10 +81,10 @@ function allowAccessToDevice(requesterId, deviceId) {
         status: enumStatus.pendingStatus,
       },
       { status: enumStatus.approvedStatus },
-      { new: true },
+      { new: true }
     )
-    .populate('deviceId')
-    .populate('requesterId');
+    .populate("deviceId")
+    .populate("requesterId");
 }
 
 function deniedAccessToDevice(ownerId, requesterId, deviceId) {
@@ -95,7 +95,7 @@ function deniedAccessToDevice(ownerId, requesterId, deviceId) {
       deviceId: deviceId,
     },
     { status: enumStatus.deniedStatus },
-    { new: true },
+    { new: true }
   );
 }
 

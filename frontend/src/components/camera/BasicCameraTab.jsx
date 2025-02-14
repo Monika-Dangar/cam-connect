@@ -136,6 +136,7 @@ export default function BasicCameraTab() {
               "& .MuiTab-root": {
                 color: "gray",
                 fontWeight: "normal",
+
                 "&.Mui-selected": {
                   color: "white",
                   fontWeight: "bold",
@@ -143,9 +144,9 @@ export default function BasicCameraTab() {
               },
             }}
           >
-            <Tab label="Approved Request" {...a11yProps(0)} />
-            <Tab label="Pending Request" {...a11yProps(1)} />
-            <Tab label="Notifications" {...a11yProps(2)} />
+            <Tab label="Access Granted" {...a11yProps(0)} />
+            <Tab label="Approval Pending" {...a11yProps(1)} />
+            <Tab label="Access Denied Alert" {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>

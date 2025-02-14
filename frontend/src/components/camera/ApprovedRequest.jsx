@@ -1,4 +1,6 @@
 import UserListCard from "./UserListCard";
+import emptyImg from "../../assets/empty.png";
+import { Typography } from "@mui/material";
 
 const ApprovedRequest = ({ type, groupData, setDeviceApprovedData }) => {
   return (
@@ -16,7 +18,12 @@ const ApprovedRequest = ({ type, groupData, setDeviceApprovedData }) => {
           );
         })
       ) : (
-        <p>No device data found</p>
+        <>
+          <img src={emptyImg} className="emptyImage"></img>
+          <Typography variant="h6" className="emptyText" sx={{ ml: 22, mt: 5 }}>
+            No Approved Device
+          </Typography>
+        </>
       )}
     </>
   );

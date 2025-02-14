@@ -8,6 +8,7 @@ const DeviceDetailModal = ({
   type,
   requesterId,
   setRequesterData,
+  setDeviceData,
 }) => {
   const [deviceList, setDeviceList] = useState(devices);
   const handleApprovedRequests = async (deviceId, requesterId) => {
@@ -16,6 +17,13 @@ const DeviceDetailModal = ({
       setDeviceList((devices) => {
         const updatedDevices = devices.filter(
           (device) => device._id !== deviceId
+        );
+        setDeviceData((groupData) =>
+          groupData.map((data) =>
+            data.requester._id === requesterId
+              ? { ...data, devices: updatedDevices }
+              : data
+          )
         );
         if (updatedDevices.length === 0) {
           setRequesterData({});
@@ -31,6 +39,13 @@ const DeviceDetailModal = ({
         const updatedDevices = devices.filter(
           (device) => device._id !== deviceId
         );
+        setDeviceData((groupData) =>
+          groupData.map((data) =>
+            data.requester._id === requesterId
+              ? { ...data, devices: updatedDevices }
+              : data
+          )
+        );
         if (updatedDevices.length === 0) {
           setRequesterData({});
         }
@@ -44,6 +59,13 @@ const DeviceDetailModal = ({
       setDeviceList((devices) => {
         const updatedDevices = devices.filter(
           (device) => device._id !== deviceId
+        );
+        setDeviceData((groupData) =>
+          groupData.map((data) =>
+            data.requester._id === requesterId
+              ? { ...data, devices: updatedDevices }
+              : data
+          )
         );
         if (updatedDevices.length === 0) {
           setRequesterData({});
@@ -147,7 +169,7 @@ const DeviceDetailModal = ({
                                 onClick={() => handleSeenDenied(device._id)}
                                 sx={{ whiteSpace: "nowrap" }}
                               >
-                                Permission Denied
+                                Remove
                               </Button>
                             </Tooltip>
                           </td>

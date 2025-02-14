@@ -1,12 +1,14 @@
-import '../../css/sidebar/sidebar.css';
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import "../../css/sidebar/sidebar.css";
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Link = ({ icon: Icon, text, to }) => {
   return (
     <NavLink
       to={to}
-      className={({ isActive }) => (isActive ? 'linkContainer active' : 'linkContainer')}
+      className={({ isActive }) =>
+        isActive ? "linkContainer active" : "linkContainer"
+      }
     >
       <div className="linkContainer">
         <Icon className="likeIcon" />

@@ -16,6 +16,15 @@ const theme = createTheme({
         },
       },
     },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontWeight: "bold",
+          whiteSpace: "nowrap",
+          fontSize: 12.95,
+        },
+      },
+    },
   },
 });
 function App() {

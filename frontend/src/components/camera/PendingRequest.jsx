@@ -1,6 +1,7 @@
 import React from "react";
 import UserListCard from "./UserListCard";
-
+import emptyImg from "../../assets/empty.png";
+import { Typography } from "@mui/material";
 const PendingRequest = ({
   handleModal,
   type,
@@ -23,7 +24,12 @@ const PendingRequest = ({
           );
         })
       ) : (
-        <p>No device data found</p>
+        <>
+          <img src={emptyImg} className="emptyImage"></img>
+          <Typography variant="h6" className="emptyText" sx={{ ml: 22, mt: 5 }}>
+            No Pending request
+          </Typography>
+        </>
       )}
     </>
   );

@@ -172,3 +172,13 @@
   padding-bottom: 40px;
   color: white;
 }
+.emptyImage {
+  width: 800px;
+  height: 200px;
+  margin-left: 50px;
+}
+.emptyText {
+  color: white;
+
+  white-space: nowrap;
+}

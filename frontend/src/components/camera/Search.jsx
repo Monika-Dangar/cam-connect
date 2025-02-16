@@ -35,7 +35,7 @@ const Search = () => {
             }}
           >
             <SearchSharpIcon />
-            <span className="space">Search</span>
+            <span className="space">Search for a user to request access</span>
           </div>
         }
         type="search"

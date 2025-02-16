@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
 import Search from "./Search";
 import ApprovedRequest from "./ApprovedRequest";
 import PendingRequest from "./PendingRequest";
@@ -52,19 +53,9 @@ export default function BasicCameraTab() {
   const [deviceDeniedData, setDeviceDeniedData] = React.useState([]);
 
   const [type, setType] = React.useState();
-  const fetchApprovedDevices = async () => {
-    setType("approved");
-    const response = await cameraServies.getApprovedDevice();
-    if (response.message) {
-      setDeviceApprovedData([]);
-      setToastMessage(response.message);
-      setOpenToast(true);
-    } else if (response) {
-      const result = Object.values(groupedData(response));
-      setDeviceApprovedData(result);
-    }
-  };
+
   const groupedData = (response) => {
+    console.log(response);
     return response.reduce((acc, curr) => {
       const { requesterId, deviceId } = curr;
       if (!acc[requesterId.username]) {
@@ -89,6 +80,18 @@ export default function BasicCameraTab() {
       acc[ownerId.username].devices.push(deviceId);
       return acc;
     }, {});
+  };
+  const fetchApprovedDevices = async () => {
+    setType("approved");
+    const response = await cameraServies.getApprovedDevice();
+    if (response.message) {
+      setDeviceApprovedData([]);
+      setToastMessage(response.message);
+      setOpenToast(true);
+    } else if (response) {
+      const result = Object.values(groupedData(response));
+      setDeviceApprovedData(result);
+    }
   };
   const fetchPendingDevices = async () => {
     setType("pending");
@@ -143,11 +146,34 @@ export default function BasicCameraTab() {
               },
             }}
           >
-            <Tab label="Access Granted" {...a11yProps(0)} />
-            <Tab label="Approval Pending" {...a11yProps(1)} />
-            <Tab label="Access Denied Alert" {...a11yProps(2)} />
+            <Tab
+              label={
+                <Tooltip title="List of user with devices which you have given access">
+                  <span>Access Granted</span>
+                </Tooltip>
+              }
+              {...a11yProps(0)}
+            />
+
+            <Tab
+              label={
+                <Tooltip title="List of user with devices of which they want access">
+                  Approval Pending
+                </Tooltip>
+              }
+              {...a11yProps(1)}
+            />
+            <Tab
+              label={
+                <Tooltip title="List of user with devices of which you don't got access">
+                  Access Denied Alert
+                </Tooltip>
+              }
+              {...a11yProps(2)}
+            />
           </Tabs>
         </Box>
+
         <CustomTabPanel value={value} index={0}>
           <ApprovedRequest
             groupData={deviceApprovedData}
@@ -156,6 +182,7 @@ export default function BasicCameraTab() {
             fetch={fetchApprovedDevices}
           />
         </CustomTabPanel>
+
         <CustomTabPanel value={value} index={1}>
           <PendingRequest
             pendingDeviceData={devicePendingData}

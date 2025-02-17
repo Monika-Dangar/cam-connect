@@ -14,8 +14,7 @@ const Search = () => {
     const response = await cameraServies.searchUser(searchText);
     if (response) {
       response.response && setSearchUserData(response.response);
-
-      if (userId) {
+      if (response.userId) {
         setuserId(response.userId);
       }
     }

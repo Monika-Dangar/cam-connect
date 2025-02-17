@@ -47,7 +47,7 @@ const SearchDetailModal = ({ handleModal, devices, userId }) => {
           className="searchListCard "
           sx={{
             width:
-              devices[0].length > 0 && devices[0][1].userId != userId
+              devices[0].length > 0 && devices[0][0].userId != userId
                 ? 720
                 : 600,
           }}
@@ -59,7 +59,7 @@ const SearchDetailModal = ({ handleModal, devices, userId }) => {
                   <td className="searchDeviceContent">Name</td>
                   <td className="searchDeviceContent">Location</td>
                   <td className="searchDeviceContent">Type</td>
-                  {devices[0].length > 0 && devices[0][1].userId != userId && (
+                  {devices[0].length > 0 && devices[0][0].userId != userId && (
                     <td className="searchDeviceContent">Request Status</td>
                   )}
                   <td className="btnClose">

@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const messages = require("../utils/constants").default;
 const galleryService = require("../services/galleryService");
+
 const uploadImage = async (req, res) => {
   const { deviceId, imagePath, location, height, width, format } = req.body;
   const data = {
@@ -27,6 +28,29 @@ const uploadImage = async (req, res) => {
       .send({ message: messages.image.createError });
   }
 };
+const getDeviceImage = async (req, res) => {
+  const { deviceId } = req.body;
+  const response = await galleryService.getDeviceImage(deviceId);
+  if (response) {
+    res
+      .status(StatusCodes.OK)
+      .send({ message: messages.image.imageGet, response });
+  } else {
+    res.status(StatusCodes.OK).send({ message: messages.image.imageNotThere });
+  }
+};
+const getAllImageOfAutenticatedUser = async (req, res) => {
+  const response = await galleryService.getAllImageOfAutenticatedUser(req.user);
+  if (response) {
+    res
+      .status(StatusCodes.OK)
+      .send({ message: messages.image.imageGet, response });
+  } else {
+    res.status(StatusCodes.OK).send({ message: messages.image.imageNotThere });
+  }
+};
 module.exports = {
   uploadImage,
+  getDeviceImage,
+  getAllImageOfAutenticatedUser,
 };

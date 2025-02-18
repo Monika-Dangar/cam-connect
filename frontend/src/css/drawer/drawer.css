@@ -1,0 +1,31 @@
+.drawerContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2%;
+  /* background-color: antiquewhite; */
+  width: 30%;
+  gap: 10%;
+}
+
+.filterBackground {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: gray;
+  color: white;
+  width: 35%;
+  height: 48px;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.favoriteContainer {
+  text-align: center;
+  background-color: gray;
+  border-radius: 50px;
+  width: 35%;
+  height: 48px;
+  border-radius: 50px;
+  color: white;
+  cursor: pointer;
+}

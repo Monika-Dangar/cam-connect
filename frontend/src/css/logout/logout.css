@@ -1,0 +1,12 @@
+.logoutBtn {
+  background-color: rgb(207, 63, 87);
+  color: white;
+  cursor: pointer;
+  border-radius: 5%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  position: fixed;
+  top: 90vh;
+  left: 3vw;
+  width: 15%;
+}

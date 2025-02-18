@@ -9,9 +9,11 @@ const Dashboard = () => {
       <header>
         <Header />
       </header>
-      <div className="flex justify-between">
+      <div className="dashboardContainer">
         <Sidebar />
-        <MainContent />
+        <div className="mainContentWrapper">
+          <MainContent />
+        </div>
       </div>
     </>
   );

@@ -4,6 +4,9 @@
   background-color: rgb(29, 28, 28);
   border: 1px solid black;
   margin: 0.5%;
+  position: fixed;
+  top: 8vh;
+  left: 0;
 }
 
 .text {

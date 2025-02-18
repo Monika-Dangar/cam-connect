@@ -1,0 +1,12 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  /* background-color: aqua; */
+}
+
+.imgCardContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 80%;
+}

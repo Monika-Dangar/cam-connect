@@ -2,14 +2,25 @@ body {
   background-color: black;
 }
 
-.mainContainer {
-  /* background-color: rgb(114, 108, 108); */
-  width: 100vw;
-  background-color: rgb(29, 28, 28);
-  border: 1px solid black;
-  margin: 0.5%;
+.dashboardContainer {
+  display: flex;
+  margin-top: 8vh;
+  position: relative;
+  width: 100%;
+  min-height: 92vh;
 }
-/* .container {
-  color: white;
-  width: 100px;
-} */
+
+.mainContentWrapper {
+  flex-grow: 1;
+  margin-left: 20vw;
+  height: 92vh;
+  overflow-y: auto;
+  background-color: rgb(29, 28, 28);
+  margin-top: 1vh;
+  position: fixed;
+}
+
+.innerContent {
+  margin-left: 2%;
+  margin-top: 2%;
+}

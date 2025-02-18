@@ -9,9 +9,8 @@ const getApprovedDevice = async () => {
       },
     });
     const res = await response.json();
+
     if (response.status == 200) {
-      return res;
-    } else {
       return res;
     }
   } catch (error) {

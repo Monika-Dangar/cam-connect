@@ -77,18 +77,24 @@ const DeviceDetailModal = ({
   return (
     <>
       <Box className="deviceListModal">
-        <Card className="deviceListCard">
+        <Card
+          className="deviceListCard"
+          sx={{ width: type === "pending" ? 900 : 750 }}
+        >
           <CardContent>
             <table>
               <tbody>
-                <tr className="">
-                  <td className="heading2">IMEI number</td>
+                <tr className="deviceTr">
+                  <td className="searchDeviceContent">IMEI number</td>
+                  <td className="searchDeviceContent">Name</td>
+                  <td className="searchDeviceContent">Location</td>
+                  <td className="searchDeviceContent">Type</td>
 
-                  <td className="heading">Name</td>
-                  <td className="heading">Location</td>
-                  <td className="heading">Type</td>
-
-                  <td className="btnClose">
+                  <td
+                    className={`btnCloseDevice ${
+                      type === "pending" ? "p2" : "p1"
+                    }`}
+                  >
                     <Button
                       onClick={() => {
                         handleModal();
@@ -109,15 +115,21 @@ const DeviceDetailModal = ({
                 {deviceList.length > 0 ? (
                   deviceList.map((device) => {
                     return (
-                      <tr key={device._id}>
-                        <td className="tableContent">{device.imeiNumber}</td>
-                        <td className="tableContent">{device.deviceName}</td>
-                        <td className="tableContent">
+                      <tr key={device._id} className="deviceTr">
+                        <td className="searchDeviceContent">
+                          {device.imeiNumber}
+                        </td>
+                        <td className="searchDeviceContent">
+                          {device.deviceName}
+                        </td>
+                        <td className="searchDeviceContent">
                           {device.deviceLocation}
                         </td>
-                        <td className="tableContent">{device.deviceType}</td>
+                        <td className="searchDeviceContent">
+                          {device.deviceType}
+                        </td>
                         {type === "pending" && (
-                          <td>
+                          <td className="tableContent">
                             <Tooltip title="GIVE ACCESS" arrow>
                               <Button
                                 color="primary"
@@ -137,7 +149,7 @@ const DeviceDetailModal = ({
                           </td>
                         )}
                         {type != "denied" ? (
-                          <td className="tableContentCamera">
+                          <td className="tableContent">
                             <Tooltip
                               title={
                                 type === "pending"
@@ -160,14 +172,13 @@ const DeviceDetailModal = ({
                             </Tooltip>
                           </td>
                         ) : (
-                          <td>
+                          <td className="tableContent">
                             <Tooltip title="Click if you have read">
                               <Button
                                 variant="contained"
                                 color="error"
                                 size="small"
                                 onClick={() => handleSeenDenied(device._id)}
-                                sx={{ whiteSpace: "nowrap" }}
                               >
                                 Remove
                               </Button>

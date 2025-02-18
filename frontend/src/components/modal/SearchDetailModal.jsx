@@ -43,15 +43,25 @@ const SearchDetailModal = ({ handleModal, devices, userId }) => {
   return (
     <>
       <Box className="deviceListModal">
-        <Card className="searchListCard ">
+        <Card
+          className="searchListCard "
+          sx={{
+            width:
+              devices[0].length > 0 && devices[0][0].userId != userId
+                ? 720
+                : 600,
+          }}
+        >
           <CardContent>
             <table>
               <tbody>
-                <tr>
-                  <td className="heading">Name</td>
-                  <td className="heading">Location</td>
-                  <td className="heading">Type</td>
-
+                <tr className="tr">
+                  <td className="searchDeviceContent">Name</td>
+                  <td className="searchDeviceContent">Location</td>
+                  <td className="searchDeviceContent">Type</td>
+                  {devices[0].length > 0 && devices[0][0].userId != userId && (
+                    <td className="searchDeviceContent">Request Status</td>
+                  )}
                   <td className="btnClose">
                     <Button
                       onClick={() => {
@@ -73,7 +83,7 @@ const SearchDetailModal = ({ handleModal, devices, userId }) => {
                 {devices[0].length > 0 &&
                   devices[0].map((device) => {
                     return (
-                      <tr key={device._id}>
+                      <tr key={device._id} className="tr">
                         <td className="searchDeviceContent">
                           {device.deviceName}
                         </td>
@@ -83,7 +93,7 @@ const SearchDetailModal = ({ handleModal, devices, userId }) => {
                         <td className="searchDeviceContent">
                           {device.deviceType}
                         </td>
-                        <td>
+                        <td className="searchDeviceContent">
                           {device.userId != userId && (
                             <Status
                               deviceId={device._id}

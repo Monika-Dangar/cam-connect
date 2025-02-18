@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-
 import AddIcon from '@mui/icons-material/Add';
 
 const ImageCard = () => {
-  let flag = true;
+  const [isFav, setIsFav] = useState(true);
+
+  const handleAddOrRemoveFav = () => {
+    setIsFav((prev) => !prev);
+    // console.log(`Fav: ${isFav}`);
+  };
 
   return (
     <>
@@ -25,11 +29,13 @@ const ImageCard = () => {
               className="pl-2 rounded-full bg-slate-200 w-48"
             />
           </div>
-          {flag ? (
-            <BookmarkIcon className="text-slate-500" />
-          ) : (
-            <BookmarkBorderIcon className="text-slate-500" />
-          )}
+          <button onClick={handleAddOrRemoveFav}>
+            {isFav ? (
+              <BookmarkBorderIcon className="text-slate-500" />
+            ) : (
+              <BookmarkIcon className="text-slate-500" />
+            )}
+          </button>
         </div>
       </div>
     </>

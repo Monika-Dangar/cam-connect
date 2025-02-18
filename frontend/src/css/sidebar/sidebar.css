@@ -1,5 +1,5 @@
 .container {
-  width: 20vw;
+  /* width: 20vw; */
   height: 92vh;
   background-color: rgb(29, 28, 28);
   border: 1px solid black;
@@ -7,6 +7,9 @@
   position: fixed;
   top: 8vh;
   left: 0;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
 }
 
 .text {

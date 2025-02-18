@@ -11,9 +11,7 @@ const Dashboard = () => {
       </header>
       <div className="dashboardContainer">
         <Sidebar />
-        <div className="mainContentWrapper">
-          <MainContent />
-        </div>
+        <MainContent />
       </div>
     </>
   );

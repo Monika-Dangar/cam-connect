@@ -1,12 +1,12 @@
 .boxStyling {
   display: flex;
   flex-direction: row;
-  width: 91%;
+  width: 83vw;
+  overflow: hidden;
 }
 .text {
   caret-color: beige;
   color: beige;
-
   width: 100%;
 }
 

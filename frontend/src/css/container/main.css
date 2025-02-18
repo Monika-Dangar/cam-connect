@@ -10,17 +10,12 @@ body {
   min-height: 92vh;
 }
 
-.mainContentWrapper {
+.mainContent {
   flex-grow: 1;
-  margin-left: 20vw;
+  margin-left: 15vw;
   height: 92vh;
   overflow-y: auto;
   background-color: rgb(29, 28, 28);
   margin-top: 1vh;
   position: fixed;
-}
-
-.innerContent {
-  margin-left: 2%;
-  margin-top: 2%;
 }

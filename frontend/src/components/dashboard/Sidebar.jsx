@@ -1,4 +1,3 @@
-import "../../css/sidebar/sidebar.css";
 import React from "react";
 import { Tabs, Tab, Box, Button } from "@mui/material";
 import { Link } from "react-router-dom"; // Ensure you're using React Router

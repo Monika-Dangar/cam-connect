@@ -41,6 +41,8 @@ const messages = {
   image: {
     createSuccess: "Image uploaded successfully",
     createError: "Unable to upload image",
+    imageGet: "Image get successfully",
+    imageNotThere: "Image not found for this device",
   },
   favourite: {
     markAsFavourite: "Added to favourite",

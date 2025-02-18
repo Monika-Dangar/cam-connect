@@ -48,6 +48,10 @@ const messages = {
     error: "Unable to add to  favourite",
     emptyFavourite: "Nothing is added to favourite",
   },
+  tag: {
+    createSuccess: "Tag added successfully",
+    createError: "Unable to add tag",
+  },
 };
 
 export default messages;

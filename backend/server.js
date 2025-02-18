@@ -6,6 +6,7 @@ const deviceRoutes = require("./routes/deviceRoutes");
 const cameraRoutes = require("./routes/cameraRoutes");
 const galleryRoutes = require("./routes/galleryRoutes");
 const favouriteRoutes = require("./routes/favouriteRoutes");
+const tagRoutes = require("./routes/tagRoutes");
 const { connectMongoDB } = require("./connection");
 
 const app = express();
@@ -30,6 +31,7 @@ app.use("/api/device", deviceRoutes);
 app.use("/api/camera", cameraRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/favourite", favouriteRoutes);
+app.use("/api/tag", tagRoutes);
 app.listen(3000, () => {
   console.log(`Server listening on port 3000!`);
 });

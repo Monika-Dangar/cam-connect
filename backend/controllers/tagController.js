@@ -19,10 +19,45 @@ const addTag = async (req, res) => {
       .send({ message: messages.tag.createError });
   }
 };
-const removeTag = async () => {};
-const getTag = async () => {};
+const removeTag = async (req, res) => {
+  const { tagId } = req.body;
+  const response = await tagService.removeTag(tagId);
+  if (response) {
+    res.status(StatusCodes.OK).send({ message: messages.tag.deleteSuccess });
+  } else {
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .send({ message: messages.tag.deleteFailure });
+  }
+};
+const getTagOfParticularImage = async (req, res) => {
+  const { imageId } = req.body;
+  const response = await tagService.getTag(imageId);
+  if (response) {
+    return res
+      .status(StatusCodes.OK)
+      .send({ message: messages.tag.tagGet, response });
+  } else {
+    return res
+      .status(StatusCodes.OK)
+      .send({ message: messages.tag.tagNotThere });
+  }
+};
+const getMaxUsedTags = async (req, res) => {
+  const response = await tagService.getMaxUsedTags();
+  if (response) {
+    return res
+      .status(StatusCodes.OK)
+      .send({ message: messages.tag.tagGet, response });
+  } else {
+    return res
+      .status(StatusCodes.OK)
+      .send({ message: messages.tag.allTagNotThere });
+  }
+};
 module.exports = {
   addTag,
   removeTag,
-  getTag,
+  getTagOfParticularImage,
+  getMaxUsedTags,
 };

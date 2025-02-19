@@ -39,8 +39,8 @@ const getDeviceImage = async (req, res) => {
     res.status(StatusCodes.OK).send({ message: messages.image.imageNotThere });
   }
 };
-const getAllImageOfAutenticatedUser = async (req, res) => {
-  const response = await galleryService.getAllImageOfAutenticatedUser(req.user);
+const getAllImage = async (req, res) => {
+  const response = await galleryService.getAllImage(req.user);
   if (response) {
     res
       .status(StatusCodes.OK)
@@ -52,5 +52,5 @@ const getAllImageOfAutenticatedUser = async (req, res) => {
 module.exports = {
   uploadImage,
   getDeviceImage,
-  getAllImageOfAutenticatedUser,
+  getAllImage,
 };

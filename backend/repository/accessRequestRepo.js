@@ -1,7 +1,7 @@
 const accessRequest = require("../models/accessRequestSchema");
 function findDeviceSharedWithMe(requesterId) {
   return accessRequest
-    .find({ requesterId, status: "approved" })
+    .find({ requesterId, status: "approved", isActive: true })
     .populate({
       path: "deviceId",
       select: "deviceName deviceLocation deviceType imeiNumber",
@@ -31,9 +31,47 @@ function deleteSharedDevice(_id) {
 function deleteLinkedDevice(deviceId) {
   return accessRequest.deleteMany({ deviceId });
 }
+function findDeviceIdsOfSharedWithMe(requesterId) {
+  return accessRequest.aggregate([
+    {
+      $match: {
+        requesterId,
+        status: "approved",
+        isActive: true,
+      },
+    },
+    {
+      $lookup: {
+        from: "devices",
+        localField: "deviceId",
+        foreignField: "_id",
+        as: "deviceDetails",
+      },
+    },
+    {
+      $unwind: "$deviceDetails",
+    },
+    {
+      $lookup: {
+        from: "images",
+        localField: "deviceDetails._id",
+        foreignField: "deviceId",
+        as: "image",
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        deviceDetails: 1,
+        image: 1,
+      },
+    },
+  ]);
+}
 module.exports = {
   findDeviceSharedWithMe,
   findDeviceSharedWithOthers,
   deleteSharedDevice,
   deleteLinkedDevice,
+  findDeviceIdsOfSharedWithMe,
 };

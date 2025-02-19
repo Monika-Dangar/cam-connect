@@ -7,7 +7,5 @@ router
   .post(authenticate, galleryController.uploadImage) //to uploadImage
   .get(authenticate, galleryController.getDeviceImage); //to get image of particular device send deviceid in body
 
-router
-  .route("/getAllImageOfAutenticatedUser")
-  .get(authenticate, galleryController.getAllImageOfAutenticatedUser);
+router.route("/getAllImage").get(authenticate, galleryController.getAllImage);
 module.exports = router;

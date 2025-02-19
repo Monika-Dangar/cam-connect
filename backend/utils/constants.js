@@ -53,6 +53,11 @@ const messages = {
   tag: {
     createSuccess: "Tag added successfully",
     createError: "Unable to add tag",
+    deleteSuccess: "Tag removed successfully",
+    deleteFailure: "Unable to remove tag",
+    tagGet: "Tag get successfully",
+    tagNotThere: "Tag not found for this image",
+    allTagNotThere: "Tag not found ",
   },
 };
 

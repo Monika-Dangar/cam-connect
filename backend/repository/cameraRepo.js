@@ -10,6 +10,7 @@ function findIsRequestExist(requesterId, ownerId, deviceId) {
       requesterId: requesterId,
       deviceId: deviceId,
       status: enumStatus.deniedStatus,
+      isActive: true,
     },
     { status: enumStatus.pendingStatus },
     { new: true }
@@ -28,6 +29,7 @@ function requestExistsOrNot(requesterId, deviceId) {
   return accessRequestSchema.find({
     requesterId: requesterId,
     deviceId: deviceId,
+    isActive: true,
   });
 }
 
@@ -46,6 +48,7 @@ function getDeniedDevice(userId) {
     .find({
       requesterId: userId,
       status: enumStatus.deniedStatus,
+      isActive: true,
     })
     .populate("deviceId")
     .populate("ownerId");

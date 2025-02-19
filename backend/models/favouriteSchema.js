@@ -11,6 +11,11 @@ const favouriteSchema = new mongoose.Schema(
       ref: "Image",
       required: true,
     },
+    deviceId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Device",
+      required: true,
+    },
   },
   {
     timestamps: {

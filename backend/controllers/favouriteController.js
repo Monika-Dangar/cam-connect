@@ -3,7 +3,7 @@ const messages = require("../utils/constants").default;
 const favouriteService = require("../services/favouriteService");
 const { findByUsername } = require("../repository/userRepo");
 const handleFavourite = async (req, res) => {
-  const { imageId } = req.body;
+  const { imageId, deviceId } = req.body;
   const user = await findByUsername(req.user);
 
   if (!imageId) {
@@ -14,6 +14,7 @@ const handleFavourite = async (req, res) => {
   const data = {
     userId: user._id,
     imageId,
+    deviceId,
   };
   const response = await favouriteService.handleFavourite(data);
   if (response) {

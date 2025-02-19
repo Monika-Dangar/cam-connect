@@ -19,7 +19,20 @@ const handleFavourite = async (data) => {
 const getFavourite = async (userId) => {
   const response = await favouriteRepo.getFavourite(userId);
   if (response.length !== 0) {
-    return response;
+    // const res = response.toObject();
+    return Object.values(
+      response.reduce((acc, curr) => {
+        if (curr && !acc[curr._id]) {
+          const formattedCurr = {
+            ...curr,
+            createdAt: curr.createdAt.toUTCString(),
+            updatedAt: curr.updatedAt.toUTCString(),
+          };
+          acc[curr._id] = formattedCurr;
+        }
+        return acc;
+      }, {})
+    );
   } else {
     return null;
   }

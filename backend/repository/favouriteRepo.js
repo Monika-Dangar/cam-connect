@@ -10,7 +10,10 @@ const removeFromFavourite = (imageId) => {
   return Favourite.deleteOne({ imageId });
 };
 const getFavourite = (userId) => {
-  return Favourite.find({ userId }).populate("imageId");
+  return Favourite.find({ userId })
+    .populate("imageId")
+    .populate("deviceId")
+    .lean();
 };
 module.exports = {
   addToFavourite,

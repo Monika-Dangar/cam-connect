@@ -10,5 +10,5 @@ router
 router
   .route("/tagOfParticularImage")
   .post(authenticate, tagController.getTagOfParticularImage);
-router.route("/getAllTags").get(authenticate, tagController.getMaxUsedTags);
+router.route("/allTags").get(authenticate, tagController.getMaxUsedTags);
 module.exports = router;

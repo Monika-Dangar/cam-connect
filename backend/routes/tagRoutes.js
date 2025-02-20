@@ -5,7 +5,10 @@ const tagController = require("../controllers/tagController");
 router
   .route("/handleTag")
   .post(authenticate, tagController.addTag) //adds tag to particular image (every image have unique tag)
-  .delete(authenticate, tagController.removeTag) //remove a tag of particular image require:tagId
-  .get(authenticate, tagController.getTagOfParticularImage);
+  .delete(authenticate, tagController.removeTag); //remove a tag of particular image require:tagId
+
+router
+  .route("/tagOfParticularImage")
+  .post(authenticate, tagController.getTagOfParticularImage);
 router.route("/getAllTags").get(authenticate, tagController.getMaxUsedTags);
 module.exports = router;

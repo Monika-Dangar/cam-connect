@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const { authenticate } = require("../services/authService");
 const galleryController = require("../controllers/galleryController");
+router.route("/image").post(authenticate, galleryController.uploadImage); //to uploadImage
+//to get image of particular device send deviceid in body
 router
-  .route("/image")
-  .post(authenticate, galleryController.uploadImage) //to uploadImage
-  .get(authenticate, galleryController.getDeviceImage); //to get image of particular device send deviceid in body
-
-router.route("/getAllImage").get(authenticate, galleryController.getAllImage);
+  .route("/deviceImages")
+  .post(authenticate, galleryController.getDeviceImage);
+router
+  .route("/filteredImages")
+  .post(authenticate, galleryController.getAllImage);
 module.exports = router;

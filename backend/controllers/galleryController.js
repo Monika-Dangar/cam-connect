@@ -40,7 +40,15 @@ const getDeviceImage = async (req, res) => {
   }
 };
 const getAllImage = async (req, res) => {
-  const response = await galleryService.getAllImage(req.user);
+  const { location, tag, date, deviceId, startDate, endDate } = req.body;
+  const response = await galleryService.getAllImage(
+    req.user,
+    deviceId,
+    location,
+    tag,
+    startDate,
+    endDate
+  );
   if (response) {
     res
       .status(StatusCodes.OK)

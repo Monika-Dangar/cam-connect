@@ -19,7 +19,6 @@ const handleFavourite = async (data) => {
 const getFavourite = async (userId) => {
   const response = await favouriteRepo.getFavourite(userId);
   if (response.length !== 0) {
-    // const res = response.toObject();
     return Object.values(
       response.reduce((acc, curr) => {
         if (curr && !acc[curr._id]) {

@@ -13,6 +13,7 @@ const getFavourite = (userId) => {
   return Favourite.find({ userId })
     .populate("imageId")
     .populate("deviceId")
+    .sort({ createdAt: -1 })
     .lean();
 };
 module.exports = {

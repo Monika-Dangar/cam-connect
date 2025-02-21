@@ -9,6 +9,24 @@ const findTag = (tag, imageId) => {
     imageId,
   });
 };
+const findImageIdsOfTag = (matchTag) => {
+  return Tag.aggregate([
+    {
+      $match: {
+        tag: {
+          $regex: `^${matchTag}$`,
+          $options: "i",
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        imageIds: { $push: "$imageId" },
+      },
+    },
+  ]);
+};
 const removeTag = (_id) => {
   return Tag.deleteOne({ _id });
 };
@@ -39,6 +57,7 @@ module.exports = {
   addTag,
   findTag,
   removeTag,
+  findImageIdsOfTag,
   getTagOfParticularImage,
   getMaxUsedTags,
 };

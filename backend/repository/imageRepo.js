@@ -4,7 +4,10 @@ const createImage = (data) => {
   return image.save();
 };
 const getImageByDeviceId = (deviceId) => {
-  return Image.find({ deviceId }).populate("deviceId").lean();
+  return Image.find({ deviceId })
+    .populate("deviceId")
+    .sort({ createdAt: -1 })
+    .lean();
 };
 
 module.exports = {

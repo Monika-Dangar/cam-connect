@@ -3,7 +3,8 @@ const messages = require("../utils/constants").default;
 const galleryService = require("../services/galleryService");
 
 const uploadImage = async (req, res) => {
-  const { deviceId, imagePath, location, height, width, format } = req.body;
+  const { deviceId, imagePath, location, height, width, format } =
+    req.body.data;
   const data = {
     deviceId,
     imagePath,

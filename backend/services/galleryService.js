@@ -26,7 +26,7 @@ const getAllImage = async (username, deviceIds, tag, startDate, endDate) => {
   if (tag) {
     ids = await tagRepo.findImageIdsOfTag(tag);
   }
-
+  deviceIds = deviceIds.map((id) => new mongoose.Types.ObjectId(id));
   const imageData = await Promise.all([
     accessRequestRepo.findDeviceIdsOfSharedWithMe(
       user._id,

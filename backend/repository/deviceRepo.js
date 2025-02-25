@@ -30,11 +30,20 @@ function updateDevice(deviceId, newDeviceData) {
 function deleteDeviceById(_id) {
   return device.findByIdAndDelete(_id);
 }
-const findImagesOfLoggedInUserDevice = (userId) => {
+const findImagesOfLoggedInUserDevice = (
+  userId,
+  deviceIds,
+  imageIds,
+  startDate,
+  endDate
+) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
   return device.aggregate([
     {
       $match: {
         userId,
+        ...(deviceIds?.length > 0 ? { _id: { $in: deviceIds } } : {}),
       },
     },
     {
@@ -46,9 +55,21 @@ const findImagesOfLoggedInUserDevice = (userId) => {
       },
     },
     {
+      $unwind: "$image",
+    },
+    {
+      $match: imageIds?.length > 0 ? { "image._id": { $in: imageIds } } : {},
+    },
+    {
+      $match:
+        startDate && endDate
+          ? { "image.createdAt": { $gte: start, $lte: end } }
+          : {},
+    },
+    {
       $project: {
-        _id: 0,
-        deviceDetails: {
+        _id: "$image._id",
+        deviceId: {
           _id: "$_id",
           userId: "$userId",
           deviceName: "$deviceName",
@@ -58,7 +79,12 @@ const findImagesOfLoggedInUserDevice = (userId) => {
           createdAt: "$createdAt",
           updatedAt: "$updatedAt",
         },
-        image: 1,
+        imagePath: "$image.imagePath",
+        height: "$image.height",
+        width: "$image.width",
+        format: "$image.format",
+        createdAt: "$image.createdAt",
+        updatedAt: "$image.updatedAt",
       },
     },
   ]);

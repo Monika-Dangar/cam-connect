@@ -13,10 +13,9 @@ const findImageIdsOfTag = (matchTag) => {
   return Tag.aggregate([
     {
       $match: {
-        tag: {
-          $regex: `^${matchTag}$`,
-          $options: "i",
-        },
+        $or: matchTag.map((tag) => ({
+          tag: { $regex: `^${tag}$`, $options: "i" },
+        })),
       },
     },
     {

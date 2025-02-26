@@ -9,7 +9,7 @@ const getImageByDeviceId = (deviceId) => {
     .sort({ createdAt: -1 })
     .lean();
 };
-const findUserImages = (deviceIds, startDate, endDate, imageIds) => {
+const findUserImages = (deviceIds, startDate, endDate, imageIds, cursor) => {
   return Image.aggregate([
     {
       $match: {
@@ -21,6 +21,7 @@ const findUserImages = (deviceIds, startDate, endDate, imageIds) => {
               createdAt: { $gte: new Date(startDate), $lte: new Date(endDate) },
             }
           : {}),
+        ...(cursor && { createdAt: { $lt: new Date(cursor) } }),
       },
     },
     {
@@ -34,6 +35,9 @@ const findUserImages = (deviceIds, startDate, endDate, imageIds) => {
     { $unwind: "$deviceDetails" },
     {
       $sort: { createdAt: -1 },
+    },
+    {
+      $limit: 50,
     },
     {
       $project: {

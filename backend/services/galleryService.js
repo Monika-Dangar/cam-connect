@@ -20,7 +20,14 @@ const getDeviceImage = async (deviceId) => {
     return null;
   }
 };
-const getAllImage = async (username, deviceIds, tag, startDate, endDate) => {
+const getAllImage = async (
+  username,
+  deviceIds,
+  tag,
+  startDate,
+  endDate,
+  cursor
+) => {
   const user = await findByUsername(username);
   let ids = [];
   if (tag.length > 0) {
@@ -40,10 +47,14 @@ const getAllImage = async (username, deviceIds, tag, startDate, endDate) => {
       deviceIds,
       startDate,
       endDate,
-      ids[0]?.imageIds
+      ids[0]?.imageIds,
+      cursor
     );
-    console.log(imageData.length);
-    return imageData;
+    const nextCursor = imageData[imageData.length - 1]?.createdAt;
+    return {
+      imageData,
+      nextCursor,
+    };
   }
 
   return null;

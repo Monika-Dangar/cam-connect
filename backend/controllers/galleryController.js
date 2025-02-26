@@ -3,8 +3,7 @@ const messages = require("../utils/constants").default;
 const galleryService = require("../services/galleryService");
 
 const uploadImage = async (req, res) => {
-  const { deviceId, imagePath, location, height, width, format } =
-    req.body.data;
+  const { deviceId, imagePath, location, height, width, format } = req.body;
   const data = {
     deviceId,
     imagePath,
@@ -41,14 +40,13 @@ const getDeviceImage = async (req, res) => {
   }
 };
 const getAllImage = async (req, res) => {
-  const { tag, deviceIds, startDate, endDate, cursor } = req.body;
+  const { tag, deviceIds, startDate, endDate } = req.body;
   const response = await galleryService.getAllImage(
     req.user,
     deviceIds,
     tag,
     startDate,
-    endDate,
-    cursor
+    endDate
   );
   if (response) {
     res

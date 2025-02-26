@@ -33,71 +33,88 @@ function deleteSharedDevice(_id) {
 function deleteLinkedDevice(deviceId) {
   return accessRequest.deleteMany({ deviceId });
 }
-function findDeviceIdsOfSharedWithMe(
-  requesterId,
-  deviceIds,
-  imageIds,
-  startDate,
-  endDate
-) {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
+// function findDeviceIdsOfSharedWithMe(
+//   requesterId,
+//   deviceIds,
+//   imageIds,
+//   startDate,
+//   endDate
+// ) {
+//   const start = new Date(startDate);
+//   const end = new Date(endDate);
+//   return accessRequest.aggregate([
+//     {
+//       $match: {
+//         requesterId,
+//         status: "approved",
+//         isActive: true,
+//         ...(deviceIds?.length > 0 ? { deviceId: { $in: deviceIds } } : {}),
+//       },
+//     },
+//     {
+//       $lookup: {
+//         from: "devices",
+//         localField: "deviceId",
+//         foreignField: "_id",
+//         as: "deviceDetails",
+//       },
+//     },
+//     {
+//       $unwind: "$deviceDetails",
+//     },
+//     {
+//       $lookup: {
+//         from: "images",
+//         localField: "deviceDetails._id",
+//         foreignField: "deviceId",
+//         as: "image",
+//       },
+//     },
+
+//     {
+//       $unwind: "$image",
+//     },
+//     {
+//       $match: imageIds?.length > 0 ? { "image._id": { $in: imageIds } } : {},
+//     },
+//     {
+//       $match:
+//         startDate && endDate
+//           ? { "image.createdAt": { $gte: start, $lte: end } }
+//           : {},
+//     },
+//     {
+//       $project: {
+//         _id: 0,
+//         _id: "$image._id",
+//         deviceId: "$deviceDetails",
+//         imagePath: "$image.imagePath",
+//         height: "$image.height",
+//         width: "$image.width",
+//         format: "$image.format",
+//         createdAt: "$image.createdAt",
+//         updatedAt: "$image.updatedAt",
+//       },
+//     },
+//   ]);
+// }
+const findDeviceIdsOfSharedWithMe = (requesterId) => {
   return accessRequest.aggregate([
     {
       $match: {
         requesterId,
         status: "approved",
         isActive: true,
-        ...(deviceIds?.length > 0 ? { deviceId: { $in: deviceIds } } : {}),
       },
-    },
-    {
-      $lookup: {
-        from: "devices",
-        localField: "deviceId",
-        foreignField: "_id",
-        as: "deviceDetails",
-      },
-    },
-    {
-      $unwind: "$deviceDetails",
-    },
-    {
-      $lookup: {
-        from: "images",
-        localField: "deviceDetails._id",
-        foreignField: "deviceId",
-        as: "image",
-      },
-    },
-
-    {
-      $unwind: "$image",
-    },
-    {
-      $match: imageIds?.length > 0 ? { "image._id": { $in: imageIds } } : {},
-    },
-    {
-      $match:
-        startDate && endDate
-          ? { "image.createdAt": { $gte: start, $lte: end } }
-          : {},
     },
     {
       $project: {
         _id: 0,
-        _id: "$image._id",
-        deviceId: "$deviceDetails",
-        imagePath: "$image.imagePath",
-        height: "$image.height",
-        width: "$image.width",
-        format: "$image.format",
-        createdAt: "$image.createdAt",
-        updatedAt: "$image.updatedAt",
+        _id: "$deviceId",
       },
     },
   ]);
-}
+};
 module.exports = {
   findDeviceSharedWithMe,
   findDeviceSharedWithOthers,

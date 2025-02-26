@@ -30,69 +30,72 @@ function updateDevice(deviceId, newDeviceData) {
 function deleteDeviceById(_id) {
   return device.findByIdAndDelete(_id);
 }
-const findImagesOfLoggedInUserDevice = (
-  userId,
-  deviceIds,
-  imageIds,
-  startDate,
-  endDate
-) => {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  return device.aggregate([
-    {
-      $match: {
-        userId,
-        ...(deviceIds?.length > 0 ? { _id: { $in: deviceIds } } : {}),
-      },
-    },
-    {
-      $lookup: {
-        from: "images",
-        localField: "_id",
-        foreignField: "deviceId",
-        as: "image",
-      },
-    },
-    {
-      $unwind: "$image",
-    },
-    {
-      $match: imageIds?.length > 0 ? { "image._id": { $in: imageIds } } : {},
-    },
-    {
-      $match:
-        startDate && endDate
-          ? { "image.createdAt": { $gte: start, $lte: end } }
-          : {},
-    },
-    {
-      $project: {
-        _id: "$image._id",
-        deviceId: {
-          _id: "$_id",
-          userId: "$userId",
-          deviceName: "$deviceName",
-          deviceLocation: "$deviceLocation",
-          deviceType: "$deviceType",
-          imeiNumber: "$imeiNumber",
-          createdAt: "$createdAt",
-          updatedAt: "$updatedAt",
-        },
-        imagePath: "$image.imagePath",
-        height: "$image.height",
-        width: "$image.width",
-        format: "$image.format",
-        createdAt: "$image.createdAt",
-        updatedAt: "$image.updatedAt",
-      },
-    },
-  ]);
+// const findImagesOfLoggedInUserDevice = (
+//   userId,
+//   deviceIds,
+//   imageIds,
+//   startDate,
+//   endDate
+// ) => {
+//   const start = new Date(startDate);
+//   const end = new Date(endDate);
+//   return device.aggregate([
+//     {
+//       $match: {
+//         userId,
+//         ...(deviceIds?.length > 0 ? { _id: { $in: deviceIds } } : {}),
+//       },
+//     },
+//     {
+//       $lookup: {
+//         from: "images",
+//         localField: "_id",
+//         foreignField: "deviceId",
+//         as: "image",
+//       },
+//     },
+//     {
+//       $unwind: "$image",
+//     },
+//     {
+//       $match: imageIds?.length > 0 ? { "image._id": { $in: imageIds } } : {},
+//     },
+//     {
+//       $match:
+//         startDate && endDate
+//           ? { "image.createdAt": { $gte: start, $lte: end } }
+//           : {},
+//     },
+//     {
+//       $project: {
+//         _id: "$image._id",
+//         deviceId: {
+//           _id: "$_id",
+//           userId: "$userId",
+//           deviceName: "$deviceName",
+//           deviceLocation: "$deviceLocation",
+//           deviceType: "$deviceType",
+//           imeiNumber: "$imeiNumber",
+//           createdAt: "$createdAt",
+//           updatedAt: "$updatedAt",
+//         },
+//         imagePath: "$image.imagePath",
+//         height: "$image.height",
+//         width: "$image.width",
+//         format: "$image.format",
+//         createdAt: "$image.createdAt",
+//         updatedAt: "$image.updatedAt",
+//       },
+//     },
+//   ]);
+// };
+const findDeviceIdsOfLoggedInUser = (userId) => {
+  return device.find({ userId }).select("_id");
 };
 module.exports = {
   createUserDevice,
   findDeviceByUserId,
   updateDevice,
   deleteDeviceById,
-  findImagesOfLoggedInUserDevice,
+  findDeviceIdsOfLoggedInUser,
 };

@@ -23,34 +23,36 @@ const getDeviceImage = async (deviceId) => {
 const getAllImage = async (username, deviceIds, tag, startDate, endDate) => {
   const user = await findByUsername(username);
   let ids = [];
-  if (tag) {
+  if (tag.length > 0) {
     ids = await tagRepo.findImageIdsOfTag(tag);
   }
   deviceIds = deviceIds.map((id) => new mongoose.Types.ObjectId(id));
-  const imageData = await Promise.all([
-    accessRequestRepo.findDeviceIdsOfSharedWithMe(
-      user._id,
-      deviceIds,
-      ids[0]?.imageIds || [],
-      startDate,
-      endDate
-    ),
-    deviceRepo.findImagesOfLoggedInUserDevice(
-      user._id,
-      deviceIds,
-      ids[0]?.imageIds || [],
-      startDate,
-      endDate
-    ),
-  ]);
-
-  const data = [...imageData[0], ...imageData[1]];
-  console.log(data.length);
-  if (data.length != 0) {
-    return data.sort((a, b) => b.createdAt - a.createdAt);
-  } else {
-    return null;
+  if (deviceIds.length === 0) {
+    const userDevice = await Promise.all([
+      accessRequestRepo.findDeviceIdsOfSharedWithMe(user._id),
+      deviceRepo.findDeviceIdsOfLoggedInUser(user._id),
+    ]);
+    deviceIds = [...userDevice[0], ...userDevice[1]].map((data) => data._id);
   }
+
+  if (deviceIds.length > 0) {
+    const imageData = await imageRepo.findUserImages(
+      deviceIds,
+      startDate,
+      endDate,
+      ids[0]?.imageIds
+    );
+    console.log(imageData.length);
+    return imageData;
+  }
+
+  return null;
+  // const data = [...imageData[0], ...imageData[1]];
+  // if (data.length != 0) {
+  //   return data.sort((a, b) => b.createdAt - a.createdAt);
+  // } else {
+  //   return null;
+  // }
 };
 
 module.exports = {

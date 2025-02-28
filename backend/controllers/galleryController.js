@@ -50,6 +50,8 @@ const getAllImage = async (req, res) => {
     cursor
   );
   if (response) {
+    console.log(response);
+    console.log(response.imageData.length);
     res
       .status(StatusCodes.OK)
       .send({ message: messages.image.imageGet, response });

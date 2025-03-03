@@ -3,26 +3,15 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
-
-export default function SelectTextFields({ inputValue, labelText, defaultValueText, hint }) {
+export default function SelectTextFields({
+  inputValue,
+  setValue,
+  labelText,
+  defaultValueText,
+  hint,
+  type,
+  data,
+}) {
   return (
     <Box
       component="form"
@@ -35,14 +24,25 @@ export default function SelectTextFields({ inputValue, labelText, defaultValueTe
         select
         label={labelText}
         defaultValue={defaultValueText}
-        // helperText="Please select your currency"
         placeholder={hint}
+        value={inputValue}
+        onChange={(e) => setValue(e.target.value)}
+        SelectProps={{
+          multiple: true,
+          renderValue: (selected) => selected.join(', '),
+        }}
       >
-        {currencies.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
+        {type == 'AllDevices'
+          ? data?.map((option) => (
+              <MenuItem key={option._id} value={option.deviceId._id}>
+                {option.deviceId.deviceName}
+              </MenuItem>
+            ))
+          : data?.map((option, idx) => (
+              <MenuItem key={idx} value={option._id}>
+                {option._id}
+              </MenuItem>
+            ))}
       </TextField>
     </Box>
   );

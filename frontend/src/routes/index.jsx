@@ -7,6 +7,7 @@ import Gallery from '../components/gallery/Gallery';
 import Account from '../components/account/Account';
 import Login from '../components/auth/Login';
 import Signup from '../components/auth/Signup';
+import { ImagesProvider } from '../context/imagesContext';
 
 function AppRoutes() {
   return (
@@ -19,7 +20,15 @@ function AppRoutes() {
           <Route path="" element={<Navigate to="devices" />} />
           <Route path="devices" element={<DeviceLayout />} />
           <Route path="cameras" element={<Camera />} />
-          <Route path="gallery" element={<Gallery />} />
+          <Route
+            path="gallery"
+            element={
+              <ImagesProvider>
+                <Gallery />
+              </ImagesProvider>
+            }
+          />
+
           <Route path="account" element={<Account />} />
         </Route>
       </Routes>

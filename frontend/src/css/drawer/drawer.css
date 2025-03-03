@@ -20,7 +20,9 @@
   cursor: pointer;
 }
 
-.favoriteContainer {
+.favoriteContainer,
+.filterBtn,
+.resetBtn {
   text-align: center;
   background-color: gray;
   border-radius: 50px;
@@ -29,4 +31,22 @@
   border-radius: 50px;
   color: white;
   cursor: pointer;
+}
+
+.favoriteContainer.active {
+  background-color: rgb(221, 218, 218);
+  color: black;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 3%;
+}
+
+.mainText {
+  text-align: center;
+  margin-top: 3%;
 }

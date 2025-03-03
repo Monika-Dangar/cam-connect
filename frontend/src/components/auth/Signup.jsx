@@ -57,7 +57,7 @@ const Signup = () => {
           <TextField
             type="text"
             name="firstName"
-            id="standard-basic"
+            id="firstName-input"
             label="firstName"
             variant="filled"
             className="textField"
@@ -70,7 +70,7 @@ const Signup = () => {
           <TextField
             type="text"
             name="lastName"
-            id="standard-basic"
+            id="lastName-input"
             label="lastName"
             variant="filled"
             className="textField"
@@ -82,7 +82,7 @@ const Signup = () => {
           <TextField
             type="text"
             name="username"
-            id="standard-basic"
+            id="username-input"
             label="Username"
             variant="filled"
             className="textField"
@@ -94,7 +94,7 @@ const Signup = () => {
           <TextField
             type="date"
             name="dateOfBirth"
-            id="standard-basic"
+            id="date-input"
             variant="filled"
             className="textField"
             value={formData.dateOfBirth}
@@ -105,7 +105,7 @@ const Signup = () => {
           <TextField
             type="email"
             name="emailId"
-            id="standard-basic"
+            id="email-input"
             variant="filled"
             className="textField"
             label="Email"
@@ -117,7 +117,7 @@ const Signup = () => {
           <TextField
             type="password"
             name="password"
-            id="standard-basic"
+            id="password-input"
             variant="filled"
             className="textField"
             label="Password"

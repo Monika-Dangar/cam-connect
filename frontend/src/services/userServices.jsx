@@ -1,8 +1,9 @@
 const URI = import.meta.env.VITE_BACKEND_URI;
-const token = localStorage.getItem("token");
 
 export async function userLogin(postData) {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/user/login`, {
       method: "POST",
       headers: {
@@ -15,6 +16,7 @@ export async function userLogin(postData) {
     const data = await response.json();
 
     if (response.status === 200 && data.token) {
+      console.log(data.token, "user services");
       localStorage.setItem("token", data.token);
       return {
         success: true,
@@ -33,6 +35,8 @@ export async function userLogin(postData) {
 
 export async function userSignup(postData) {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/user/signup`, {
       method: "POST",
       headers: {

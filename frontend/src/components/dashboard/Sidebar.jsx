@@ -1,21 +1,26 @@
 import React from "react";
-import { Tabs, Tab, Box, Button } from "@mui/material";
-import { Link } from "react-router-dom"; // Ensure you're using React Router
+import { Tabs, Tab, Box } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 import DevicesIcon from "@mui/icons-material/Devices";
 import AccessibilityNewSharpIcon from "@mui/icons-material/AccessibilityNewSharp";
 import CollectionsSharpIcon from "@mui/icons-material/CollectionsSharp";
 import AccountBoxSharpIcon from "@mui/icons-material/AccountBoxSharp";
 
 const Sidebar = () => {
-  const [value, setValue] = React.useState(0);
+  const location = useLocation();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const getTabIndex = (pathname) => {
+    if (pathname.includes("devices")) return 0;
+    if (pathname.includes("cameras")) return 1;
+    if (pathname.includes("gallery")) return 2;
+    if (pathname.includes("account")) return 3;
+    return 0;
   };
+
+  const currentTab = getTabIndex(location.pathname);
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
-      {/* Sidebar Navigation */}
       <Box
         sx={{
           minWidth: 50,
@@ -27,8 +32,7 @@ const Sidebar = () => {
       >
         <Tabs
           orientation="vertical"
-          value={value}
-          onChange={handleChange}
+          value={currentTab}
           sx={{
             "& .MuiTab-root": {
               textAlign: "bottom",

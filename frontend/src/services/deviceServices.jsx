@@ -1,8 +1,10 @@
 const URI = import.meta.env.VITE_BACKEND_URI;
-const token = localStorage.getItem("token");
-
+// const token = localStorage.getItem("token");
+// console.log("deviceService", token);
 export async function createDevice(data) {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/device/create`, {
       method: "POST",
       headers: {
@@ -22,6 +24,8 @@ export async function createDevice(data) {
 
 export async function displayDevice() {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/device/read`, {
       method: "GET",
       headers: {
@@ -40,6 +44,8 @@ export async function displayDevice() {
 
 export async function editDevice(deviceId, data) {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/device/edit/${deviceId}`, {
       method: "PATCH",
       headers: {
@@ -60,6 +66,8 @@ export async function editDevice(deviceId, data) {
 
 export async function removeDevice(deviceId) {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/device/delete/${deviceId}`, {
       method: "DELETE",
       headers: {
@@ -77,6 +85,8 @@ export async function removeDevice(deviceId) {
 
 export async function removeAccessToDevice(accessId) {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(
       `${URI}/device/deleteSharedDevice/${accessId}`,
       {

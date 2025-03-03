@@ -2,6 +2,8 @@ const URI = import.meta.env.VITE_BACKEND_URI;
 const token = localStorage.getItem("token");
 const getApprovedDevice = async () => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/camera/approvedRequest`, {
       method: "GET",
       headers: {
@@ -19,6 +21,8 @@ const getApprovedDevice = async () => {
 };
 const getPendingDevice = async () => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/camera/pendingRequest`, {
       method: "GET",
       headers: {
@@ -37,6 +41,8 @@ const getPendingDevice = async () => {
 };
 const getDeniedDevice = async () => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/camera/notificationBar`, {
       method: "GET",
       headers: {
@@ -55,6 +61,8 @@ const getDeniedDevice = async () => {
 };
 const acceptRequests = async (deviceId, requesterId) => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/camera/pendingRequest`, {
       method: "PUT",
       headers: {
@@ -77,6 +85,8 @@ const acceptRequests = async (deviceId, requesterId) => {
 };
 const denyRequest = async (deviceId, requesterId) => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/camera/denyAccess`, {
       method: "POST",
       headers: {
@@ -93,6 +103,8 @@ const denyRequest = async (deviceId, requesterId) => {
 };
 const seenDenied = async (deviceId) => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/camera/notificationBar`, {
       method: "DELETE",
       headers: {
@@ -110,6 +122,8 @@ const seenDenied = async (deviceId) => {
 };
 const searchUser = async (username) => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/camera/searchBar/${username}`, {
       method: "GET",
       headers: {
@@ -126,6 +140,8 @@ const searchUser = async (username) => {
 };
 const handleRequestOnSearch = async (deviceId, ownerId) => {
   try {
+    const token = localStorage.getItem("token");
+
     const response = await fetch(`${URI}/camera/searchBar`, {
       method: "POST",
       headers: {
@@ -140,6 +156,8 @@ const handleRequestOnSearch = async (deviceId, ownerId) => {
   } catch (error) {}
 };
 const handleRequestStatus = async (deviceId) => {
+  const token = localStorage.getItem("token");
+
   const response = await fetch(`${URI}/camera/requestStatus`, {
     method: "POST",
     headers: {

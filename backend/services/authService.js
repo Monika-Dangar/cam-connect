@@ -5,7 +5,6 @@ const { default: messages } = require("../utils/constants");
 const authenticate = (req, res, next) => {
   try {
     const { authorization } = req.headers;
-
     // Check if authorization header is present and starts with "Bearer"
     if (!authorization || !authorization.startsWith("Bearer")) {
       return res
@@ -16,6 +15,7 @@ const authenticate = (req, res, next) => {
     const receivedToken = authorization.split(" ")[1];
 
     const isTokenVerified = getUser(receivedToken);
+
     if (isTokenVerified) {
       req.user = isTokenVerified;
       next();

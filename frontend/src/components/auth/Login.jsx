@@ -5,7 +5,7 @@ import { Button, TextField } from "@mui/material";
 import { userLogin } from "../../services/userServices";
 import TransitionsSnackbar from "../toaster/TransitionsSnackbar";
 
-const Login = () => {
+const Login = ({ setAuthenticated }) => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -32,6 +32,9 @@ const Login = () => {
       setToastMessage(response.data.message);
       setOpenToast(true);
       if (response.success) {
+        // console.log(response.data.token);
+        // localStorage.setItem("token", response.data.token);
+        setAuthenticated(true);
         navigate("/user/dashboard");
       }
     } catch (error) {
@@ -54,7 +57,7 @@ const Login = () => {
           <TextField
             type="text"
             name="username"
-            id="standard-basic"
+            id="username-input"
             label="Username"
             variant="filled"
             className="textField"
@@ -67,7 +70,7 @@ const Login = () => {
           <TextField
             type="password"
             name="password"
-            id="standard-basic"
+            id="pasword-input"
             label="Password"
             variant="filled"
             className="textField"
